@@ -33,7 +33,7 @@
 <section class="leaderboard-section" style="padding: 4rem 2rem 5rem;">
   <div class="container">
 
-    <div class="section-label">Cohort 2 · Live</div>
+    <div class="section-label">Cohort 3 · Live</div>
     <h2 class="section-title">Leaderboard</h2>
     <p class="section-sub">Updated after each Saturday session. Scores reflect assignments, LinkedIn posts, and blog contributions.</p>
 
@@ -87,10 +87,10 @@
           <thead>
             <tr>
               <th>Rank</th>
+              <th></th>
               <th>Student</th>
               <th>Group</th>
-              <th>LinkedIn</th>
-              <th>Blog</th>
+              <th>DMI GitHub Portfolio</th>
               <th>Total</th>
             </tr>
           </thead>
@@ -118,7 +118,7 @@
   // ── CONFIG ──────────────────────────────────────────────────────────────────
   // Replace with your actual published Google Sheet CSV URL.
   // In Google Sheets: File → Share → Publish to web → CSV → copy URL
-  const SHEET_CSV_URL = 'data/leaderboard.csv';
+  const SHEET_CSV_URL = 'data/leaderboard_cohort3.csv';
   // ────────────────────────────────────────────────────────────────────────────
 
   let allStudents = [];
@@ -135,9 +135,14 @@
         obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim();
       });
       // normalise group: "DMI Cohort 2 Group #3" → "3", or "Group 3" → "3"
+   
       if (obj.group) {
         const m = obj.group.match(/#(\d+)/) || obj.group.match(/(\d+)/);
         if (m) obj.group = m[1];
+        else {
+          const m2 = obj.group.match(/(\d+)/);
+          if (m2) obj.group = m2[1];
+        }
       }
       // normalise total: remove commas "2,201" → 2201
       if (obj.total) obj.total = obj.total.replace(/,/g, '');
@@ -185,14 +190,26 @@
     tbody.innerHTML = data.map((s, i) => {
       const total = calcTotal(s);
       const rank = i + 1;
+      const nameParts = (s.name || '').trim().split(/\s+/);
+      const initials = nameParts.length >= 2
+        ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
+        : (s.name || '?')[0].toUpperCase();
+      const avatarCell = s.photo
+        ? `<img src="${escHtml(s.photo)}" alt="${escHtml(s.name)}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`
+        : `<div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:#fff;flex-shrink:0;">${initials}</div>`;
+      const portfolioUrl = s.portfolio || s['dmi github portfolio'] || s.github || '';
+      const portfolioCell = portfolioUrl
+        ? `<a href="${escHtml(portfolioUrl)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
+        : '—';
+      const totalDisplay = total > 0 ? `<span class="total-marks">${total}</span>` : '—';
       return `
         <tr>
           <td><div class="${rankClass(rank)}">${rank}</div></td>
+          <td>${avatarCell}</td>
           <td><div class="student-name">${escHtml(s.name)}</div></td>
           <td><span class="group-pill">Group ${escHtml(s.group)}</span></td>
-          <td>${s.linkedin ? `<a href="${escHtml(s.linkedin)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>` : '—'}</td>
-          <td>${s.blog ? `<a href="${escHtml(s.blog)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">Read →</a>` : '—'}</td>
-          <td><span class="total-marks">${total}</span></td>
+          <td>${portfolioCell}</td>
+          <td>${totalDisplay}</td>
         </tr>
       `;
     }).join('');
