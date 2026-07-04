@@ -66,9 +66,6 @@
       <button class="lb-filter-btn" data-group="1">Group 1</button>
       <button class="lb-filter-btn" data-group="2">Group 2</button>
       <button class="lb-filter-btn" data-group="3">Group 3</button>
-      <button class="lb-filter-btn" data-group="4">Group 4</button>
-      <button class="lb-filter-btn" data-group="5">Group 5</button>
-      <button class="lb-filter-btn" data-group="6">Group 6</button>
     </div>
 
     <!-- Search -->
@@ -137,9 +134,9 @@
       rawHeaders.forEach((h, i) => {
         obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim();
       });
-      // normalise group: "DMI Cohort 2 Group #3" → "3"
+      // normalise group: "DMI Cohort 2 Group #3" → "3", or "Group 3" → "3"
       if (obj.group) {
-        const m = obj.group.match(/#(\d+)/);
+        const m = obj.group.match(/#(\d+)/) || obj.group.match(/(\d+)/);
         if (m) obj.group = m[1];
       }
       // normalise total: remove commas "2,201" → 2201
