@@ -41,7 +41,7 @@
         { "group": "Group 1", "name": "Swaroopa Gajali", "score": 199, "comment": "", "linkedin": "https://www.linkedin.com/in/swaroopa-gajali-806a7033b/", "photo": "images/SwaroopaGajali.jpg" },
         { "group": "Group 2", "name": "Olanrewaju Awe", "score": 196, "comment": "", "linkedin": "https://www.linkedin.com/in/olanrewaju-musa-a33a97128", "photo": "" },
         { "group": "Group 3", "name": "Jecinta Elugwu", "score": 198, "comment": "", "linkedin": "https://www.linkedin.com/in/jecinta-elugwu-b80a6a122/", "photo": "" },
-        { "group": "Group 4", "name": "Pratyush Pahari", "score": 199, "comment": "", "linkedin": "https://www.linkedin.com/in/paharipratyush", "photo": "" },
+        { "group": "Group 4", "name": "Pratyush Pahari", "score": 199, "comment": "", "linkedin": "https://www.linkedin.com/in/paharipratyush", "photo": "images/PratyushPahari.png" },
         { "group": "Group 5", "name": "Sridevi Parimi", "score": 199, "comment": "", "linkedin": "https://www.linkedin.com/in/parimi-sridevi/", "photo": "" },
         { "group": "Group 6", "name": "Suganya Rani Balasundaram", "score": 194, "comment": "", "linkedin": "https://www.linkedin.com/in/suganya-rani-balasundaram-4", "photo": "" }
       ]
@@ -129,7 +129,7 @@
         { "group": "Group 1", "name": "Hemlal Bhattarai", "score": 211, "comment": "", "linkedin": "https://www.linkedin.com/in/hemlalbhattarai/", "photo": "" },
         { "group": "Group 2", "name": "Ugochukwu Stephen Ndubisi", "score": 209, "comment": "", "linkedin": "https://www.linkedin.com/in/ugonwachiukwu/", "photo": "" },
         { "group": "Group 3", "name": "Aderoju Olabode Joseph", "score": 214, "comment": "", "linkedin": "https://www.linkedin.com/in/olabode-aderoju/", "photo": "" },
-        { "group": "Group 4", "name": "Pratyush Pahari", "score": 212, "comment": "", "linkedin": "https://www.linkedin.com/in/paharipratyush/", "photo": "" },
+        { "group": "Group 4", "name": "Pratyush Pahari", "score": 212, "comment": "", "linkedin": "https://www.linkedin.com/in/paharipratyush/", "photo": "images/PratyushPahari.png" },
         { "group": "Group 5", "name": "David Prosper Isinguzo", "score": 210, "comment": "", "linkedin": "https://www.linkedin.com/in/davidpisinguzo/", "photo": "" },
         { "group": "Group 6", "name": "Vishal Sanjay Gore", "score": 212, "comment": "", "linkedin": "https://www.linkedin.com/in/vishalgoreg/", "photo": "" }
       ]
