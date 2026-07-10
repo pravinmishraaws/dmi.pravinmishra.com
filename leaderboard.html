@@ -134,9 +134,10 @@
       rawHeaders.forEach((h, i) => {
         obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim();
       });
-      // normalise group: "DMI Cohort 2 Group #3" → "3", "Group 1" → "1"
+      // normalise group: "DMI Cohort 2 Group #3" → "3", or "Group 3" → "3"
+   
       if (obj.group) {
-        const m = obj.group.match(/#(\d+)/);
+        const m = obj.group.match(/#(\d+)/) || obj.group.match(/(\d+)/);
         if (m) obj.group = m[1];
         else {
           const m2 = obj.group.match(/(\d+)/);
