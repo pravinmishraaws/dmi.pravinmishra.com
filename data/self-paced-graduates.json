@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Example Student",
+    "github_username": "example-student",
+    "country": "India",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "",
+    "photo": "",
+    "total": 560,
+    "weeks_completed": 14
+  },
+  {
+    "name": "Ngozi Adeyemi",
+    "github_username": "",
+    "country": "Nigeria",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "",
+    "photo": "",
+    "total": 548,
+    "weeks_completed": 14
+  },
+  {
+    "name": "Marco Silva",
+    "github_username": "",
+    "country": "Brazil",
+    "role": "Site Reliability Engineer",
+    "linkedin": "",
+    "photo": "",
+    "total": 590,
+    "weeks_completed": 14
+  }
+]
