@@ -95,6 +95,7 @@
               <th>Group</th>
               <th>DMI GitHub Portfolio</th>
               <th>Total</th>
+              <th>Badge</th>
             </tr>
           </thead>
           <tbody id="lbBody"></tbody>
@@ -132,7 +133,7 @@
     const lines = text.trim().split('\n');
     const rawHeaders = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
     return lines.slice(1).map(line => {
-      const vals = line.match(/(".*?"|[^,\r\n]+)/g) || line.split(',');
+      const vals = line.split(',');
       const obj = {};
       rawHeaders.forEach((h, i) => {
         obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim();
@@ -200,9 +201,14 @@
       const avatarCell = s.photo
         ? `<img src="${escHtml(s.photo)}" alt="${escHtml(s.name)}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`
         : `<div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:#fff;flex-shrink:0;">${initials}</div>`;
-      const portfolioUrl = s.portfolio || s['dmi github portfolio'] || s.github || '';
+      // s.github is a bare GitHub username (review-agent's CSV); portfolio /
+      // 'dmi github portfolio' are legacy columns that already held a full URL.
+      const portfolioUrl = s.portfolio || s['dmi github portfolio'] || (s.github ? `https://github.com/${s.github}` : '');
       const portfolioCell = portfolioUrl
         ? `<a href="${escHtml(portfolioUrl)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
+        : '—';
+      const badgeCell = s.github
+        ? `<a href="s/${escHtml(s.github)}.html" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
         : '—';
       const totalDisplay = total > 0 ? `<span class="total-marks">${total}</span>` : '—';
       return `
@@ -213,6 +219,7 @@
           <td><span class="group-pill">Group ${escHtml(s.group)}</span></td>
           <td>${portfolioCell}</td>
           <td>${totalDisplay}</td>
+          <td>${badgeCell}</td>
         </tr>
       `;
     }).join('');
