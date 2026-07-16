@@ -6,6 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Static website for the **DevOps Micro Internship with Agentic AI** program, live at `https://dmi.pravinmishra.com`. No build step, no framework — plain HTML, CSS, and JavaScript.
 
+This repo is one of six in a wider workspace that all funnel to a single LMS. If you have the workspace root available, its `CLAUDE.md` has the full ecosystem picture — the rules below are the subset that applies to this repo specifically, kept here so they're visible even when this repo is checked out alone.
+
+## Ecosystem rules — read before editing prices, dates, or CTAs
+
+- **Never state prices, cohort dates, or waitlist status on this site.** The LMS at `https://university.pravinmishra.com` (Payhip) is the single point of sale for all three DMI tracks (Foundation, Self-Paced Engineer, Live Internship) — those facts live only there and have gone stale here before (e.g. hardcoded cohort start dates in the hero/CTA). Link to University, don't restate it.
+- **Brand accent is gold `#E8A020`** (ramp: `#f2bc55` / `#d4911a` / `#b87d16`) + **Inter** font — already reflected in `styles.css`'s custom properties (`--accent` etc.); keep new UI additions on that palette rather than introducing new colors.
+- **Cross-site links need UTM params**: `utm_source=dmi&utm_medium=nav|footer|hero|cta-...`
+- **Shared footer block** (same on all three static sites): University · DMI Student Hub · Pravin Mishra / The CloudAdvisory · Discord.
+
 ## Contribution workflow (for team members)
 
 **Do not push directly to `main`.** The process is:
