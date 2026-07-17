@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Champion of the Week — DMI</title>
   <meta name="description" content="Champion of the Week — DevOps Micro Internship by Pravin Mishra" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -139,7 +140,9 @@
     <li><a href="index.html">Home</a></li>
     <li><a href="champion.html" class="active">Champion</a></li>
     <li><a href="leaderboard.html">Leaderboard</a></li>
+    <!-- Self-Paced nav entry hidden — track paused, page kept for a future relaunch -->
     <li><a href="graduates.html">Graduates</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
     <span></span><span></span><span></span>
@@ -149,9 +152,15 @@
 <section style="padding: 4rem 2rem 5rem; background: var(--bg-section); border-bottom: 1px solid var(--border);">
   <div class="container">
 
-    <div class="section-label" id="cohortLabel">Cohort 2 · Current</div>
+    <div class="section-label" id="cohortLabel">DevOps Micro Internship</div>
     <h2 class="section-title">🏆 Champion of the Week</h2>
     <p class="section-sub">One champion per group, every week — recognising outstanding performance and consistency.</p>
+
+    <!-- Cohort Tabs -->
+    <div class="cohort-tabs">
+      <button class="cohort-tab active" data-cohort="2">Cohort 2</button>
+      <button class="cohort-tab" data-cohort="3">Cohort 3</button>
+    </div>
 
     <!-- Week tabs -->
     <div class="week-tabs" id="weekTabs"></div>
@@ -193,11 +202,17 @@
     return url;
   }
 
-  let data = null;
+  let allData = { 2: null, 3: null };
+  let activeCohort = 2;
   let activeWeek = 1;
 
   function renderWeekTabs() {
+    const data = allData[activeCohort];
     const tabs = document.getElementById('weekTabs');
+    if (!data.weeks.length) {
+      tabs.innerHTML = '';
+      return;
+    }
     tabs.innerHTML = data.weeks.map(w => `
       <button class="week-tab ${w.week === activeWeek ? 'active' : ''}" data-week="${w.week}">
         Week ${w.week}
@@ -213,6 +228,7 @@
   }
 
   function renderChampions() {
+    const data = allData[activeCohort];
     const weekData = data.weeks.find(w => w.week === activeWeek);
     const grid = document.getElementById('champGrid');
     if (!weekData || !weekData.champions.length) {
@@ -243,21 +259,33 @@
     }).join('');
   }
 
-  fetch('data/champion.json')
-    .then(r => r.json())
-    .then(json => {
-      data = json;
-      activeWeek = json.current_week;
-      document.getElementById('cohortLabel').textContent = json.cohort + ' · Current';
-      document.getElementById('champLoading').style.display = 'none';
-      document.getElementById('champGrid').style.display = 'grid';
-      renderWeekTabs();
-      renderChampions();
-    })
-    .catch(() => {
-      document.getElementById('champLoading').innerHTML =
-        '<p style="color:var(--text-muted)">Champion data not available yet.</p>';
+  function showCohort(cohort) {
+    activeCohort = cohort;
+    const data = allData[cohort];
+    activeWeek = data.weeks.length ? data.current_week : 0;
+    document.getElementById('cohortLabel').textContent = 'DevOps Micro Internship';
+    renderWeekTabs();
+    renderChampions();
+  }
+
+  Promise.all([
+    fetch('data/champion-cohort2.json').then(r => r.json()).catch(() => ({ cohort: 'Cohort 2', current_week: 0, weeks: [] })),
+    fetch('data/champion-cohort3.json').then(r => r.json()).catch(() => ({ cohort: 'Cohort 3', current_week: 0, weeks: [] }))
+  ]).then(([c2, c3]) => {
+    allData[2] = c2;
+    allData[3] = c3;
+    document.getElementById('champLoading').style.display = 'none';
+    document.getElementById('champGrid').style.display = 'grid';
+    showCohort(activeCohort);
+  });
+
+  document.querySelectorAll('.cohort-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cohort-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      showCohort(parseInt(tab.dataset.cohort));
     });
+  });
 </script>
 </body>
 </html>

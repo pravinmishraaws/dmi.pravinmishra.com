@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muneer Ahmed Mohammed — DMI Cohort 3 · Live</title>
+  <meta name="description" content="Muneer Ahmed Mohammed has completed 0/14 weeks of the DevOps Micro Internship — Cohort 3 · Live." />
+
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="Muneer Ahmed Mohammed — DMI Cohort 3 · Live" />
+  <meta property="og:description" content="Muneer Ahmed Mohammed has completed 0/14 weeks of the DevOps Micro Internship — Cohort 3 · Live." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/s/muahmed471.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Muneer Ahmed Mohammed — DMI Cohort 3 · Live" />
+  <meta name="twitter:description" content="Muneer Ahmed Mohammed has completed 0/14 weeks of the DevOps Micro Internship — Cohort 3 · Live." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .cert-hero { text-align: center; padding: 4rem 2rem 2rem; }
+    .cert-avatar {
+      width: 88px; height: 88px; border-radius: 50%; background: var(--accent);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 800; margin: 0 auto 1.25rem;
+    }
+    .cert-progress-pill {
+      display: inline-block; background: var(--accent-light); border: 1px solid var(--accent-border);
+      color: var(--accent); border-radius: 100px; padding: 6px 18px; font-size: 0.85rem;
+      font-weight: 700; margin-top: 0.75rem;
+    }
+    .cert-praise { max-width: 620px; margin: 1.25rem auto 0; font-size: 0.95rem; color: #555; }
+    .badge-stack {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 1rem; max-width: 900px; margin: 2.5rem auto 0; padding: 0 2rem;
+    }
+    .badge-stack img { width: 100%; height: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15)); }
+    .badge-slot.locked img { filter: grayscale(1) opacity(0.35); }
+
+    .weekly-review { max-width: 780px; margin: 3.5rem auto 0; padding: 0 1.25rem; }
+    .week-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 1.5rem 0 2rem; }
+    .week-chip {
+      border: 0; font: inherit; font-size: 0.78rem; font-weight: 700; padding: 6px 12px;
+      border-radius: 100px; cursor: pointer; color: #fff;
+    }
+    .week-chip.complete { background: #16a34a; }
+    .week-chip.in-progress { background: #d97706; }
+    .week-chip.not-started { background: #dc2626; }
+    .week-chip.upcoming { background: #e5e7eb; color: #9ca3af; cursor: default; }
+    .week-card {
+      border: 1px solid #e5e7eb; border-left: 5px solid #9ca3af; border-radius: 12px;
+      margin-bottom: 0.9rem; background: #fff; overflow: hidden;
+    }
+    .week-card.complete { border-left-color: #16a34a; }
+    .week-card.in-progress { border-left-color: #d97706; }
+    .week-card.not-started { border-left-color: #dc2626; }
+    .week-card summary {
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+      padding: 0.9rem 1.1rem; cursor: pointer; list-style: none; font-weight: 600;
+    }
+    .week-card summary::-webkit-details-marker { display: none; }
+    .week-name { flex: 1 1 auto; min-width: 200px; }
+    .week-score { font-variant-numeric: tabular-nums; color: #555; font-size: 0.9rem; }
+    .week-status { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 3px 10px; border-radius: 100px; color: #fff; }
+    .week-status.complete { background: #16a34a; }
+    .week-status.in-progress { background: #d97706; }
+    .week-status.not-started { background: #dc2626; }
+    .check-row {
+      display: flex; gap: 0.6rem; align-items: baseline; padding: 0.45rem 1.1rem;
+      font-size: 0.88rem; border-top: 1px solid #f3f4f6;
+    }
+    .check-row span:nth-child(2) { flex: 1; }
+    .check-pts { white-space: nowrap; font-variant-numeric: tabular-nums; color: #555; }
+    .check-row code, .week-todo code { background: #f3f4f6; border-radius: 4px; padding: 1px 5px; font-size: 0.85em; }
+    .week-todo { margin: 0.6rem 1.1rem 0.9rem; padding: 0.75rem 1rem; background: #fffbeb;
+      border: 1px solid #fde68a; border-radius: 8px; font-size: 0.88rem; }
+    .week-todo ul { margin: 0.4rem 0 0 1.1rem; padding: 0; }
+    .week-todo li { margin-top: 0.3rem; }
+    .week-praise { margin: 0.6rem 1.1rem 0.9rem; padding: 0.75rem 1rem; background: #f0fdf4;
+      border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.88rem; }
+    .review-updated { text-align: center; font-size: 0.78rem; color: #9ca3af; margin-top: 1.5rem; }
+
+    .cert-cta { text-align: center; padding: 3rem 2rem 4rem; }
+    .btn-primary {
+      display: inline-block; background: var(--accent); color: #fff; padding: 13px 30px;
+      border-radius: 100px; font-weight: 700; text-decoration: none; font-size: 0.95rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../leaderboard.html">Leaderboard</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=cert-page" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section class="cert-hero">
+  <div class="cert-avatar">MM</div>
+  <div class="section-label">DMI Cohort 3 · Live · Group 2</div>
+  <h1 class="section-title">Muneer Ahmed Mohammed</h1>
+  <p class="section-sub">Progress in the DevOps Micro Internship.</p>
+  <div class="cert-progress-pill">🚀 0 / 14 Weeks Complete</div>
+  <p class="cert-praise">Your journey is just getting started — open a week below to see exactly what to do next.</p>
+</section>
+
+<div class="badge-stack">
+  <div class="badge-slot locked"><img src="../images/badges/week-00.svg" alt="Week 00 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-01.svg" alt="Week 01 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-02.svg" alt="Week 02 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-03.svg" alt="Week 03 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-04.svg" alt="Week 04 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-05.svg" alt="Week 05 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-06.svg" alt="Week 06 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-07.svg" alt="Week 07 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-08.svg" alt="Week 08 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-09.svg" alt="Week 09 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-10.svg" alt="Week 10 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-11.svg" alt="Week 11 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-12.svg" alt="Week 12 badge"></div>
+  <div class="badge-slot locked"><img src="../images/badges/week-13.svg" alt="Week 13 badge"></div>
+</div>
+
+<section class="weekly-review" id="weekly-review">
+  <div class="section-label" style="text-align:center;">Weekly Review</div>
+  <h2 class="section-title" style="text-align:center;">Week by week</h2>
+  <p class="section-sub" style="text-align:center;">Every check, every week — fix an item and the next run turns it green.</p>
+  <div class="week-chips">
+  <button class="week-chip not-started" data-week="00" title="Internet And Networking — Not started">W00</button>
+  <button class="week-chip not-started" data-week="01" title="Success Mindset — Not started">W01</button>
+  <button class="week-chip not-started" data-week="02" title="Agentic Ai — Not started">W02</button>
+  <button class="week-chip not-started" data-week="03" title="Linux And Bash For Devops — Not started">W03</button>
+  <span class="week-chip upcoming" title="Not graded yet">W04</span>
+  <span class="week-chip upcoming" title="Not graded yet">W05</span>
+  <span class="week-chip upcoming" title="Not graded yet">W06</span>
+  <span class="week-chip upcoming" title="Not graded yet">W07</span>
+  <span class="week-chip upcoming" title="Not graded yet">W08</span>
+  <span class="week-chip upcoming" title="Not graded yet">W09</span>
+  <span class="week-chip upcoming" title="Not graded yet">W10</span>
+  <span class="week-chip upcoming" title="Not graded yet">W11</span>
+  <span class="week-chip upcoming" title="Not graded yet">W12</span>
+  <span class="week-chip upcoming" title="Not graded yet">W13</span>
+  </div>
+  <details class="week-card not-started" id="week-00" open>
+    <summary>
+      <span class="week-name">Week 00 — Internet And Networking</span>
+      <span class="week-score">0 / 60</span>
+      <span class="week-status not-started">Not started</span>
+    </summary>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 0/1 assignment files passing</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="week-todo"><strong>To turn this week green:</strong>
+    <ul>
+      <li><code>assignment-01-internet-and-networking.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
+      <li>Blog post — no blog URL in your README progress table — add your post link</li>
+    </ul></div>
+  </details>
+  <details class="week-card not-started" id="week-01">
+    <summary>
+      <span class="week-name">Week 01 — Success Mindset</span>
+      <span class="week-score">0 / 60</span>
+      <span class="week-status not-started">Not started</span>
+    </summary>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 0/1 assignment files passing</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="week-todo"><strong>To turn this week green:</strong>
+    <ul>
+      <li><code>assignment-01-mindset-os.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
+      <li>Blog post — no blog URL in your README progress table — add your post link</li>
+    </ul></div>
+  </details>
+  <details class="week-card not-started" id="week-02">
+    <summary>
+      <span class="week-name">Week 02 — Agentic Ai</span>
+      <span class="week-score">0 / 200</span>
+      <span class="week-status not-started">Not started</span>
+    </summary>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 0/8 assignment files passing</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="week-todo"><strong>To turn this week green:</strong>
+    <ul>
+      <li><code>assignment-01-setup-agentic-loop.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-02-claude-md.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-03-skills.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-04-subagents.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-05-mcp.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-06-hooks-permissions.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-07-memory.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-08-week-2-reflection.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
+      <li>Blog post — no blog URL in your README progress table — add your post link</li>
+    </ul></div>
+  </details>
+  <details class="week-card not-started" id="week-03">
+    <summary>
+      <span class="week-name">Week 03 — Linux And Bash For Devops</span>
+      <span class="week-score">0 / 160</span>
+      <span class="week-status not-started">Not started</span>
+    </summary>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 0/6 assignment files passing</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="week-todo"><strong>To turn this week green:</strong>
+    <ul>
+      <li><code>assignment-01-aws-free-tier-account-setup.md</code> — the <code>week-03-linux-and-bash-for-devops</code> folder wasn&#x27;t found in your fork — sync with the template so the folder name matches exactly</li>
+      <li><code>assignment-02-deploy-a-react-app-on-ubuntu-vm-using-nginx.md</code> — the <code>week-03-linux-and-bash-for-devops</code> folder wasn&#x27;t found in your fork — sync with the template so the folder name matches exactly</li>
+      <li><code>assignment-03-production-maintenance-drill-ops-checklist.md</code> — the <code>week-03-linux-and-bash-for-devops</code> folder wasn&#x27;t found in your fork — sync with the template so the folder name matches exactly</li>
+      <li><code>assignment-04-deploy-epicreads-portfolio-website-via-nginx.md</code> — the <code>week-03-linux-and-bash-for-devops</code> folder wasn&#x27;t found in your fork — sync with the template so the folder name matches exactly</li>
+      <li><code>assignment-05-bash-script-automation-drill-ops-checklist.md</code> — the <code>week-03-linux-and-bash-for-devops</code> folder wasn&#x27;t found in your fork — sync with the template so the folder name matches exactly</li>
+      <li><code>assignment-06-ai-assisted-linux-health-check.md</code> — the <code>week-03-linux-and-bash-for-devops</code> folder wasn&#x27;t found in your fork — sync with the template so the folder name matches exactly</li>
+      <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
+      <li>Blog post — no blog URL in your README progress table — add your post link</li>
+    </ul></div>
+  </details>
+  <p class="review-updated">Last checked: 2026-07-17 · updated after every review run</p>
+</section>
+
+<div class="cert-cta">
+  <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=cert-page&utm_campaign=cohort-share" target="_blank" rel="noopener" class="btn-primary">Start your own DMI journey →</a>
+  <p style="margin-top:1rem;font-size:0.85rem;color:#777;">Hiring, or upskilling your own team?
+    <a href="https://thecloudadvisory.com/dmi-enterprise.html?utm_source=dmi&utm_medium=cert-page&utm_campaign=enterprise" target="_blank" rel="noopener">DMI for Enterprise →</a></p>
+</div>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:0.95rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:1rem; font-size:0.75rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+<script>
+  document.querySelectorAll(".week-chip[data-week]").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      var card = document.getElementById("week-" + chip.dataset.week);
+      if (card) {
+        card.open = true;
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  });
+</script>
+</body>
+</html>

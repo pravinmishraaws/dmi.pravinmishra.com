@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leaderboard — DMI</title>
   <meta name="description" content="Live leaderboard — DevOps Micro Internship by Pravin Mishra" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -23,7 +24,9 @@
     <li><a href="index.html">Home</a></li>
     <li><a href="champion.html">Champion</a></li>
     <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+    <!-- Self-Paced nav entry hidden — track paused, page kept for a future relaunch -->
     <li><a href="graduates.html">Graduates</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
     <span></span><span></span><span></span>
@@ -55,7 +58,7 @@
       </div>
       <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 18px;font-size:0.8rem;text-align:center;">
         <div style="color:var(--accent);font-weight:700;">30 pts</div>
-        <div style="color:var(--text-muted);">Blog (optional)</div>
+        <div style="color:var(--text-muted);">Blog</div>
         <div style="color:var(--text-muted);font-size:0.7rem;">Link in table</div>
       </div>
     </div>
@@ -92,6 +95,7 @@
               <th>Group</th>
               <th>DMI GitHub Portfolio</th>
               <th>Total</th>
+              <th>Badge</th>
             </tr>
           </thead>
           <tbody id="lbBody"></tbody>
@@ -118,7 +122,7 @@
   // ── CONFIG ──────────────────────────────────────────────────────────────────
   // Replace with your actual published Google Sheet CSV URL.
   // In Google Sheets: File → Share → Publish to web → CSV → copy URL
-  const SHEET_CSV_URL = 'data/leaderboard_cohort2.csv';
+  const SHEET_CSV_URL = 'data/leaderboard.csv';
   // ────────────────────────────────────────────────────────────────────────────
 
   let allStudents = [];
@@ -129,14 +133,15 @@
     const lines = text.trim().split('\n');
     const rawHeaders = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
     return lines.slice(1).map(line => {
-      const vals = line.match(/(".*?"|[^,\r\n]+)/g) || line.split(',');
+      const vals = line.split(',');
       const obj = {};
       rawHeaders.forEach((h, i) => {
         obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim();
       });
-      // normalise group: "DMI Cohort 2 Group #3" → "3", "Group 1" → "1"
+      // normalise group: "DMI Cohort 2 Group #3" → "3", or "Group 3" → "3"
+   
       if (obj.group) {
-        const m = obj.group.match(/#(\d+)/);
+        const m = obj.group.match(/#(\d+)/) || obj.group.match(/(\d+)/);
         if (m) obj.group = m[1];
         else {
           const m2 = obj.group.match(/(\d+)/);
@@ -196,9 +201,14 @@
       const avatarCell = s.photo
         ? `<img src="${escHtml(s.photo)}" alt="${escHtml(s.name)}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`
         : `<div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:#fff;flex-shrink:0;">${initials}</div>`;
-      const portfolioUrl = s.portfolio || s['dmi github portfolio'] || s.github || '';
+      // s.github is a bare GitHub username (review-agent's CSV); portfolio /
+      // 'dmi github portfolio' are legacy columns that already held a full URL.
+      const portfolioUrl = s.portfolio || s['dmi github portfolio'] || (s.github ? `https://github.com/${s.github}` : '');
       const portfolioCell = portfolioUrl
         ? `<a href="${escHtml(portfolioUrl)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
+        : '—';
+      const badgeCell = s.github
+        ? `<a href="s/${escHtml(s.github)}.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
         : '—';
       const totalDisplay = total > 0 ? `<span class="total-marks">${total}</span>` : '—';
       return `
@@ -209,6 +219,7 @@
           <td><span class="group-pill">Group ${escHtml(s.group)}</span></td>
           <td>${portfolioCell}</td>
           <td>${totalDisplay}</td>
+          <td>${badgeCell}</td>
         </tr>
       `;
     }).join('');

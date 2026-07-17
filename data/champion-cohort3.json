@@ -1,0 +1,14 @@
+{
+  "cohort": "Cohort 3",
+  "current_week": 1,
+  "weeks": [
+    {
+      "week": 1,
+      "champions": [
+        { "group": "Group 1", "name": "Eze Favour Nnedinso", "score": 115, "comment": "", "linkedin": "https://www.linkedin.com/in/eze-favour-52732752/", "photo": "" },
+        { "group": "Group 2", "name": "Ayomikun Philip Ajayi", "score": 114, "comment": "", "linkedin": "https://www.linkedin.com/in/ayomikunphilip/", "photo": "" },
+        { "group": "Group 3", "name": "Peace Nwadinachi Offor", "score": 112, "comment": "", "linkedin": "https://www.linkedin.com/in/peace-offor-aa736a147?trk=contact-info", "photo": "" }
+      ]
+    }
+  ]
+}
