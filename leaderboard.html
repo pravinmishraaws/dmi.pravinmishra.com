@@ -208,7 +208,7 @@
         ? `<a href="${escHtml(portfolioUrl)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
         : '—';
       const badgeCell = s.github
-        ? `<a href="s/${escHtml(s.github)}.html" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
+        ? `<a href="s/${escHtml(s.github)}.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
         : '—';
       const totalDisplay = total > 0 ? `<span class="total-marks">${total}</span>` : '—';
       return `
