@@ -9,6 +9,15 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .share-mini-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .share-mini-btn {
+      border: 1px solid var(--accent-border); color: var(--accent); border-radius: 100px;
+      padding: 2px 9px; font-size: 0.66rem; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .share-mini-btn:hover { background: var(--accent-light); }
+  </style>
 </head>
 <body>
 
@@ -171,6 +180,35 @@
     return 'rank-badge rank-other';
   }
 
+  // ── Share buttons (top 10 only) ─────────────────────────────────────────
+  // Plain share-intent links — no API keys, no backend, just a prefilled
+  // compose window. LinkedIn/Facebook ignore text params (they scrape
+  // og:title/description from the URL instead), so only X/WhatsApp carry text.
+  const SHARE_LABELS = { linkedin: 'LinkedIn', x: 'X', facebook: 'Facebook', whatsapp: 'WhatsApp' };
+
+  function shareHref(platform, url, text) {
+    const qUrl = encodeURIComponent(url);
+    if (platform === 'linkedin') return `https://www.linkedin.com/sharing/share-offsite/?url=${qUrl}`;
+    if (platform === 'x') return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${qUrl}`;
+    if (platform === 'facebook') return `https://www.facebook.com/sharer/sharer.php?u=${qUrl}`;
+    return `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+  }
+
+  function shareButtonsHtml(pageUrl, message, campaign) {
+    const sep = pageUrl.includes('?') ? '&' : '?';
+    return Object.keys(SHARE_LABELS).map(platform => {
+      const trackedUrl = `${pageUrl}${sep}utm_source=dmi&utm_medium=share&utm_campaign=${campaign}-${platform}`;
+      return `<a href="${shareHref(platform, trackedUrl, message)}" target="_blank" rel="noopener" class="share-mini-btn share-${platform}">${SHARE_LABELS[platform]}</a>`;
+    }).join('');
+  }
+
+  function rankShareRow(rank, username) {
+    if (rank > 10 || !username) return '';
+    const pageUrl = `https://dmi.pravinmishra.com/s/${username}.html`;
+    const message = `I'm ranked #${rank} on the DevOps Micro Internship leaderboard! 🏆`;
+    return `<div class="share-mini-row">${shareButtonsHtml(pageUrl, message, 'leaderboard-share')}</div>`;
+  }
+
   function render() {
     let data = [...allStudents];
     if (activeGroup !== 'all') {
@@ -216,7 +254,7 @@
         <tr>
           <td><div class="${rankClass(rank)}">${rank}</div></td>
           <td>${avatarCell}</td>
-          <td><div class="student-name">${escHtml(s.name)}</div></td>
+          <td><div class="student-name">${escHtml(s.name)}</div>${rankShareRow(rank, s.github)}</td>
           <td><span class="group-pill">Group ${escHtml(s.group)}</span></td>
           <td>${portfolioCell}</td>
           <td>${totalDisplay}</td>
