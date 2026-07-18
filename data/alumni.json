@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Sirisha Molugu",
+    "cohort": "1",
+    "country": "Finland",
+    "company": "WithSecure",
+    "logo": "images/logos/withsecure.jpg",
+    "role": "Test Engineer",
+    "story": "Cohort 1's steady hand in Linux and CI/CD — now testing security-critical systems at a European cybersecurity leader.",
+    "linkedin": "https://www.linkedin.com/in/sirisha-molugu/",
+    "photo": ""
+  },
+  {
+    "name": "George Asufra",
+    "cohort": "1",
+    "country": "Philippines",
+    "company": "Elive Limited",
+    "logo": "images/logos/elive-limited.jpg",
+    "role": "IT Administrator",
+    "story": "Came in for the networking and Linux fundamentals — now applying them daily, with DevOps as the next stop.",
+    "linkedin": "https://www.linkedin.com/in/george-asufra-it-administrator/",
+    "photo": ""
+  },
+  {
+    "name": "Sumit Tiwari",
+    "cohort": "1",
+    "country": "India",
+    "company": "ADP",
+    "logo": "images/logos/adp.jpg",
+    "role": "DevOps & SRE Engineer",
+    "story": "Terraform and Kubernetes clicked in Cohort 1 — now he runs DevOps & SRE for one of the world's largest HR tech platforms.",
+    "linkedin": "https://www.linkedin.com/in/sumittiwaridevops/",
+    "photo": ""
+  }
+]

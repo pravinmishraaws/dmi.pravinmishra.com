@@ -113,6 +113,14 @@
       transition: background 0.2s, transform 0.2s;
     }
     .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .share-mini-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .share-mini-btn {
+      border: 1px solid var(--accent-border); color: var(--accent); border-radius: 100px;
+      padding: 2px 9px; font-size: 0.66rem; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .share-mini-btn:hover { background: var(--accent-light); }
   </style>
 </head>
 <body>
@@ -131,6 +139,7 @@
     <li><a href="leaderboard.html">Leaderboard</a></li>
     <li><a href="self-paced-leaderboard.html" class="active">Self-Paced</a></li>
     <li><a href="graduates.html">Graduates</a></li>
+    <li><a href="alumni.html">Alumni</a></li>
     <li><a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
@@ -258,6 +267,35 @@
     return 'rank-badge rank-other';
   }
 
+  // ── Share buttons (top 10 only) ─────────────────────────────────────────
+  // Plain share-intent links — no API keys, no backend, just a prefilled
+  // compose window. LinkedIn/Facebook ignore text params (they scrape
+  // og:title/description from the URL instead), so only X/WhatsApp carry text.
+  const SHARE_LABELS = { linkedin: 'LinkedIn', x: 'X', facebook: 'Facebook', whatsapp: 'WhatsApp' };
+
+  function shareHref(platform, url, text) {
+    const qUrl = encodeURIComponent(url);
+    if (platform === 'linkedin') return `https://www.linkedin.com/sharing/share-offsite/?url=${qUrl}`;
+    if (platform === 'x') return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${qUrl}`;
+    if (platform === 'facebook') return `https://www.facebook.com/sharer/sharer.php?u=${qUrl}`;
+    return `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+  }
+
+  function shareButtonsHtml(pageUrl, message, campaign) {
+    const sep = pageUrl.includes('?') ? '&' : '?';
+    return Object.keys(SHARE_LABELS).map(platform => {
+      const trackedUrl = `${pageUrl}${sep}utm_source=dmi&utm_medium=share&utm_campaign=${campaign}-${platform}`;
+      return `<a href="${shareHref(platform, trackedUrl, message)}" target="_blank" rel="noopener" class="share-mini-btn share-${platform}">${SHARE_LABELS[platform]}</a>`;
+    }).join('');
+  }
+
+  function rankShareRow(rank, username) {
+    if (rank > 10 || !username) return '';
+    const pageUrl = `https://dmi.pravinmishra.com/s/${username}.html`;
+    const message = `I'm ranked #${rank} on the DMI Self-Paced Engineer leaderboard! 🏆`;
+    return `<div class="share-mini-row">${shareButtonsHtml(pageUrl, message, 'leaderboard-share')}</div>`;
+  }
+
   function renderActive() {
     let data = [...allStudents];
     if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
@@ -291,7 +329,7 @@
         <tr>
           <td><div class="${rankClass(rank)}">${rank}</div></td>
           <td><div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:#fff;flex-shrink:0;">${initials(s.name)}</div></td>
-          <td><div class="student-name">${escHtml(s.name)}</div></td>
+          <td><div class="student-name">${escHtml(s.name)}</div>${rankShareRow(rank, username)}</td>
           <td>
             <div class="weeks-pill">
               <span>${weeks} / ${TOTAL_WEEKS}</span>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alumni — DMI</title>
+  <meta name="description" content="Where DMI alumni work — DevOps Micro Internship by Pravin Mishra" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .alum-card {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .alum-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .alum-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .alum-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .alum-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .alum-cohort { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+
+    .alum-company-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.6rem 0.9rem;
+      width: 100%;
+      margin-bottom: 0.75rem;
+    }
+    .alum-company {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+    .alum-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    .alum-story {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.5;
+      margin-bottom: 0.85rem;
+      flex-grow: 1;
+    }
+
+    .alum-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+    .alum-country {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .alum-badge {
+      display: inline-block;
+      background: rgba(245,197,24,0.1);
+      border: 1px solid rgba(245,197,24,0.3);
+      color: var(--accent);
+      border-radius: 100px;
+      padding: 2px 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+    .alum-linkedin {
+      color: var(--accent);
+      font-size: 0.75rem;
+      text-decoration: none;
+      border: 1px solid rgba(245,197,24,0.3);
+      border-radius: 100px;
+      padding: 3px 12px;
+      transition: background 0.2s;
+    }
+    .alum-linkedin:hover { background: rgba(245,197,24,0.1); }
+
+    .alumni-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .stats-bar .stat .num { font-size: 1.5rem; }
+
+    .company-chips {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .company-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .company-chip:hover, .company-chip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Logo / country marquees */
+    .marquee-label {
+      text-align: center;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+    .marquee {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      margin-bottom: 2rem;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      gap: 1rem;
+      animation: marquee-scroll 28s linear infinite;
+    }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .logo-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .logo-chip img { height: 18px; width: auto; display: block; }
+    .country-marquee .logo-chip { font-weight: 500; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="champion.html">Champion</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="graduates.html">Graduates</a></li>
+    <li><a href="alumni.html" class="active">Alumni</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section style="padding: 4rem 2rem 5rem; background: var(--bg-card); border-bottom: 1px solid var(--border);">
+  <div class="container">
+
+    <div class="section-label">Alumni</div>
+    <h2 class="section-title">🚀 Where Our Alumni Work</h2>
+    <p class="section-sub">DMI graduates now working as cloud & DevOps engineers around the world. This isn't about pay — it's about the companies our students earned their way into.</p>
+
+    <!-- Company logo marquee -->
+    <div class="marquee-label">Our alumni work at</div>
+    <div class="marquee" id="companyMarquee">
+      <div class="marquee-track" id="companyMarqueeTrack"></div>
+    </div>
+
+    <!-- Country marquee -->
+    <div class="marquee-label">Representing</div>
+    <div class="marquee country-marquee" id="countryMarquee">
+      <div class="marquee-track" id="countryMarqueeTrack"></div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="stats-bar" id="statsBar">
+      <div class="stat"><span class="num" id="statTotal">—</span><span class="label">Alumni Placed</span></div>
+      <div class="stat"><span class="num" id="statCompanies">—</span><span class="label">Companies</span></div>
+      <div class="stat"><span class="num" id="statCountries">—</span><span class="label">Countries</span></div>
+    </div>
+
+    <!-- Company filter chips -->
+    <div class="company-chips" id="companyChips"></div>
+
+    <!-- Search -->
+    <div style="display:flex;justify-content:center;margin-bottom:1.5rem;">
+      <input id="alumSearch" type="text" placeholder="Search by name or company…"
+        style="background:var(--bg-card2);border:1px solid var(--border);border-radius:100px;padding:10px 20px;color:var(--text);font-size:0.875rem;width:100%;max-width:380px;outline:none;transition:border-color 0.2s;"
+        onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+
+    <!-- Result count -->
+    <p id="alumCount" style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-bottom:1rem;"></p>
+
+    <!-- Grid -->
+    <div class="alumni-grid" id="alumniGrid">
+      <div style="color:var(--text-muted);font-size:0.9rem;padding:2rem 0;grid-column:1/-1;text-align:center;">
+        <div class="lb-spinner" style="margin:0 auto 1rem;"></div>
+        Loading alumni…
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:0.95rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:1rem; font-size:0.75rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const COUNTRY_FLAGS = {
+    'India': '🇮🇳', 'Nigeria': '🇳🇬', 'Australia': '🇦🇺', 'Nepal': '🇳🇵',
+    'Sri Lanka': '🇱🇰', 'Bangladesh': '🇧🇩', 'Germany': '🇩🇪', 'Austria': '🇦🇹',
+    'UK': '🇬🇧', 'Sweden': '🇸🇪', 'Finland': '🇫🇮', 'USA': '🇺🇸',
+    'Canada': '🇨🇦', 'Kenya': '🇰🇪', 'Ghana': '🇬🇭', 'Pakistan': '🇵🇰',
+    'Philippines': '🇵🇭', 'Uganda': '🇺🇬', 'Tanzania': '🇹🇿', 'South Africa': '🇿🇦'
+  };
+
+  function flag(country) {
+    return COUNTRY_FLAGS[country] || '🌍';
+  }
+
+  function initials(name) {
+    return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  let allAlumni = [];
+  let alumSearch = '';
+  let activeCompany = 'all';
+
+  function buildMarquee(trackId, items, renderChip) {
+    const track = document.getElementById(trackId);
+    if (items.length === 0) { track.innerHTML = ''; return; }
+    // Duplicate the list so the 0%->-50% loop is seamless.
+    const html = items.map(renderChip).join('');
+    track.innerHTML = html + html;
+  }
+
+  function buildCompanyMarquee(data) {
+    const seen = new Map();
+    data.forEach(a => { if (a.company && !seen.has(a.company)) seen.set(a.company, a.logo || ''); });
+    const items = [...seen.entries()];
+    buildMarquee('companyMarqueeTrack', items, ([company, logo]) => `
+      <div class="logo-chip">
+        ${logo ? `<img src="${escHtml(logo)}" alt="${escHtml(company)}" onerror="this.remove()">` : ''}
+        <span>${escHtml(company)}</span>
+      </div>
+    `);
+  }
+
+  function buildCountryMarquee(data) {
+    const countries = [...new Set(data.map(a => a.country).filter(Boolean))];
+    buildMarquee('countryMarqueeTrack', countries, c => `
+      <div class="logo-chip">${flag(c)} <span>${escHtml(c)}</span></div>
+    `);
+  }
+
+  function updateStats(data) {
+    const companies = new Set(data.map(a => a.company).filter(Boolean));
+    const countries = new Set(data.map(a => a.country).filter(Boolean));
+    document.getElementById('statTotal').textContent = data.length;
+    document.getElementById('statCompanies').textContent = companies.size || '—';
+    document.getElementById('statCountries').textContent = countries.size || '—';
+  }
+
+  function buildCompanyChips(data) {
+    const companies = [...new Set(data.map(a => a.company).filter(Boolean))].sort();
+    const container = document.getElementById('companyChips');
+    container.innerHTML = `<span class="company-chip active" data-company="all">🏢 All Companies</span>` +
+      companies.map(c => `<span class="company-chip" data-company="${escHtml(c)}">${escHtml(c)}</span>`).join('');
+
+    container.querySelectorAll('.company-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        container.querySelectorAll('.company-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeCompany = chip.dataset.company;
+        renderAlumni();
+      });
+    });
+  }
+
+  function renderAlumni() {
+    let data = allAlumni;
+
+    if (activeCompany !== 'all') data = data.filter(a => a.company === activeCompany);
+    if (alumSearch) data = data.filter(a =>
+      a.name.toLowerCase().includes(alumSearch) ||
+      (a.company || '').toLowerCase().includes(alumSearch)
+    );
+
+    document.getElementById('alumCount').textContent =
+      data.length > 0 ? `Showing ${data.length} of ${allAlumni.length} alumni` : '';
+
+    const grid = document.getElementById('alumniGrid');
+
+    if (data.length === 0) {
+      grid.innerHTML = `<div style="color:var(--text-muted);font-size:0.9rem;padding:2rem 0;grid-column:1/-1;text-align:center;">
+        ${allAlumni.length === 0 ? 'No alumni added yet.' : 'No results found.'}
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = data.map(a => `
+      <div class="alum-card">
+        <div class="alum-avatar">
+          ${a.photo ? `<img src="${escHtml(a.photo)}" alt="${escHtml(a.name)}">` : initials(a.name)}
+        </div>
+        <div class="alum-name">${escHtml(a.name)}</div>
+        ${a.cohort ? `<div class="alum-cohort">Cohort ${escHtml(String(a.cohort))}</div>` : ''}
+        <div class="alum-company-wrap">
+          ${a.logo ? `<img src="${escHtml(a.logo)}" alt="${escHtml(a.company)}" style="height:20px;width:auto;margin-bottom:4px;" onerror="this.remove()">` : ''}
+          <div class="alum-company">${escHtml(a.company || 'Company TBD')}</div>
+          <div class="alum-role">${escHtml(a.role || 'Cloud & DevOps Engineer')}</div>
+        </div>
+        ${a.story ? `<p class="alum-story">"${escHtml(a.story)}"</p>` : ''}
+        <div class="alum-meta">
+          ${a.country ? `<span class="alum-country">${flag(a.country)} ${escHtml(a.country)}</span>` : ''}
+        </div>
+        <span class="alum-badge">✓ DMI Alumni</span>
+        ${a.linkedin ? `<a href="${escHtml(a.linkedin)}" target="_blank" rel="noopener" class="alum-linkedin">LinkedIn →</a>` : ''}
+      </div>
+    `).join('');
+  }
+
+  fetch('data/alumni.json')
+    .then(r => r.json())
+    .catch(() => [])
+    .then(data => {
+      allAlumni = data;
+      updateStats(data);
+      buildCompanyChips(data);
+      buildCompanyMarquee(data);
+      buildCountryMarquee(data);
+      renderAlumni();
+    });
+
+  document.getElementById('alumSearch').addEventListener('input', e => {
+    alumSearch = e.target.value.toLowerCase().trim();
+    renderAlumni();
+  });
+</script>
+</body>
+</html>
