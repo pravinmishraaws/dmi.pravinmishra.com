@@ -13,9 +13,9 @@
     {
       "week": 2,
       "champions": [
-        { "group": "Group 1", "name": "Yash Rawat", "score": 0, "comment": "", "linkedin": "", "photo": "" },
-        { "group": "Group 2", "name": "Tonye Bagshaw", "score": 0, "comment": "", "linkedin": "", "photo": "" },
-        { "group": "Group 3", "name": "Oluwagbade Odimayo", "score": 0, "comment": "", "linkedin": "", "photo": "" }
+        { "group": "Group 1", "name": "Yash Rawat", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/yashrawat2362/", "photo": "" },
+        { "group": "Group 2", "name": "Tonye Bagshaw", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/tonye-bagshaw/", "photo": "" },
+        { "group": "Group 3", "name": "Oluwagbade Odimayo", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/oluwagbade-odimayo-/", "photo": "" }
       ]
     }
   ]
