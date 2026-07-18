@@ -1,6 +1,6 @@
 {
   "cohort": "Cohort 3",
-  "current_week": 1,
+  "current_week": 2,
   "weeks": [
     {
       "week": 1,
@@ -8,6 +8,14 @@
         { "group": "Group 1", "name": "Eze Favour Nnedinso", "score": 115, "comment": "", "linkedin": "https://www.linkedin.com/in/eze-favour-52732752/", "photo": "" },
         { "group": "Group 2", "name": "Ayomikun Philip Ajayi", "score": 114, "comment": "", "linkedin": "https://www.linkedin.com/in/ayomikunphilip/", "photo": "" },
         { "group": "Group 3", "name": "Peace Nwadinachi Offor", "score": 112, "comment": "", "linkedin": "https://www.linkedin.com/in/peace-offor-aa736a147?trk=contact-info", "photo": "" }
+      ]
+    },
+    {
+      "week": 2,
+      "champions": [
+        { "group": "Group 1", "name": "Yash Rawat", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/yashrawat2362/", "photo": "" },
+        { "group": "Group 2", "name": "Tonye Bagshaw", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/tonye-bagshaw/", "photo": "" },
+        { "group": "Group 3", "name": "Oluwagbade Odimayo", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/oluwagbade-odimayo-/", "photo": "" }
       ]
     }
   ]
