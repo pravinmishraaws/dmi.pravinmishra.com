@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How it works — DMI</title>
+  <meta name="description" content="How the DevOps Micro Internship works: your real GitHub work is graded automatically every week and published to a public profile any hiring manager can check." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/how-it-works.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="How it works — DMI" />
+  <meta property="og:description" content="How the DevOps Micro Internship works: your real GitHub work is graded automatically every week and published to a public profile any hiring manager can check." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/how-it-works.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How it works — DMI" />
+  <meta name="twitter:description" content="How the DevOps Micro Internship works: your real GitHub work is graded automatically every week and published to a public profile any hiring manager can check." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.75rem;
+      padding-left: 1.5rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.65rem;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--accent-border);
+    }
+    .timeline-item h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+      color: var(--text);
+    }
+    .timeline-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 13px 30px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .cta-banner {
+      background: var(--accent);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .cta-banner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+    .cta-banner p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    .btn-white {
+      display: inline-block;
+      background: #fff;
+      color: var(--accent);
+      padding: 13px 30px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .btn-outline-white {
+      display: inline-block;
+      background: transparent;
+      color: #fff;
+      padding: 13px 30px;
+      border-radius: 100px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: 2px solid rgba(255,255,255,0.6);
+      transition: background 0.2s;
+    }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.15); }
+
+    .scoring-table-wrap { max-width: 700px; margin: 0 auto; overflow-x: auto; }
+    .scoring-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 0.875rem;
+    }
+    .scoring-table th {
+      background: var(--bg-card2);
+      color: var(--text-muted);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 18px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .scoring-table td { padding: 12px 18px; border-top: 1px solid var(--border); color: var(--text); }
+    .scoring-table td.pts { color: var(--accent); font-weight: 800; white-space: nowrap; }
+
+    .honest-list { max-width: 700px; margin: 2rem auto 0; display: grid; gap: 0.75rem; }
+    .honest-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.2rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .honest-item strong { color: var(--text); }
+  </style>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="how-it-works.html" class="active">How it works</a></li>
+    <li><a href="champion.html">Champion</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <!-- Self-Paced nav entry hidden — track paused, page kept for a future relaunch -->
+    <li><a href="graduates.html">Graduates</a></li>
+    <li><a href="alumni.html">Alumni</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding: 5rem 2rem 3rem; background: var(--bg);">
+  <div class="container" style="text-align:center; max-width:760px;">
+    <h1 style="font-size:clamp(1.8rem,4vw,2.75rem);font-weight:800;letter-spacing:-1px;margin-bottom:1rem;">How DMI works</h1>
+    <p style="color:var(--text-muted);font-size:1rem;line-height:1.8;">
+      No self-reported progress. No participation trophies. Every week, your real
+      GitHub work is graded automatically and published. Here's the exact system.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 1 — THE WEEKLY LOOP -->
+<section style="padding: 3rem 2rem 4rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">The Weekly Loop</div>
+    <h2 class="section-title">One week in <span style="color:var(--accent)">DMI</span></h2>
+    <p class="section-sub">The same loop, every week, for 14 weeks</p>
+    <div class="timeline" style="margin-top:2.5rem;">
+      <div class="timeline-item"><h4>1 — Watch the lesson</h4><p>Each week covers one core DevOps skill — Linux, Git, AWS, Terraform, Docker, Kubernetes and more.</p></div>
+      <div class="timeline-item"><h4>2 — Build the assignment in your fork</h4><p>You work in your own GitHub fork of the DMI template repo — real files, real commits, your repo.</p></div>
+      <div class="timeline-item"><h4>3 — Push to GitHub</h4><p>Your work lives in public. That's the point — it becomes evidence.</p></div>
+      <div class="timeline-item"><h4>4 — The review agent grades it</h4><p>Every Sunday, an automated agent checks every file of your assignment against the week's checklist.</p></div>
+      <div class="timeline-item"><h4>5 — Your badge page &amp; the leaderboard update</h4><p>Your public profile page shows exactly what passed, what didn't, and your score — visible to anyone.</p></div>
+      <div class="timeline-item"><h4>6 — Share it (and score for it)</h4><p>A weekly LinkedIn post and blog post about what you built earn points too — and build your public presence.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 — SCORING -->
+<section style="padding: 4rem 2rem;">
+  <div class="container">
+    <div class="section-label">Scoring</div>
+    <h2 class="section-title">How points are <span style="color:var(--accent)">earned</span></h2>
+    <p class="section-sub">Graded automatically, the same rules for everyone</p>
+    <div class="scoring-table-wrap" style="margin-top:2.5rem;">
+      <table class="scoring-table">
+        <thead>
+          <tr><th>What</th><th>Points</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Each assignment file passing all checks</td><td class="pts">20</td></tr>
+          <tr><td>Weekly LinkedIn post (URL in your progress table)</td><td class="pts">10</td></tr>
+          <tr><td>Weekly blog post (must load + credit DMI)</td><td class="pts">30</td></tr>
+          <tr><td>Live-session attendance (per slot: Morning · Mid · Evening)</td><td class="pts">10 each</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.75rem;">Live-session attendance applies to the live cohort and counts from Week 4 onward.</p>
+    </div>
+    <div class="honest-list">
+      <div class="honest-item"><strong>Real work only.</strong> Placeholder text scores 0. Copied or untouched files score 0. Answers under 50 real words score 0.</div>
+      <div class="honest-item"><strong>No pre-filling ahead.</strong> Grading is capped at the cohort's current week — you can't stack up points by pasting future weeks early.</div>
+      <div class="honest-item"><strong>Every run is kept.</strong> Score history is stored permanently, so any result can be looked up — not argued about.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 — WHAT YOU GET -->
+<section style="padding: 4rem 2rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container" style="max-width:760px; text-align:center;">
+    <div class="section-label">The Result</div>
+    <h2 class="section-title">A public profile that <span style="color:var(--accent)">proves it</span></h2>
+    <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.8;margin-top:1.5rem;">
+      Every student gets a public badge page: week-by-week scores, passing checks,
+      LinkedIn and blog links — updated automatically after every review run.
+      This page is public. Put it in your CV. Hiring managers can click every claim.
+    </p>
+    <p style="margin-top:1.5rem;">
+      <a href="leaderboard.html" style="color:var(--accent);font-weight:600;">See the live leaderboard →</a>
+      <span style="color:var(--text-muted);font-size:0.85rem;display:block;margin-top:0.5rem;">Click any student's name to open their real badge page.</span>
+    </p>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-banner">
+  <div style="max-width:640px;margin:0 auto;">
+    <h2>Ready to build your proof?</h2>
+    <p>Start the Self-Paced track today, or join the waitlist for the next live cohort.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=how-it-works" target="_blank" rel="noopener" class="btn-white">Start today — Self-Paced Track →</a>
+      <a href="https://forms.gle/t8AnbtieRmGAiFHw5" target="_blank" rel="noopener" class="btn-outline-white">Join the Cohort 4 Waiting List</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:0.95rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://thecloudadvisory.com/dmi-enterprise.html?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🏢 Hiring or training a team? DMI for Enterprise →</a></p>
+  <p style="margin-top:1rem; font-size:0.75rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
