@@ -69,13 +69,13 @@ nav {
 
 .nav-logo .logo-text {
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text);
   line-height: 1.2;
 }
 
 .nav-logo .logo-sub {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   font-weight: 400;
 }
@@ -90,7 +90,7 @@ nav {
 .nav-links a {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 500;
   padding: 0.5rem 0.875rem;
   border-radius: 8px;
@@ -132,7 +132,7 @@ nav {
   border: 1px solid var(--accent-border);
   border-radius: 100px;
   padding: 6px 16px;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   color: var(--accent);
   font-weight: 600;
   margin-bottom: 2rem;
@@ -193,7 +193,7 @@ nav {
 }
 
 .stat .label {
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   color: var(--text-muted);
   font-weight: 500;
 }
@@ -205,7 +205,7 @@ section { padding: 5rem 2rem; }
 
 .section-label {
   text-align: center;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 2.5px;
   text-transform: uppercase;
@@ -215,7 +215,7 @@ section { padding: 5rem 2rem; }
 
 .section-title {
   text-align: center;
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-weight: 800;
   margin-bottom: 0.75rem;
   letter-spacing: -0.75px;
@@ -225,7 +225,7 @@ section { padding: 5rem 2rem; }
 .section-sub {
   text-align: center;
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 1.05rem;
   margin-bottom: 3rem;
   max-width: 560px;
   margin-left: auto;
@@ -268,7 +268,7 @@ section { padding: 5rem 2rem; }
 }
 
 .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
-.card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+.card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
 
 /* CHAMPION */
 .champion-section {
@@ -298,7 +298,7 @@ section { padding: 5rem 2rem; }
 .champion-header h3 {
   color: #fff;
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -308,7 +308,7 @@ section { padding: 5rem 2rem; }
   color: #fff;
   padding: 4px 12px;
   border-radius: 100px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   font-weight: 700;
 }
 
@@ -341,13 +341,13 @@ section { padding: 5rem 2rem; }
   border: 1px solid var(--border);
   border-radius: 100px;
   padding: 3px 12px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   margin-bottom: 0.75rem;
   font-weight: 500;
 }
 
-.champion-info .achievement { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+.champion-info .achievement { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
 .champion-marks { margin-top: 1rem; display: flex; gap: 1rem; }
 
@@ -360,7 +360,7 @@ section { padding: 5rem 2rem; }
 }
 
 .mark-badge .val { font-size: 1.1rem; font-weight: 800; color: var(--accent); display: block; }
-.mark-badge .lbl { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+.mark-badge .lbl { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
 
 /* LEADERBOARD */
 .leaderboard-section { background: var(--bg-section); }
@@ -379,7 +379,7 @@ section { padding: 5rem 2rem; }
   color: var(--text-muted);
   padding: 8px 20px;
   border-radius: 100px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s;
   font-weight: 500;
@@ -416,14 +416,14 @@ section { padding: 5rem 2rem; }
   background: var(--bg-card);
 }
 
-.lb-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.lb-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
 
 .lb-table thead tr { background: var(--bg-card2); }
 
 .lb-table th {
   padding: 1rem 1.25rem;
   text-align: left;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-muted);
@@ -448,7 +448,7 @@ section { padding: 5rem 2rem; }
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .rank-1 { background: #FFD700; color: #5a3e00; }
@@ -468,14 +468,14 @@ a.lb-name:hover { color: var(--accent); }
   border: 1px solid var(--accent-border);
   border-radius: 100px;
   padding: 2px 10px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--accent);
   font-weight: 600;
 }
 
 .total-marks { font-weight: 800; color: var(--accent); font-size: 1rem; }
-.feedback-text { font-size: 0.8rem; color: var(--text-muted); max-width: 200px; }
-.lb-empty { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.9rem; }
+.feedback-text { font-size: 0.875rem; color: var(--text-muted); max-width: 200px; }
+.lb-empty { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.95rem; }
 
 /* GRADUATES */
 .graduates-section { background: var(--bg-section); }
@@ -493,7 +493,7 @@ a.lb-name:hover { color: var(--accent); }
   color: var(--text-muted);
   padding: 10px 28px;
   border-radius: 100px;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s;
   font-weight: 600;
@@ -547,8 +547,8 @@ a.lb-name:hover { color: var(--accent); }
 }
 
 .grad-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.grad-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; color: var(--text); }
-.grad-group { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500; }
+.grad-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; color: var(--text); }
+.grad-group { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500; }
 
 .grad-badge {
   display: inline-block;
@@ -557,7 +557,7 @@ a.lb-name:hover { color: var(--accent); }
   color: var(--accent);
   border-radius: 100px;
   padding: 2px 10px;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 700;
 }
 
@@ -591,7 +591,7 @@ footer {
   color: #fff;
 }
 
-footer p { color: #888; font-size: 0.85rem; margin-bottom: 0.5rem; }
+footer p { color: #888; font-size: 0.9rem; margin-bottom: 0.5rem; }
 footer a { color: var(--accent); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 
@@ -625,7 +625,7 @@ footer a:hover { text-decoration: underline; }
   border: 1px solid var(--border);
   border-radius: 100px;
   padding: 4px 14px;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s;
