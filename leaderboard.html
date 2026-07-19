@@ -47,6 +47,7 @@
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Home</a></li>
+    <li><a href="how-it-works.html">How it works</a></li>
     <li><a href="champion.html">Champion</a></li>
     <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
     <!-- Self-Paced nav entry hidden — track paused, page kept for a future relaunch -->
@@ -265,12 +266,17 @@
       const badgeCell = s.github
         ? `<a href="s/${escHtml(s.github)}.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.82rem;">View →</a>`
         : '—';
+      // Names link to the student's public badge page — the agent generates
+      // one per rostered student, so linking unconditionally is safe.
+      const nameCell = s.github
+        ? `<a href="s/${encodeURIComponent(s.github)}.html" class="student-name lb-name">${escHtml(s.name)}</a>`
+        : `<div class="student-name">${escHtml(s.name)}</div>`;
       const totalDisplay = total > 0 ? `<span class="total-marks">${total}</span>` : '—';
       return `
         <tr>
           <td><div class="${rankClass(rank)}">${rank}</div></td>
           <td>${avatarCell}</td>
-          <td><div class="student-name">${escHtml(s.name)}</div>${rankShareRow(rank, s.github)}</td>
+          <td>${nameCell}${rankShareRow(rank, s.github)}</td>
           <td><span class="group-pill">Group ${escHtml(s.group)}</span></td>
           <td>${portfolioCell}</td>
           <td>${totalDisplay}</td>

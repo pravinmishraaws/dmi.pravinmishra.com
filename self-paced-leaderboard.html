@@ -151,6 +151,7 @@
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Home</a></li>
+    <li><a href="how-it-works.html">How it works</a></li>
     <li><a href="champion.html">Champion</a></li>
     <li><a href="leaderboard.html">Leaderboard</a></li>
     <li><a href="self-paced-leaderboard.html" class="active">Self-Paced</a></li>
@@ -345,7 +346,7 @@
         <tr>
           <td><div class="${rankClass(rank)}">${rank}</div></td>
           <td><div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:#fff;flex-shrink:0;">${initials(s.name)}</div></td>
-          <td><div class="student-name">${escHtml(s.name)}</div>${rankShareRow(rank, username)}</td>
+          <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
           <td>
             <div class="weeks-pill">
               <span>${weeks} / ${TOTAL_WEEKS}</span>

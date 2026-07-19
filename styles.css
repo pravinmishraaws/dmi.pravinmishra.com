@@ -458,6 +458,10 @@ section { padding: 5rem 2rem; }
 
 .student-name { font-weight: 600; color: var(--text); }
 
+/* Leaderboard names linking to badge pages — keep table look, gold on hover */
+a.lb-name { display: inline-block; text-decoration: none; }
+a.lb-name:hover { color: var(--accent); }
+
 .group-pill {
   display: inline-block;
   background: var(--accent-light);
