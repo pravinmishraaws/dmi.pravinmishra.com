@@ -11,7 +11,7 @@ This repo is one of six in a wider workspace that all funnel to a single LMS. If
 ## Ecosystem rules — read before editing prices, dates, or CTAs
 
 - **Never state prices, cohort dates, or waitlist status on this site.** The LMS at `https://university.pravinmishra.com` (Payhip) is the single point of sale for all three DMI tracks (Foundation, Self-Paced Engineer, Live Internship) — those facts live only there and have gone stale here before (e.g. hardcoded cohort start dates in the hero/CTA). Link to University, don't restate it.
-- **Brand accent is gold `#E8A020`** (ramp: `#f2bc55` / `#d4911a` / `#b87d16`) + **Inter** font — already reflected in `styles.css`'s custom properties (`--accent` etc.); keep new UI additions on that palette rather than introducing new colors.
+- **Brand accent is gold `#E8A020`** (ramp: `#f2bc55` / `#d4911a` / `#b87d16`) + **Mulish** font (ecosystem-wide since July 2026 — closest free match to the University storefront's Proxima Nova) — already reflected in `styles.css`'s custom properties (`--accent`, `--font`); keep new UI additions on that palette rather than introducing new colors.
 - **Cross-site links need UTM params**: `utm_source=dmi&utm_medium=nav|footer|hero|cta-...`
 - **Shared footer block** (same on all three static sites): University · DMI Student Hub · Pravin Mishra / The CloudAdvisory · Discord.
 
