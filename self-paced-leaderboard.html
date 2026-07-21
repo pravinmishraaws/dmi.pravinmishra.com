@@ -346,7 +346,7 @@
         <tr>
           <td><div class="${rankClass(rank)}">${rank}</div></td>
           <td><div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:#fff;flex-shrink:0;">${initials(s.name)}</div></td>
-          <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
+          <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" target="_blank" rel="noopener" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
           <td>
             <div class="weeks-pill">
               <span>${sections} / ${TOTAL_SECTIONS}</span>
@@ -355,7 +355,7 @@
           </td>
           <td>${portfolioUrl ? `<a href="${escHtml(portfolioUrl)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.875rem;">View →</a>` : '—'}</td>
           <td>${total > 0 ? `<span class="total-marks">${total}</span>` : '—'}</td>
-          <td>${badgeUrl ? `<a href="${escHtml(badgeUrl)}" class="badge-link">View →</a>` : '—'}</td>
+          <td>${badgeUrl ? `<a href="${escHtml(badgeUrl)}" target="_blank" rel="noopener" class="badge-link">View →</a>` : '—'}</td>
         </tr>
       `;
     }).join('');
@@ -382,7 +382,7 @@
         <span class="grad-badge">🎓 ${g.sections_completed || TOTAL_SECTIONS}/${TOTAL_SECTIONS} Sections</span>
         <div class="grad-links">
           ${g.linkedin ? `<a href="${escHtml(g.linkedin)}" target="_blank" rel="noopener" class="grad-linkedin">LinkedIn →</a>` : ''}
-          ${g.github_username ? `<a href="s/${escHtml(g.github_username)}.html" class="grad-badge-link">View Badge →</a>` : ''}
+          ${g.github_username ? `<a href="s/${escHtml(g.github_username)}.html" target="_blank" rel="noopener" class="grad-badge-link">View Badge →</a>` : ''}
         </div>
       </div>
     `).join('');
