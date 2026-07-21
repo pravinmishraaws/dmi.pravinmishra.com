@@ -259,7 +259,9 @@
         : `<div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:#fff;flex-shrink:0;">${initials}</div>`;
       // s.github is a bare GitHub username (review-agent's CSV); portfolio /
       // 'dmi github portfolio' are legacy columns that already held a full URL.
-      const portfolioUrl = s.portfolio || s['dmi github portfolio'] || (s.github ? `https://github.com/${s.github}` : '');
+      // The auto-built fallback must point at the student's assignment repo,
+      // not their bare profile — that's the actual DevOps portfolio to view.
+      const portfolioUrl = s.portfolio || s['dmi github portfolio'] || (s.github ? `https://github.com/${s.github}/devops-micro-internship-pravinmishra` : '');
       const portfolioCell = portfolioUrl
         ? `<a href="${escHtml(portfolioUrl)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.875rem;">View →</a>`
         : '—';
