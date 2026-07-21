@@ -202,7 +202,7 @@
                 <th>Rank</th>
                 <th></th>
                 <th>Student</th>
-                <th>Weeks Completed</th>
+                <th>Sections Completed</th>
                 <th>DMI GitHub Portfolio</th>
                 <th>Total</th>
                 <th>Badge</th>
@@ -241,7 +241,7 @@
 
 <script src="app.js"></script>
 <script>
-  const TOTAL_WEEKS = 14;
+  const TOTAL_SECTIONS = 14;
   const LB_CSV_URL = 'data/self-paced-leaderboard.csv';
   const GRAD_JSON_URL = 'data/self-paced-graduates.json';
 
@@ -317,9 +317,9 @@
     let data = [...allStudents];
     if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
 
-    // Weeks completed first, total as tiebreaker — pacing matters more than raw points.
+    // Sections completed first, total as tiebreaker — pacing matters more than raw points.
     data.sort((a, b) => {
-      const w = (parseInt(b.weekscompleted) || 0) - (parseInt(a.weekscompleted) || 0);
+      const w = (parseInt(b.sectionscompleted) || 0) - (parseInt(a.sectionscompleted) || 0);
       if (w !== 0) return w;
       return (parseInt(b.total) || 0) - (parseInt(a.total) || 0);
     });
@@ -336,9 +336,9 @@
 
     tbody.innerHTML = data.map((s, i) => {
       const rank = i + 1;
-      const weeks = parseInt(s.weekscompleted) || 0;
+      const sections = parseInt(s.sectionscompleted) || 0;
       const total = parseInt(s.total) || 0;
-      const pct = Math.round((weeks / TOTAL_WEEKS) * 100);
+      const pct = Math.round((sections / TOTAL_SECTIONS) * 100);
       const username = s.githubusername || '';
       const portfolioUrl = username ? `https://github.com/${username}` : '';
       const badgeUrl = username ? `s/${username}.html` : '';
@@ -349,7 +349,7 @@
           <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
           <td>
             <div class="weeks-pill">
-              <span>${weeks} / ${TOTAL_WEEKS}</span>
+              <span>${sections} / ${TOTAL_SECTIONS}</span>
               <span class="bar"><span style="width:${pct}%;"></span></span>
             </div>
           </td>
@@ -379,7 +379,7 @@
         <div class="grad-name">${escHtml(g.name)}</div>
         <div class="grad-role">${escHtml(g.role || 'Cloud & DevOps Engineer')}</div>
         ${g.country ? `<div class="grad-country">${escHtml(g.country)}</div>` : ''}
-        <span class="grad-badge">🎓 ${g.weeks_completed || TOTAL_WEEKS}/${TOTAL_WEEKS} Weeks</span>
+        <span class="grad-badge">🎓 ${g.sections_completed || TOTAL_SECTIONS}/${TOTAL_SECTIONS} Sections</span>
         <div class="grad-links">
           ${g.linkedin ? `<a href="${escHtml(g.linkedin)}" target="_blank" rel="noopener" class="grad-linkedin">LinkedIn →</a>` : ''}
           ${g.github_username ? `<a href="s/${escHtml(g.github_username)}.html" class="grad-badge-link">View Badge →</a>` : ''}
