@@ -39,24 +39,30 @@ git commit -m "Update champion data for week 13"
 
 Each HTML page fetches its own data via an inline `<script>` block at the bottom using `fetch()`:
 
-- `leaderboard.html` → fetches `data/leaderboard.csv`, parses it client-side, renders a table with group filter + name search
+- `leaderboard.html` → fetches `data/leaderboard.csv`, parses it client-side, renders a table with group filter + name search (Live/cohort track)
+- `self-paced-leaderboard.html` → fetches `data/self-paced-leaderboard.csv` (Active tab) and `data/self-paced-graduates.json` (Graduates tab). Nav-hidden as of 2026-07-21 ("track paused, page kept for a future relaunch") but fully functional and reachable by direct URL — whether to re-add the nav entry is an open decision now that the track works end-to-end (see workspace `REVIEW-AGENT.md`)
 - `champion.html` → fetches `data/champion.json`, renders champion cards per group, browsable by week
 - `graduates.html` → fetches `data/cohort1.json` and `data/cohort2.json`, renders graduate cards with cohort tabs
+- `s/<github_username>.html` → one static badge/certificate page per student (both tracks), generated and committed by the review-agent repo (below) — not hand-edited here
 - `index.html` → no data fetch; static content only (curriculum, mentor bio, teaching team, CTA)
 
 `styles.css` is a single shared stylesheet for all pages using CSS custom properties (`--accent`, `--bg-card`, `--border`, etc.).
 
 `app.js` handles mobile nav toggle and is included in every page.
 
+## This repo's leaderboard/badge data is driven by a sibling repo — check it before renaming anything
+
+`data/leaderboard.csv`, `data/self-paced-leaderboard.csv`, `data/self-paced-graduates.json`, and every `s/<username>.html` badge page are written by the private `dmi-review-agent` repo's `publish` step (auto-merged PRs), not authored here. **If a column name or JSON field in those files ever needs to change, the JS in the page that reads it must change in the same PR** — this exact mismatch happened 2026-07-21 (review-agent renamed `WeeksCompleted`→`SectionsCompleted` without checking this repo first, silently breaking `self-paced-leaderboard.html`'s sort/display until caught in live testing — PR #64). Current schemas:
+
+- `data/leaderboard.csv`: `Name,Group,Github,Total` — `Github` is a bare username; the page builds the "DMI GitHub Portfolio" link as `github.com/<username>/devops-micro-internship-pravinmishra` (the student's actual graded repo, not their profile — also fixed 2026-07-21, PR #66, after shipping wrong for a while)
+- `data/self-paced-leaderboard.csv`: `Name,GithubUsername,SectionsCompleted,Total`
+- `data/self-paced-graduates.json`: array of `{name, github_username, country, role, linkedin, photo, total, sections_completed}`
+
 ## How to update content
 
 ### Leaderboard (`data/leaderboard.csv`)
 
-Columns: `Name, Group, Total`
-- `Group` is a number (1–6)
-- `Total` is the cumulative score
-- Scoring: 10 pts attendance · 20 pts assignment · 10 pts LinkedIn post · 30 pts blog
-- Save as plain CSV, not Excel format
+**Normally auto-generated** — the `dmi-review-agent` repo's `publish` step opens (and auto-merges) a PR with this file on every graded run; you shouldn't need to hand-edit it. See "This repo's leaderboard/badge data is driven by a sibling repo" above for the current columns and for what to check before changing the schema.
 
 ### Champion of the Week (`data/champion.json`)
 
