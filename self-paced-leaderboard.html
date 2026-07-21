@@ -340,7 +340,9 @@
       const total = parseInt(s.total) || 0;
       const pct = Math.round((sections / TOTAL_SECTIONS) * 100);
       const username = s.githubusername || '';
-      const portfolioUrl = username ? `https://github.com/${username}` : '';
+      // Must point at the student's assignment repo, not their bare GitHub
+      // profile — that's the actual DevOps portfolio "View" is meant to show.
+      const portfolioUrl = username ? `https://github.com/${username}/devops-micro-internship-pravinmishra` : '';
       const badgeUrl = username ? `s/${username}.html` : '';
       return `
         <tr>
