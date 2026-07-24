@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graduate Placement Support — DMI</title>
+  <meta name="description" content="Real placement support for DMI graduates who keep building after graduation — mentor-vetted, not a course perk, no guarantees." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/placement.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Graduate Placement Support — DMI" />
+  <meta property="og:description" content="Real placement support for DMI graduates who keep building after graduation — mentor-vetted, not a course perk, no guarantees." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/placement.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Graduate Placement Support — DMI" />
+  <meta name="twitter:description" content="Real placement support for DMI graduates who keep building after graduation — mentor-vetted, not a course perk, no guarantees." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.75rem;
+      padding-left: 1.5rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.65rem;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--accent-border);
+    }
+    .timeline-item h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+      color: var(--text);
+    }
+    .timeline-item p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 13px 30px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .cta-banner {
+      background: var(--accent);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .cta-banner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+    .cta-banner p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    .btn-white {
+      display: inline-block;
+      background: #fff;
+      color: var(--accent);
+      padding: 13px 30px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+
+    .honest-list { max-width: 700px; margin: 2rem auto 0; display: grid; gap: 0.75rem; }
+    .honest-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .honest-item strong { color: var(--text); }
+
+    .profile-inner {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      max-width: 720px;
+      margin: 2.5rem auto 0;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: left;
+    }
+    .profile-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      border: 4px solid var(--accent);
+      flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(232,160,32,0.25);
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .profile-text { flex: 1; min-width: 260px; }
+    .profile-text h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.15rem; color: var(--text); }
+    .profile-text .role { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .profile-text p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; }
+    .profile-links { margin-top: 0.9rem; display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.88rem; }
+    .profile-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
+    .profile-links a:hover { text-decoration: underline; }
+  </style>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="how-it-works.html">How it works</a></li>
+    <li><a href="champion.html">Champion</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="self-paced-leaderboard.html">Self-Paced</a></li>
+    <li><a href="graduates.html">Graduates</a></li>
+    <!-- Alumni nav entry hidden 2026-07-23 — page kept, relaunch pending (Anjana) -->
+    <!-- Placement support is graduate-only and intentionally not in main nav — reached via graduates.html and the footer, not browsed by every visitor -->
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding: 5rem 2rem 3rem; background: var(--bg);">
+  <div class="container" style="text-align:center; max-width:760px;">
+    <h1 style="font-size:clamp(1.8rem,4vw,2.75rem);font-weight:800;letter-spacing:-1px;margin-bottom:1rem;">🎓 Graduate Placement Support</h1>
+    <p style="color:var(--text-muted);font-size:1rem;line-height:1.8;">
+      Not a course perk. Not a guarantee. Real placement support for DMI graduates who keep
+      building after graduation — reviewed and personally vouched for by Pravin, our lead
+      co-mentor, and the co-mentor team before we ever contact a company on your behalf.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 1 — WHO CAN APPLY -->
+<section style="padding: 3rem 2rem 4rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">Eligibility</div>
+    <h2 class="section-title">Who can <span style="color:var(--accent)">apply</span></h2>
+    <p class="section-sub">Graduating is the ticket to apply — not a guarantee of being selected</p>
+    <div class="cards" style="margin-top:2.5rem;">
+      <div class="card">
+        <div class="card-icon">🏆</div>
+        <h3>Live Internship graduates</h3>
+        <p>Cohort 1 and Cohort 2 graduates are eligible now. Cohort 3 is still mid-program — not yet graduated, not yet eligible.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💻</div>
+        <h3>Self-Paced graduates</h3>
+        <p>Eligible the moment you complete all 14 sections. The relaunched track is brand new (2026-07-24) — this fills in as the first real graduates arrive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 — THE FUNNEL -->
+<section style="padding: 4rem 2rem;">
+  <div class="container">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">How it <span style="color:var(--accent)">works</span></h2>
+    <p class="section-sub">Five steps. Most of it happens off-site, not on this page.</p>
+    <div class="timeline" style="margin-top:2.5rem;">
+      <div class="timeline-item"><h4>1. Application window — opens monthly</h4><p>A short form: your GitHub username, which track/cohort you graduated, what you've built or learned since graduating, your current role/availability, and why you'd like placement support.</p></div>
+      <div class="timeline-item"><h4>2. Evaluation</h4><p>Pravin, our lead co-mentor Anjana Muthunyake, and the co-mentor team review your badge page (your real graded history) and your application. Not everyone who graduated qualifies — that's deliberate.</p></div>
+      <div class="timeline-item"><h4>3. Interview</h4><p>For applicants who pass evaluation.</p></div>
+      <div class="timeline-item"><h4>4. Resume submission</h4><p>Only for applicants who pass the interview.</p></div>
+      <div class="timeline-item"><h4>5. Calls with Milla and the team</h4><p>One or more, back-to-back as needed, so we actually understand you before we approach any company on your behalf.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 — THE HONEST PART -->
+<section style="padding: 4rem 2rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container" style="max-width:760px;">
+    <div class="section-label" style="text-align:center;">Read This Before You Apply</div>
+    <h2 class="section-title" style="text-align:center;">The honest <span style="color:var(--accent)">part</span></h2>
+    <div class="honest-list">
+      <div class="honest-item"><strong>This is support, not a guarantee.</strong> We don't promise jobs — we open doors for the people we'd personally vouch for.</div>
+      <div class="honest-item"><strong>Placement is in your base country.</strong> Work-permit sponsorship is hard to get and not something we can promise. Cross-border roles only happen when a specific company already in our network chooses to sponsor a visa for a specific candidate — not something to expect or apply for.</div>
+      <div class="honest-item"><strong>Most applicants won't pass every stage.</strong> That's what keeps a recommendation from us meaningful to an employer — and worth applying for in the first place.</div>
+      <div class="honest-item"><strong>Paid internships too.</strong> Alongside full-time roles, we're also working to place graduates into paid internships — same process above, just a different kind of opportunity.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — WHO'S BEHIND THIS -->
+<section style="padding: 4rem 2rem;">
+  <div class="container" style="max-width:760px; text-align:center;">
+    <div class="section-label">Who's Behind This</div>
+    <h2 class="section-title">Meet <span style="color:var(--accent)">Milla</span></h2>
+    <p class="section-sub">CEO &amp; Co-Founder, The CloudAdvisory — the person who actually talks to companies on your behalf</p>
+    <div class="profile-inner">
+      <div class="profile-avatar"><img src="images/milla-leppanen.jpeg" alt="Milla Leppänen"></div>
+      <div class="profile-text">
+        <h3>Milla Leppänen</h3>
+        <div class="role">CEO &amp; Co-Founder, The CloudAdvisory</div>
+        <p>Milla leads the strategic side of the DMI/CloudAdvisory partnership — including reaching out to companies on behalf of graduates who make it through evaluation and interview. Every candidate she brings to a company has already been reviewed by DMI mentors first.</p>
+        <div class="profile-links">
+          <a href="https://www.linkedin.com/in/millaleppanen/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="mailto:contact@thecloudadvisory.com">contact@thecloudadvisory.com</a>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:2rem;font-size:0.85rem;color:var(--text-muted);max-width:600px;margin-left:auto;margin-right:auto;">
+      Hiring? Every graduate who reaches this stage is mentor-vetted, interviewed, and matched to your local market —
+      not just a certificate holder. Reach Milla directly at <a href="mailto:contact@thecloudadvisory.com" style="color:var(--accent);font-weight:600;">contact@thecloudadvisory.com</a>.
+    </p>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-banner">
+  <div style="max-width:640px;margin:0 auto;">
+    <h2>Ready to apply?</h2>
+    <p>Applications open the first week of each month. Email your GitHub username, what you've built since graduating, and why you'd like placement support.</p>
+    <a href="mailto:contact@thecloudadvisory.com?subject=DMI%20Graduate%20Placement%20Application&body=GitHub%20username%3A%20%0ATrack%20%2F%20Cohort%20graduated%3A%20%0AWhat%20I've%20built%20or%20learned%20since%20graduating%3A%20%0ACurrent%20role%20%2F%20availability%3A%20%0AWhy%20I'd%20like%20placement%20support%3A%20" class="btn-white">Apply by email →</a>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://thecloudadvisory.com/dmi-enterprise.html?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🏢 Hiring or training a team? DMI for Enterprise →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
