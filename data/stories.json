@@ -196,5 +196,33 @@
     "source": "self-submitted",
     "consent_ref": "PENDING-2026-07-24",
     "date_added": "2026-07-24"
+  },
+  {
+    "id": "anjana-muthunayake-2026-07",
+    "name": "Anjana Muthunayake",
+    "country": "Sri Lanka",
+    "cohort": "Cohort 1",
+    "media_type": "image",
+    "media_src": "images/anjana-m.jpeg",
+    "quote": "Before joining DMI, I had written only 1–2 blogs, but after joining, you consistently encouraged us to document and publish our learning every week. That habit genuinely created a huge positive impact on my journey and helped me gain visibility and confidence. One moment that made me truly realize the value of technical blogging was during my AWS Community Builders application. They asked for blogs and public contributions, and I was able to showcase my AWS CloudFormation blog there. At that moment, I understood how powerful consistent documentation can be for an engineer's growth and opportunities.",
+    "role": "Lead Co-Mentor · AWS Community Builder",
+    "linkedin": "https://www.linkedin.com/in/anjana-muthunayake/",
+    "source": "self-submitted",
+    "consent_ref": "PENDING-2026-07-24",
+    "date_added": "2026-07-24"
+  },
+  {
+    "id": "joy-ukpabi-2026-07",
+    "name": "Joy Ukpabi",
+    "country": "Nigeria",
+    "cohort": "Cohort 2",
+    "media_type": "image",
+    "media_src": "images/JoyUkpabi.jpg",
+    "quote": "I am grateful to be part of this journey. I look forward to supporting the DMI Cohort 3 students. I can assure you that this is the best community to learn and grow as a DevOps engineer.",
+    "role": "Co-Mentor · Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/joyukpabi/",
+    "source": "self-submitted",
+    "consent_ref": "PENDING-2026-07-24",
+    "date_added": "2026-07-24"
   }
 ]
