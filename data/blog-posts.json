@@ -16,5 +16,14 @@
     "category": "Agentic AI",
     "date": "2026-07-24",
     "image": "../images/blog/learning-devops-with-ai-claude-code-og.jpg"
+  },
+  {
+    "slug": "kubernetes-installation-approaches",
+    "title": "Local, Self-Managed, or Managed Kubernetes? How to Actually Decide",
+    "excerpt": "minikube/kind, kubeadm/kOps, or EKS/GKE/AKS? The real question is who owns the control plane. The actual trade-off, with real costs and the real exceptions.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-07-24",
+    "image": "../images/blog/kubernetes-installation-approaches-og.jpg"
   }
 ]

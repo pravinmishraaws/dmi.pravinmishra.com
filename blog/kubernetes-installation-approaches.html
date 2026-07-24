@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local, Self-Managed, or Managed Kubernetes? How to Actually Decide — DMI Blog</title>
+  <meta name="description" content="minikube/kind, kubeadm/kOps, or EKS/GKE/AKS? The real question is who owns the control plane. Here's the actual trade-off, with real costs and real exceptions." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/kubernetes-installation-approaches.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Local, Self-Managed, or Managed Kubernetes? How to Actually Decide" />
+  <meta property="og:description" content="minikube/kind, kubeadm/kOps, or EKS/GKE/AKS? The real question is who owns the control plane. Here's the actual trade-off, with real costs and real exceptions." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/kubernetes-installation-approaches.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/kubernetes-installation-approaches-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Local, Self-Managed, or Managed Kubernetes? How to Actually Decide" />
+  <meta name="twitter:description" content="minikube/kind, kubeadm/kOps, or EKS/GKE/AKS? The real question is who owns the control plane. Here's the actual trade-off, with real costs and real exceptions." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/kubernetes-installation-approaches-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Local, Self-Managed, or Managed Kubernetes? How to Actually Decide",
+    "datePublished": "2026-07-24",
+    "dateModified": "2026-07-24",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/kubernetes-installation-approaches-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/kubernetes-installation-approaches.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../champion.html">Champion</a></li>
+    <li><a href="../leaderboard.html">Leaderboard</a></li>
+    <li><a href="../self-paced-leaderboard.html">Self-Paced</a></li>
+    <li><a href="../graduates.html">Graduates</a></li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <!-- Alumni nav entry hidden 2026-07-23 — page kept, relaunch pending (Anjana) -->
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">July 24, 2026</span>
+  </div>
+  <h1>Local, Self-Managed, or Managed Kubernetes? How to Actually Decide</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>Once you know Docker and the core Kubernetes concepts, a different question shows up fast: how do you actually <em>run</em> Kubernetes in production? Locally on a laptop, self-installed on your own servers, or through a managed service like Amazon EKS? This decision changes who operates the control plane, who handles upgrades and certificates, and how much operational responsibility your team is signing up for. Get this one wrong and you're not choosing a tool — you're quietly choosing a headcount.</p>
+
+  <h2>The real question: who owns the control plane</h2>
+  <p>Every Kubernetes installation approach answers the same underlying question differently: who is responsible for the API server, etcd, the scheduler, and the controller manager staying healthy? That's the axis everything else sits on. There are three common approaches, and they sit at three very different points on it.</p>
+
+  <h2>Local installation — minikube, kind</h2>
+  <p>Local installation means running Kubernetes on your own machine, for development and testing. <strong>minikube</strong> creates a single-node cluster on your laptop — the control plane and your workloads all run on that one node. <strong>kind</strong> (Kubernetes IN Docker) creates clusters by running each node as a Docker container, which makes it useful for testing multi-node behavior, still entirely on your laptop.</p>
+  <p>Both are excellent for learning, both are free, both take minutes to set up. The honest limitation: if your laptop dies, your cluster is gone, and you don't get the cloud-managed load balancers, autoscaling, or storage integration a real platform needs. Local installation is for learning and development. Full stop — don't run anything real users depend on from a laptop.</p>
+
+  <h2>Self-managed — kubeadm, kOps</h2>
+  <p>Self-managed means you provision the infrastructure yourself — your own VMs, on-prem or in the cloud — and your team is responsible for installing, configuring, and operating the cluster through its whole lifecycle. <strong>kubeadm</strong> is the official Kubernetes tool for bootstrapping a cluster: you provide the machines, initialize the control plane, join worker nodes — it automates the bootstrap, not the ongoing operational responsibility. <strong>kOps</strong> (Kubernetes Operations) goes further on AWS, provisioning much of the required infrastructure and helping manage the cluster's lifecycle, including upgrades and scaling.</p>
+  <p>The advantage is real flexibility — you control the Kubernetes version, the networking plugin, storage configuration, security integrations, the whole architecture. The cost is that your team now owns etcd backup and recovery, certificate management, version upgrades, monitoring, and disaster recovery. Control and responsibility arrive together; you don't get one without the other.</p>
+
+  <h2>Managed Kubernetes — EKS, GKE, AKS, OpenShift</h2>
+  <p>Managed Kubernetes means the cloud provider runs the control plane for you. The API server, etcd, scheduler, and controller manager are deployed, monitored, and maintained by the provider — you manage worker nodes and stay responsible for your applications, Kubernetes resources, and cluster configuration. The major platforms: Amazon EKS, Google Kubernetes Engine (GKE), Azure Kubernetes Service (AKS), and Red Hat OpenShift-based managed offerings (ROSA, ARO, OpenShift Dedicated).</p>
+  <p>This has become the default for a reason: Kubernetes is no longer a niche technology teams are experimenting with — it's production infrastructure at massive scale. The <a href="https://www.cncf.io/announcements/2026/01/20/kubernetes-established-as-the-de-facto-operating-system-for-ai-as-production-use-hits-82-in-2025-cncf-annual-cloud-native-survey/" target="_blank" rel="noopener">CNCF's 2025 Annual Cloud Native Survey</a> found 82% of container users now run Kubernetes in production, up from 66% in 2023 — treat the exact percentage as directional, not gospel, but the trend is real. When Kubernetes becomes core infrastructure at that scale, reducing control-plane operations stops being a nice-to-have. Managed Kubernetes lets engineering teams spend less time keeping the control plane alive and more time shipping.</p>
+
+  <h2>The real cost of running it yourself</h2>
+  <p>This is worth making concrete rather than abstract. Owning the control plane means owning three specific, unglamorous things:</p>
+  <p><strong>etcd.</strong> This is the distributed key-value store holding the entire state of your cluster — every Pod, Deployment, Service, ConfigMap, and Secret lives there. If etcd becomes unavailable or loses data, the control plane can no longer reliably manage the cluster. In a self-managed setup, your team designs and operates etcd for high availability, backups, disaster recovery, and performance — see the <a href="https://etcd.io/docs/v3.5/op-guide/hardware/" target="_blank" rel="noopener">official etcd hardware recommendations</a> for what that actually requires in CPU, disk IOPS, and node counts.</p>
+  <p><strong>Certificate management.</strong> A standard kubeadm cluster runs on 13 separate certificates — API server, etcd, scheduler, and more — each expiring after one year by default (`kubeadm certs check-expiration` and `kubeadm certs renew` are the built-in tools for this; see the <a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/" target="_blank" rel="noopener">official kubeadm certificate management docs</a>). If certificates expire unexpectedly, control-plane components can stop talking to each other — your team owns watching for that before it happens, not after.</p>
+  <p><strong>Upgrades.</strong> The <a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/" target="_blank" rel="noopener">official kubeadm upgrade docs</a> are explicit: skipping minor versions is unsupported. If you're two versions behind, you upgrade one step at a time — control plane first, then worker nodes — not straight to latest. This is real, ongoing engineering time: the <a href="https://www.cncf.io/blog/2026/05/11/how-to-get-engineering-time-back-from-kubernetes-upgrades/" target="_blank" rel="noopener">Komodor 2025 Enterprise Kubernetes Report</a> found teams losing roughly 34 workdays a year to Kubernetes incidents. Treat that number as industry context, not a guarantee for your team specifically — but the direction it points is real.</p>
+
+  <figure class="post-figure">
+    <img src="../images/blog/eks-pricing-screenshot.jpg" alt="The official Amazon EKS pricing page showing standard Kubernetes version support at $0.10 per cluster per hour" loading="lazy">
+    <figcaption>Amazon EKS's actual published pricing — $0.10/cluster/hour for standard support, about $73/month before worker nodes and add-ons. Always check the <a href="https://aws.amazon.com/eks/pricing/" target="_blank" rel="noopener">current AWS pricing page</a> directly; this changes over time.</figcaption>
+  </figure>
+
+  <p>With EKS specifically, AWS runs a highly available control plane across multiple Availability Zones and owns keeping the API server and etcd up. You still own everything running inside the cluster — worker nodes, applications, networking policies, security configuration, access control, cost optimization. So the real comparison isn't "is EKS free" — it's whether you want your team operating the control plane, or paying AWS to consume it as a service.</p>
+
+  <h2>When self-managed actually is the right answer</h2>
+  <p>There are three genuine reasons to run self-managed Kubernetes — worth knowing because you'll run into them on real teams:</p>
+  <ul>
+    <li><strong>Air-gapped or disconnected environments.</strong> A managed service by definition requires connectivity to the provider's control plane. In a fully air-gapped environment — some defence systems, classified government networks, critical infrastructure — self-managed with kubeadm is the only option, because the whole control plane has to live inside your own infrastructure.</li>
+    <li><strong>Government and defence classification requirements.</strong> Some classified environments have infrastructure approval requirements that don't permit a commercial managed control plane at all.</li>
+    <li><strong>Strict data sovereignty and regulatory requirements.</strong> Increasingly relevant for European companies: US-based providers are subject to the US CLOUD Act, which can create legal questions about data access even when the data itself is stored outside the US. Frameworks like DORA, NIS-2, and SecNumCloud 3.2 shape real technology decisions in regulated sectors — the CNCF's <a href="https://www.cncf.io/blog/2026/06/16/from-data-residency-to-digital-sovereignty-architectural-patterns-for-cloud-native-platforms/" target="_blank" rel="noopener">"From Data Residency to Digital Sovereignty"</a> is a genuinely useful deep-dive if you work with regulated or European organizations.</li>
+  </ul>
+  <p>Notice what's <em>not</em> on that list: "we want full control," or "our engineers prefer it," or generic vendor-lock-in worry. Those might come up in a discussion, but they're rarely enough on their own — the operational cost is too high unless something structural is actually forcing the decision. If you're in one of the three situations above, self-managed is right. If you're not, managed Kubernetes is the practical default.</p>
+
+  <h2>What transfers, regardless of which you pick</h2>
+  <p>Choosing EKS (or GKE, or AKS) as your starting point doesn't lock in what you actually learn. Helm, GitHub Actions, Argo CD, Prometheus, Grafana, and the rest of the modern platform stack are Kubernetes ecosystem technologies, not EKS-specific features — they run on any cluster, managed or not, cloud or on-prem. Where a service is provider-specific (ECR for images, Secrets Manager for secrets, IAM for access), every other cloud has an equivalent pattern. The pattern is what matters; the specific service is an implementation detail. DMI's own <a href="what-is-a-devops-micro-internship.html">14-week curriculum</a> introduces Kubernetes and Terraform fundamentals in exactly this spirit — see the <a href="../how-it-works.html">weekly grading loop</a> that verifies students actually built it, not just watched it — and this post is the next layer up, the production decision that comes after you know the basics.</p>
+
+  <h2>Key takeaways</h2>
+  <ul>
+    <li><strong>Local</strong> (minikube, kind) — for learning and development, never for anything real users depend on.</li>
+    <li><strong>Self-managed</strong> (kubeadm, kOps) — full control and full operational responsibility (etcd, certs, upgrades). The right call only when something structural requires it: air-gapped environments, government/defence infrastructure rules, or strict sovereignty/compliance requirements — not just a preference for control.</li>
+    <li><strong>Managed</strong> (EKS, GKE, AKS, OpenShift) — the provider runs the control plane; it's the practical default for most teams, and what most of the modern platform stack you'd build on top of it is portable regardless of which one you pick.</li>
+  </ul>
+
+  <p style="margin-top:2.5rem;"><strong>Want to build the fundamentals these decisions sit on top of?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>
