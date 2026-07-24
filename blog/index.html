@@ -142,10 +142,13 @@
 
     grid.innerHTML = paged.map(p => `
       <a class="blog-card" href="${escHtml(p.slug)}.html">
-        <span class="blog-card-category">${escHtml(p.category)}</span>
-        <h3>${escHtml(p.title)}</h3>
-        <p>${escHtml(p.excerpt)}</p>
-        <div class="blog-card-meta">${escHtml(p.author)} · ${formatDate(p.date)}</div>
+        ${p.image ? `<div class="blog-card-img"><img src="${escHtml(p.image)}" alt="" loading="lazy"></div>` : ''}
+        <div class="blog-card-body">
+          <span class="blog-card-category">${escHtml(p.category)}</span>
+          <h3>${escHtml(p.title)}</h3>
+          <p>${escHtml(p.excerpt)}</p>
+          <div class="blog-card-meta">${escHtml(p.author)} · ${formatDate(p.date)}</div>
+        </div>
       </a>
     `).join('');
 
