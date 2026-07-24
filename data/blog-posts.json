@@ -7,5 +7,14 @@
     "category": "DevOps",
     "date": "2026-07-24",
     "image": "../images/blog/what-is-a-devops-micro-internship-og.jpg"
+  },
+  {
+    "slug": "learning-devops-with-ai-claude-code",
+    "title": "Learning DevOps With AI: Why DMI Teaches Claude Code Before Linux or Git",
+    "excerpt": "DMI's Week 2 is Agentic AI with Claude Code — before Linux, before Git. Here's the real curriculum: the Agentic Loop, Claude.md, Skills, Subagents, and MCP.",
+    "author": "Pravin Mishra",
+    "category": "Agentic AI",
+    "date": "2026-07-24",
+    "image": "../images/blog/learning-devops-with-ai-claude-code-og.jpg"
   }
 ]
