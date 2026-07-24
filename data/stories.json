@@ -1,0 +1,32 @@
+[
+  {
+    "id": "henrietta-okechukwu-2026-07",
+    "name": "Henrietta Ogochukwu Okechukwu",
+    "country": "Nigeria",
+    "cohort": "Cohort 3",
+    "github": "Harietonyeabor",
+    "media_type": "image",
+    "media_src": "images/stories/henrietta-ogochukwu.jpeg",
+    "quote": "The leaderboard is truly teaching me more patience and deep attention to detail. When the review flagged my progress table as duplicated, it felt a bit awkward at first because I knew I hadn't intentionally set it up that way. But engineering has a way of teaching us skills we didn't know we had. I went back, inspected my README.md, and sure enough, there was an extra table sitting right beneath it! Fixing that made me realize why my review couldn't process. Learning, unlearning, and re-learning has become my pattern, and I am sticking with it.",
+    "role": "Technical Project & Product Manager",
+    "linkedin": "https://www.linkedin.com/in/henrietta-ogochukwu-onyeabor/",
+    "source": "self-submitted",
+    "consent_ref": "linkedin-dm-henrietta-2026-07-24",
+    "date_added": "2026-07-24"
+  },
+  {
+    "id": "rohan-kumar-das-2026-07",
+    "name": "Rohan Kumar Das",
+    "country": "India",
+    "cohort": "Cohort 3",
+    "github": "rohandas98",
+    "media_type": "image",
+    "media_src": "images/stories/rohan-kumar-das.jpeg",
+    "quote": "I have always been an admirer of transparency, and I can't be more thankful for the level where DMI stands. It's very easy to claim something great, and it's just as hard to maintain. I have seen people raising issues, but at the same time Pravin Sir just magically made the response by making the leaderboard transparent. And the level of transparency is on the next level, where each and every member can know where he or she is lacking, what others did, and why. When truth is accepted, then only progress can begin.",
+    "role": "System Engineer at Tata Consultancy Services",
+    "linkedin": "https://www.linkedin.com/in/rohan-kumar-das-77aa771b3/",
+    "source": "self-submitted",
+    "consent_ref": "linkedin-dm-rohan-2026-07-24",
+    "date_added": "2026-07-24"
+  }
+]
