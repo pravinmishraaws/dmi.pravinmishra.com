@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{Post Title}} — DMI Blog</title>
+  <meta name="description" content="{{150–160 char unique summary — write fresh, don't copy the index excerpt}}" />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/{{slug}}.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{Post Title}}" />
+  <meta property="og:description" content="{{same as meta description}}" />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/{{slug}}.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/{{slug}}-og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{Post Title}}" />
+  <meta name="twitter:description" content="{{same as meta description}}" />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/{{slug}}-og.png" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{Post Title}}",
+    "datePublished": "{{YYYY-MM-DD}}",
+    "dateModified": "{{YYYY-MM-DD}}",
+    "author": { "@type": "Person", "name": "{{Author Name}}" },
+    "image": "https://dmi.pravinmishra.com/images/blog/{{slug}}-og.png",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/{{slug}}.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../champion.html">Champion</a></li>
+    <li><a href="../leaderboard.html">Leaderboard</a></li>
+    <li><a href="../self-paced-leaderboard.html">Self-Paced</a></li>
+    <li><a href="../graduates.html">Graduates</a></li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <!-- Alumni nav entry hidden 2026-07-23 — page kept, relaunch pending (Anjana) -->
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">{{Category}}</span>
+    <span class="post-date">{{Month DD, YYYY}}</span>
+  </div>
+  <h1>{{Post Title}}</h1>
+  <div class="post-byline">By <a href="{{author link}}" target="_blank" rel="noopener">{{Author Name}}</a></div>
+
+  <p>{{Body content goes here — real paragraphs, not a stub. One H1 only (above). Use H2s for sections below.}}</p>
+
+  <h2>{{Section heading}}</h2>
+  <p>{{...}}</p>
+
+  <!-- Required before publishing:
+       - At least one internal link to a proof page (leaderboard.html, a badge page, or how-it-works.html)
+       - At least one internal link to another blog post (skip only if this is genuinely the first post ever published — add retroactively once a second post exists)
+       - CTA to University with proper UTM (utm_source=dmi&utm_medium=blog)
+  -->
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>
