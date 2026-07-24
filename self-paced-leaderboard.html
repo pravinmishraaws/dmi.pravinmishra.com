@@ -124,7 +124,8 @@
     }
     .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
-    .share-mini-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
+    .share-mini-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; margin-top: 6px; }
+    .share-mini-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 3px; }
     .share-mini-btn {
       display: inline-flex; align-items: center; justify-content: center;
       width: 22px; height: 22px; border: 1px solid var(--accent-border); color: var(--accent);
@@ -319,7 +320,7 @@
     if (rank > 10 || !username) return '';
     const pageUrl = `https://dmi.pravinmishra.com/s/${username}.html`;
     const message = `I'm ranked #${rank} on the DMI Self-Paced Engineer leaderboard! 🏆`;
-    return `<div class="share-mini-row">${shareButtonsHtml(pageUrl, message, 'leaderboard-share')}</div>`;
+    return `<div class="share-mini-label">Share your progress:</div><div class="share-mini-row">${shareButtonsHtml(pageUrl, message, 'leaderboard-share')}</div>`;
   }
 
   function renderActive() {
