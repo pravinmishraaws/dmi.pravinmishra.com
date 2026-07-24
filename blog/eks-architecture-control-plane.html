@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EKS Architecture: Control Plane, Data Plane, and What to Decide Before Launch — DMI Blog</title>
+  <meta name="description" content="Inside an EKS cluster: what AWS manages, what you manage, how they talk to each other, and the access/logging/IAM decisions to get right before your cluster goes live." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/eks-architecture-control-plane.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="EKS Architecture: Control Plane, Data Plane, and What to Decide Before Launch" />
+  <meta property="og:description" content="Inside an EKS cluster: what AWS manages, what you manage, how they talk to each other, and the access/logging/IAM decisions to get right before your cluster goes live." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/eks-architecture-control-plane.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/eks-architecture-control-plane-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EKS Architecture: Control Plane, Data Plane, and What to Decide Before Launch" />
+  <meta name="twitter:description" content="Inside an EKS cluster: what AWS manages, what you manage, how they talk to each other, and the access/logging/IAM decisions to get right before your cluster goes live." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/eks-architecture-control-plane-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "EKS Architecture: Control Plane, Data Plane, and What to Decide Before Launch",
+    "datePublished": "2026-07-24",
+    "dateModified": "2026-07-24",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/eks-architecture-control-plane-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/eks-architecture-control-plane.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../champion.html">Champion</a></li>
+    <li><a href="../leaderboard.html">Leaderboard</a></li>
+    <li><a href="../self-paced-leaderboard.html">Self-Paced</a></li>
+    <li><a href="../graduates.html">Graduates</a></li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <!-- Alumni nav entry hidden 2026-07-23 — page kept, relaunch pending (Anjana) -->
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">July 24, 2026</span>
+  </div>
+  <h1>EKS Architecture: Control Plane, Data Plane, and What to Decide Before Launch</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>In <a href="kubernetes-installation-approaches.html">the last post</a>, we covered the three ways to run Kubernetes — local, self-managed, and managed — and landed on managed Kubernetes as the practical default, using Amazon EKS as the example. That answers <em>how you run it</em>. It doesn't answer what an EKS cluster actually looks like under the hood, or which decisions you need to understand before creating one.</p>
+  <p>Some of these settings can be changed later, but they affect access, networking, security, availability, and day-to-day operations — so it's better to understand them before creating the cluster than to discover them mid-incident. Imagine an app is already running on EKS and one day you see network timeouts, pods stuck in <code>Pending</code>, or <code>kubectl</code> commands hanging. The engineers who recover quickly are the ones who understand the architecture clearly — they know where to look because they know what each part of the cluster actually does.</p>
+
+  <h2>Control plane and data plane</h2>
+  <p>Every Kubernetes cluster — EKS, GKE, AKS — has two main parts: a <strong>control plane</strong> that manages the cluster, and a <strong>data plane</strong> where your workloads actually run. The control plane is the brain — it decides where pods should run, tracks the cluster's desired state, and coordinates changes like deployments and updates. The data plane is where your actual containers, pods, and deployments live.</p>
+  <p>In managed Kubernetes, this separation matters because two different parties are responsible for the two halves. On EKS, AWS manages the control plane; your worker nodes and application workloads run in your own AWS account.</p>
+
+  <pre>EKS Cluster
+├── Control Plane (Head Office)
+│   ├── API Server (Reception Desk)
+│   ├── etcd (Company Records Database)
+│   ├── Scheduler (Operations Manager)
+│   └── Controller Manager (Office Supervisor)
+│
+└── Data Plane (Business Departments)
+    ├── Worker Node (HR Department)
+    │   └── Pod (HR Application)
+    │       └── Container (Service)
+    ├── Worker Node (Marketing Department)
+    │   └── Pod (Marketing Application)
+    │       └── Container (Service)
+    └── Worker Node (IT Department)
+        └── Pod (IT Application)
+            └── Container (Service)</pre>
+
+  <figure class="post-figure">
+    <img src="../images/blog/eks-architecture-docs-screenshot.jpg" alt="AWS's official Amazon EKS architecture documentation page, describing the control plane's distributed components" loading="lazy">
+    <figcaption>Straight from AWS's own <a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-architecture.html" target="_blank" rel="noopener">EKS architecture documentation</a>: every cluster gets its own control plane, with at least two API server instances and three etcd instances spread across three Availability Zones.</figcaption>
+  </figure>
+
+  <h2>The control plane — what AWS owns</h2>
+  <p>When you create an EKS cluster, AWS provisions and manages the control plane for you — you don't create the control-plane servers, install Kubernetes on them, or manage their availability. But you still need to understand what's happening inside it, because every <code>kubectl</code> command and scheduling decision passes through it. Four components matter most:</p>
+
+  <p><strong>The API server</strong> is the front door to your cluster. Every <code>kubectl</code> command — <code>get pods</code>, <code>apply</code>, <code>delete</code> — goes to the API server first. It checks three things: is the request valid, who sent it, and are they allowed to do this? Once it accepts a request, the other control-plane components can act on it. See the <a href="https://kubernetes.io/docs/concepts/architecture/" target="_blank" rel="noopener">official Kubernetes Components docs</a> for the full breakdown of each piece.</p>
+
+  <p><strong>etcd</strong> is the cluster's database — it stores every Pod, Deployment, ConfigMap, Secret, and other object that makes up the cluster's state. In a self-managed cluster, etcd backup and recovery are your responsibility (see the last post's breakdown of what that actually costs). On EKS, AWS manages etcd as part of the control plane, which removes a real operational burden.</p>
+
+  <p><strong>The scheduler</strong> watches for pods that exist but haven't been placed on a node yet. When it finds one, it checks available worker nodes and picks a suitable one based on resources and scheduling rules (node selectors, taints, tolerations — the details don't matter yet). The scheduler only decides <em>where</em> a pod should run; the kubelet on the chosen node is what actually starts it.</p>
+
+  <p><strong>The controller manager</strong> runs background processes called controllers. A controller continuously compares the cluster's current state against its desired state, and when they don't match, it acts to bring the cluster back into line.</p>
+
+  <p>You never SSH into these components and you don't manage etcd directly — AWS operates the highly available control plane and its infrastructure. You're still responsible for choosing the Kubernetes version, managing cluster access, configuring logging, and planning upgrades. But the control plane alone can't run your application — it needs machines that can pull images, start pods, and provide CPU and memory. That's the data plane.</p>
+
+  <h2>The data plane — what you manage</h2>
+  <p>Worker nodes are EC2 instances running in your AWS account and your VPC. Unlike the control plane, you choose, pay for, and manage them yourself. Each worker node runs two components that let it talk to the control plane and run your applications.</p>
+
+  <p><strong>Kubelet</strong> is the Kubernetes agent on every worker node. It talks to the API server, receives instructions about pods scheduled on its node, and makes sure those pods are running correctly — think of it as a department supervisor: Head Office sends instructions, the supervisor makes sure the work gets done in that department. If a container crashes, kubelet reports the status back to the API server. But kubelet only manages containers within a pod that already exists on its node — if a whole pod disappears, a controller detects the mismatch and creates a replacement elsewhere.</p>
+
+  <p><strong>Kube-proxy</strong> manages service networking rules on each node, so pods can reach Services and each other. Where kubelet makes sure pods are running correctly, kube-proxy makes sure traffic actually reaches them. Deploy an app's frontend and backend: the scheduler assigns pods to nodes, kubelet pulls the images and starts the containers, and kube-proxy handles the routing so traffic lands on the right pod.</p>
+
+  <h2>Why this split matters during an incident</h2>
+  <p>The control plane and the data plane fail in different ways, and knowing which one is failing is the first real step in any EKS incident.</p>
+  <p>If the control plane has a transient issue — the API server briefly unavailable, say — your already-running pods usually keep running, and traffic to your application can continue. What you lose is the ability to make <em>changes</em>: <code>kubectl</code> may stop responding, new pods can't be scheduled, deployments can't update. The kubelet on each node keeps managing its local pods even while the control plane is briefly unreachable.</p>
+  <p>The reverse is also true: if a worker node crashes, the control plane detects the failure and reschedules the affected pods elsewhere (assuming healthy capacity exists) — a single node failure doesn't touch the control plane itself.</p>
+  <p>So during diagnosis: if <code>kubectl</code> is timing out but your application is still serving traffic, look at the control plane or the network path to it — not your running pods. If pods are failing but <code>kubectl</code> works fine, look at the data plane — worker nodes, kubelet, the CNI, container images, application health.</p>
+
+  <h2>How the control plane talks to worker nodes</h2>
+  <p>EKS isn't just Kubernetes components — it's Kubernetes components connected through AWS networking, and a lot of real EKS issues come from exactly this boundary. The control plane runs in AWS-managed infrastructure; your worker nodes run in your VPC. When you create a cluster, EKS creates managed elastic network interfaces in the subnets you select — these ENIs are the actual communication path between the control plane and your VPC. You can see them in the VPC console; their description includes your cluster name.</p>
+  <p>EKS creates and manages these automatically — you don't create them. But your VPC configuration, subnets, route tables, and security groups still matter. A common failure mode: someone changes a VPC, subnet, route table, or security group setting and accidentally breaks this communication path. The cluster can still look healthy in the console while <code>kubectl</code> times out or nodes stop communicating. <strong>Practical rule:</strong> before applying any VPC or security group change, check whether the EKS-managed network interfaces are affected, and include them in the change review. See the <a href="https://docs.aws.amazon.com/eks/latest/userguide/network-reqs.html" target="_blank" rel="noopener">official EKS networking requirements</a> for the details.</p>
+
+  <h2>How kubectl actually connects</h2>
+  <p>When you run <code>kubectl get pods</code>, kubectl first reads your kubeconfig file (usually <code>~/.kube/config</code>) for the API server endpoint and how to obtain credentials. For EKS, the API server has an HTTPS endpoint, and kubectl authenticates using AWS IAM. Once authenticated, Kubernetes authorization — usually RBAC — decides what you're allowed to do. You wire this up with one command:</p>
+  <pre>aws eks update-kubeconfig --region eu-west-1 --name book-review</pre>
+
+  <h2>Who can reach the cluster?</h2>
+  <p>This is a decision to make before you create the cluster — it affects developers, CI/CD, and worker nodes. EKS gives you three endpoint access modes:</p>
+  <p><strong>Public only (the default).</strong> The API server is reachable from the internet, protected by IAM and Kubernetes authorization. Fine for a dev cluster; for production it means a misconfigured rule or leaked credential is a bigger risk. If you use public mode, set <code>publicAccessCidrs</code> to restrict it to known ranges (office, VPN, CI runners) — the default is wide open.</p>
+  <p><strong>Public and private (the common production pattern).</strong> Reachable from both the internet and your VPC. Traffic from inside the VPC — node-to-API-server, for instance — can use the private endpoint and never leave the VPC. Engineers and CI/CD can still use the public endpoint if you allow it, restricted carefully.</p>
+  <p><strong>Private only.</strong> Not reachable from the internet at all — access needs a real network path into the VPC (VPN, Direct Connect, a bastion host). Strong security posture, right for regulated environments — but the operational risk is real: switch to private-only before that access path exists, and you can lock yourself out of <code>kubectl</code>, recoverable only through the AWS API or console. If you use private access, make sure VPC DNS support and DNS hostnames are enabled so the private endpoint actually resolves. Read the <a href="https://docs.aws.amazon.com/eks/latest/userguide/config-cluster-endpoint.html" target="_blank" rel="noopener">official cluster endpoint access control docs</a> before you create a production cluster — this setting touches everyone who needs to reach the cluster.</p>
+
+  <h2>IAM authentication: access entries, not aws-auth</h2>
+  <p><code>update-kubeconfig</code> only tells kubectl where the cluster is and how to request an IAM token — it doesn't grant you permission to actually use the cluster. Your IAM identity still needs to be mapped to Kubernetes access, and how that mapping works has changed.</p>
+  <p>The older method was a Kubernetes ConfigMap called <code>aws-auth</code> in <code>kube-system</code>, where you added entries mapping IAM users and roles to Kubernetes usernames and groups. The problem: it was a manually managed YAML file, and a single indentation error could invalidate it — breaking IAM-to-Kubernetes mappings for everyone, with recovery often depending on the original cluster-creator IAM principal, which many organizations had long since rotated away. This wasn't theoretical; teams really did get locked out this way. It also didn't go through the EKS API, so changes to it didn't show up in CloudTrail the way EKS-native changes do.</p>
+  <p>AWS now recommends <strong>EKS access entries</strong> instead — IAM roles and users are managed directly through the EKS API, changes are tracked in CloudTrail, and it's compatible with Terraform and CloudFormation (you can define cluster access at creation time, no separate post-creation Kubernetes-API step). AWS provides predefined access policies (<code>AmazonEKSClusterAdminPolicy</code>, <code>AmazonEKSViewPolicy</code>, and others) to attach based on the access level needed. If something breaks, you have an AWS-side recovery path through the EKS API or console, not just kubectl. <strong>For any new cluster, use access entries.</strong> Full docs: <a href="https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html" target="_blank" rel="noopener">EKS access entries</a> and, for existing clusters still on the legacy method, the <a href="https://docs.aws.amazon.com/eks/latest/userguide/auth-configmap.html" target="_blank" rel="noopener">aws-auth ConfigMap docs</a>.</p>
+
+  <h2>Control plane logs</h2>
+  <p>For a standard EKS cluster, AWS doesn't enable control plane logs by default — all five types are off until you turn them on. This is one of the first things worth enabling on any production cluster, because without these logs, troubleshooting access issues, API activity, or scheduling problems takes far longer than it needs to.</p>
+  <ul>
+    <li><strong>API server logs</strong> — server-level logs including startup flags and diagnostics. Useful for API deprecation warnings or unexpected API behavior.</li>
+    <li><strong>Audit logs</strong> — who did what, when, from where, with which credentials. The forensics layer — without it, a mistaken deletion or security incident leaves no trail.</li>
+    <li><strong>Authenticator logs</strong> — IAM authentication attempts, success or failure. When someone gets "Unauthorized," this tells you whether the IAM token was invalid, the role has no access entry, or the problem is actually in RBAC.</li>
+    <li><strong>Controller manager logs</strong> — the core control loops: pod garbage collection, node lifecycle, replication. Useful when pods aren't being recreated after a node failure.</li>
+    <li><strong>Scheduler logs</strong> — why a pod isn't being placed: resource constraints, a node selector mismatch, an unmet taint/toleration, an affinity conflict.</li>
+  </ul>
+  <p>Enable these under the cluster's Observability tab in the console, or via Terraform. Logs go to CloudWatch — plan retention and ingestion cost accordingly. Don't wait for the first incident: enable at minimum audit and authenticator logs on every production cluster from day one. Full reference: <a href="https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html" target="_blank" rel="noopener">EKS control plane logging</a>.</p>
+
+  <h2>The node IAM role</h2>
+  <p>Worker nodes need their own AWS identity to join the cluster, and the failure modes when it's misconfigured aren't always obvious. Two policies are required:</p>
+  <p><strong>AmazonEKSWorkerNodePolicy</strong> lets kubelet describe EC2 resources and register the node with the cluster. Without it, nodes show up as <code>NotReady</code> — or don't show up at all — and the error isn't obviously IAM-related.</p>
+  <p><strong>AmazonEC2ContainerRegistryPullOnly</strong> lets nodes pull images from ECR — not just your application images, but EKS add-ons and system components too. Without it, pods fail with <code>ImagePullBackOff</code>, and if CoreDNS can't start, cluster DNS breaks before your application even runs.</p>
+  <p>One more is conditionally required: <strong>AmazonEKS_CNI_Policy</strong> lets the VPC CNI plugin create network interfaces and assign pod IPs. Without the right permissions here, new pods fail to get an IP at all. AWS recommends attaching this to a separate role used by the <code>aws-node</code> service account (via EKS Pod Identity or IRSA) rather than the node role directly — least privilege, and the approach worth defaulting to. For managed node groups, EKS attaches the node role automatically; you're responsible for creating it and attaching the right policies. Full docs: <a href="https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html" target="_blank" rel="noopener">EKS node IAM role</a>.</p>
+
+  <h2>Putting it together</h2>
+  <p>Above the line, AWS runs the control plane — you don't SSH into it, you don't manage etcd directly, but you configure what surrounds it: endpoint access, authentication, access entries, control plane logs. Below the line, your worker nodes run in your own account and VPC — you own the node IAM role, networking permissions, node groups, and the workloads on top. When something breaks, this picture tells you where to look first: access, authentication, the control plane itself, networking, node permissions, or the workload — instead of troubleshooting everything at once.</p>
+
+  <h2>Decisions to get right before your cluster goes live</h2>
+  <ul>
+    <li><strong>Endpoint access mode.</strong> Public + private is the common production pattern. Restrict public access with <code>publicAccessCidrs</code> immediately if it's enabled. If you go private-only, establish the VPN/Direct Connect/bastion path first, or you'll lock yourself out.</li>
+    <li><strong>IAM authentication.</strong> Use access entries for new clusters, not <code>aws-auth</code>. Access entries are API-managed, CloudTrail-auditable, and IaC-friendly.</li>
+    <li><strong>Control plane logs.</strong> Enable them on day one — audit and authenticator at minimum, all five if you want full visibility, with CloudWatch retention set deliberately.</li>
+    <li><strong>Node IAM role.</strong> Attach <code>AmazonEKSWorkerNodePolicy</code> and <code>AmazonEC2ContainerRegistryPullOnly</code>. Keep CNI permissions on a separate role via Pod Identity or IRSA. If CoreDNS fails right after cluster creation, check ECR pull permissions first.</li>
+    <li><strong>EKS-managed network interfaces.</strong> Know they exist, and include them in every VPC/security-group change review.</li>
+  </ul>
+  <p>EKS isn't just "AWS manages Kubernetes for you." It's a connected architecture — control plane, endpoint access, IAM authentication, logging, node permissions, networking, and workloads — and once you understand how the pieces connect, creating and troubleshooting a real cluster gets a lot less mysterious. This is exactly the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop — not by watching someone else build it, but by building and being checked on your own.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>

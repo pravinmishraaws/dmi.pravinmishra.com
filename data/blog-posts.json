@@ -25,5 +25,14 @@
     "category": "Platform Engineering",
     "date": "2026-07-24",
     "image": "../images/blog/kubernetes-installation-approaches-og.jpg"
+  },
+  {
+    "slug": "eks-architecture-control-plane",
+    "title": "EKS Architecture: Control Plane, Data Plane, and What to Decide Before Launch",
+    "excerpt": "What AWS manages, what you manage, how they talk to each other, and the access/logging/IAM decisions to get right before your cluster goes live.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-07-24",
+    "image": "../images/blog/eks-architecture-control-plane-og.jpg"
   }
 ]
