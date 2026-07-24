@@ -851,7 +851,7 @@ footer a:hover { text-decoration: underline; }
 .story-text { flex: 1; }
 .story-quote { font-size: 1.15rem; line-height: 1.6; }
 .story-byline { margin-top: 0.75rem; }
-.story-byline a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.story-byline .story-name { color: var(--accent); font-weight: 600; text-decoration: none; }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
