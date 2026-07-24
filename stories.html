@@ -149,8 +149,8 @@
       : `<img src="${escHtml(s.media_src)}" alt="${escHtml(s.name)}">`;
 
     const nameLink = s.github
-      ? `<a href="s/${escHtml(s.github)}.html">${escHtml(s.name)}</a>`
-      : escHtml(s.name);
+      ? `<a href="s/${escHtml(s.github)}.html" class="story-name">${escHtml(s.name)}</a>`
+      : `<span class="story-name">${escHtml(s.name)}</span>`;
 
     const meta = [s.country, s.cohort].filter(Boolean).join(' · ');
 
