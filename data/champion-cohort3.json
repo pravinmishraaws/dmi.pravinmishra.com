@@ -1,6 +1,6 @@
 {
   "cohort": "Cohort 3",
-  "current_week": 2,
+  "current_week": 3,
   "weeks": [
     {
       "week": 1,
@@ -16,6 +16,14 @@
         { "group": "Group 1", "name": "Yash Rawat", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/yashrawat2362/", "photo": "" },
         { "group": "Group 2", "name": "Tonye Bagshaw", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/tonye-bagshaw/", "photo": "" },
         { "group": "Group 3", "name": "Oluwagbade Odimayo", "score": 200, "comment": "", "linkedin": "https://www.linkedin.com/in/oluwagbade-odimayo-/", "photo": "" }
+      ]
+    },
+    {
+      "week": 3,
+      "champions": [
+        { "group": "Group 1", "name": "kirangandhi chitturi", "score": 160, "comment": "", "linkedin": "https://www.linkedin.com/in/kirangandhi-chitturi-9a997919a/", "photo": "" },
+        { "group": "Group 2", "name": "Jacquelina Shalinie Stanley", "score": 160, "comment": "", "linkedin": "https://www.linkedin.com/in/jacquelinastanley/", "photo": "" },
+        { "group": "Group 3", "name": "Abhinav T", "score": 160, "comment": "", "linkedin": "https://www.linkedin.com/in/abhinav-t-210682296/", "photo": "" }
       ]
     }
   ]
