@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How the Self-Paced Leaderboard Actually Works — DMI Blog</title>
+  <meta name="description" content="No cohort, no groups, no attendance — just sections and points. The exact scoring rules behind DMI's Self-Paced leaderboard, verified against the real grading code." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/how-self-paced-leaderboard-works.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How the Self-Paced Leaderboard Actually Works" />
+  <meta property="og:description" content="No cohort, no groups, no attendance — just sections and points. The exact scoring rules behind DMI's Self-Paced leaderboard, verified against the real grading code." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/how-self-paced-leaderboard-works.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/self-paced-leaderboard-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How the Self-Paced Leaderboard Actually Works" />
+  <meta name="twitter:description" content="No cohort, no groups, no attendance — just sections and points. The exact scoring rules behind DMI's Self-Paced leaderboard, verified against the real grading code." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/self-paced-leaderboard-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How the Self-Paced Leaderboard Actually Works",
+    "datePublished": "2026-07-26",
+    "dateModified": "2026-07-26",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/self-paced-leaderboard-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/how-self-paced-leaderboard-works.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../champion.html">Champion</a></li>
+    <li><a href="../leaderboard.html">Leaderboard</a></li>
+    <li><a href="../self-paced-leaderboard.html">Self-Paced</a></li>
+    <li><a href="../graduates.html">Graduates</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <!-- Alumni nav entry hidden 2026-07-23 — page kept, relaunch pending (Anjana) -->
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">DevOps</span>
+    <span class="post-date">July 26, 2026</span>
+  </div>
+  <h1>How the Self-Paced Leaderboard Actually Works</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>Open the <a href="../self-paced-leaderboard.html">Self-Paced leaderboard</a> and you'll see a rank, a name, a "Sections Completed" count, and a "Total." What you won't see — unlike the <a href="../leaderboard.html">Cohort leaderboard</a>, which shows a row of point cards right at the top — is any explanation of what those numbers actually mean or how they're calculated. This post is that explanation, taken directly from the grading code that runs it, not a guess.</p>
+
+  <h2>No cohort, no groups, no fixed start date</h2>
+  <p>The Cohort leaderboard tracks one group moving through 14 weeks together, with group numbers and a shared calendar. Self-Paced has none of that. You enroll whenever you want, work through the same 14 sections (Essentials through Kubernetes) at your own pace, and the leaderboard just reflects where you actually are — there's no "week 6 of the cohort" to be behind or ahead of, only your own sections completed.</p>
+
+  <h2>How the ranking actually sorts you</h2>
+  <p>Two numbers, in a strict order: <strong>Sections Completed first, Total points as the tiebreaker.</strong> Someone with 5 sections fully completed will always outrank someone with 4 sections completed, no matter how many bonus points the second person has racked up from LinkedIn or blog posts along the way. Total only decides ties between people on the same section count. The reasoning, straight from the scoring code's own comment: <em>pacing matters more than raw points</em> — this is a program about consistently finishing real work, not about maximizing a score.</p>
+
+  <h2>What actually earns points</h2>
+  <p>Every section is scored the same three ways, and the actual point values are fixed in the grading system:</p>
+  <ul>
+    <li><strong>20 points per assignment file that passes.</strong> A section with one assignment (like Section 01, Internet &amp; Networking) is worth 20 points from assignments; a section with six assignments (like Section 07, AWS Cloud) is worth up to 120.</li>
+    <li><strong>10 points for a verified LinkedIn post</strong> about that week's work — checked automatically, not self-reported.</li>
+    <li><strong>30 points for a verified blog post</strong> that actually links back to dmi.pravinmishra.com — a text mention of "DMI" alone doesn't count, the review agent checks for a real link.</li>
+  </ul>
+  <p>There's no Attendance category on Self-Paced — that's a Cohort-only points source, tied to live Saturday sessions that Self-Paced doesn't have. So a fully-scored Self-Paced section caps at (assignments × 20) + 10 + 30. Section 01 tops out at 60. Section 07, with six assignments, tops out at 160.</p>
+
+  <figure class="post-figure">
+    <img src="../images/blog/self-paced-leaderboard-table-screenshot.jpg" alt="A real, live view of the DMI Self-Paced leaderboard, showing the Rank, Student, Sections Completed, DMI GitHub Portfolio, Total, and Badge columns" loading="lazy">
+    <figcaption>The real Self-Paced leaderboard, live on <a href="../self-paced-leaderboard.html">dmi.pravinmishra.com</a> — not a mockup.</figcaption>
+  </figure>
+
+  <h2>What actually counts as a "completed" section</h2>
+  <p>This is the part most people get wrong: a section counts toward "Sections Completed" the moment <strong>all of that section's assignment files pass</strong> — full stop. LinkedIn and blog posts add real points to your Total, and they're worth doing for the visibility, but they are not required for a section to count as done. You can have a 100%-complete section with 0 bonus points, or a section with LinkedIn and blog credit but assignments still failing — and the second one does <em>not</em> count as completed, regardless of how many bonus points it earned. Sections Completed only ever moves forward on real, passing work.</p>
+
+  <h2>Active vs. Graduates, and the 14/14 line</h2>
+  <p>The leaderboard has two tabs. <strong>Active</strong> is everyone still working through the 14 sections, sorted by the rule above. <strong>Graduates</strong> is everyone who's reached all 14 — at that point you move out of the ranked table entirely and into the graduate roster, alongside your role, country, and a link to your <a href="../stories.html">badge page</a>. There's no separate "pass" threshold to negotiate — 14 real, fully-passing sections is the whole bar.</p>
+
+  <h2>Where to see your own breakdown</h2>
+  <p>The leaderboard only shows the summary numbers. Your own <a href="https://dmi.pravinmishra.com/s/pravinmishraaws.html" target="_blank" rel="noopener">badge page</a> (linked from the "Badge" column on your row) shows the full per-section detail — every check, pass or fail, with the exact points earned for that check, updated after every automated review run. If a section shows fewer points than its maximum, the badge page tells you exactly which check is still open and what to do about it.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want to see where you'd actually land?</strong> <a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start the Self-Paced track →</a> Or read <a href="what-is-a-devops-micro-internship.html">what a DevOps Micro Internship actually is</a> if you're still deciding.</p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>

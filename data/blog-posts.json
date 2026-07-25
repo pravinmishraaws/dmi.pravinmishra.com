@@ -34,5 +34,14 @@
     "category": "Platform Engineering",
     "date": "2026-07-24",
     "image": "../images/blog/eks-architecture-control-plane-og.jpg"
+  },
+  {
+    "slug": "how-self-paced-leaderboard-works",
+    "title": "How the Self-Paced Leaderboard Actually Works",
+    "excerpt": "No cohort, no groups, no attendance — just sections and points. The exact scoring rules, verified against the real grading code, not a guess.",
+    "author": "Pravin Mishra",
+    "category": "DevOps",
+    "date": "2026-07-26",
+    "image": "../images/blog/self-paced-leaderboard-og.jpg"
   }
 ]
