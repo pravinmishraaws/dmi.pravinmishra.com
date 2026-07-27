@@ -100,6 +100,46 @@ nav {
 .nav-links a:hover { color: var(--text); background: var(--bg-card2); }
 .nav-links a.active { color: var(--accent); font-weight: 600; }
 
+/* Dropdown submenu (e.g. "Proof" grouping Leaderboard/Self-Paced/Champion/Graduates/Stories) */
+.nav-links li.has-dropdown { position: relative; }
+.nav-links li.has-dropdown > a::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 0.4em;
+  margin-bottom: 0.1em;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  vertical-align: middle;
+}
+.nav-links .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  min-width: 190px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  z-index: 50;
+}
+.nav-links li.has-dropdown:hover > .dropdown-menu,
+.nav-links li.has-dropdown:focus-within > .dropdown-menu {
+  display: block;
+}
+.dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  white-space: nowrap;
+  border-radius: 6px;
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -879,6 +919,18 @@ footer a:hover { text-decoration: underline; }
   .nav-links.open { display: flex; }
   .nav-links a { padding: 0.75rem 1rem; }
   .nav-toggle { display: flex; }
+
+  /* Dropdown becomes a static, always-expanded indented block in the stacked mobile menu */
+  .nav-links li.has-dropdown { position: static; }
+  .nav-links .dropdown-menu {
+    display: block;
+    position: static;
+    margin: 0.25rem 0 0.25rem 1rem;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
 
   .champion-body { flex-direction: column; text-align: center; }
   .champion-marks { justify-content: center; }
