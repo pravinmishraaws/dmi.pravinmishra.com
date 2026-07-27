@@ -143,8 +143,14 @@
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  function initials(name) {
+    return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+
   function storyRow(s) {
-    const media = s.media_type === 'video'
+    const media = !s.media_src
+      ? `<div class="story-media-initials">${escHtml(initials(s.name))}</div>`
+      : s.media_type === 'video'
       ? `<iframe src="${escHtml(s.media_src)}" title="${escHtml(s.name)}" frameborder="0" allowfullscreen></iframe>`
       : `<img src="${escHtml(s.media_src)}" alt="${escHtml(s.name)}">`;
 
