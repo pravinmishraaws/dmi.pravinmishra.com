@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMI for Enterprise — Train Your Team | DMI</title>
+  <meta name="description" content="Bring the DevOps Micro Internship's hands-on DevOps + Agentic AI curriculum to your team — self-paced or live cohort, delivered by The CloudAdvisory, with real automated progress reporting." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/enterprise.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="DMI for Enterprise — Train Your Team" />
+  <meta property="og:description" content="Bring DMI's hands-on DevOps + Agentic AI curriculum to your team — self-paced or live cohort." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/enterprise.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DMI for Enterprise — Train Your Team" />
+  <meta name="twitter:description" content="Bring DMI's hands-on DevOps + Agentic AI curriculum to your team — self-paced or live cohort." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .compare { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .compare .col { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; background: var(--bg-card); }
+    .compare .col.good { border-color: var(--accent-border); background: var(--accent-light); }
+    .compare h3 { margin-top: 0; font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .compare ul { padding-left: 1.1rem; margin: 0.75rem 0 0; color: var(--text-muted); font-size: 0.92rem; }
+    .compare ul li { margin-bottom: 0.55rem; }
+    .compare .tier-badge {
+      display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--accent); background: #fff;
+      border: 1px solid var(--accent-border); border-radius: 100px; padding: 0.2rem 0.7rem; margin-bottom: 0.75rem;
+    }
+    @media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 13px 30px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      padding: 11.5px 28px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .btn-outline:hover { background: var(--accent-light); }
+
+    .cta-banner { background: var(--accent); padding: 4rem 2rem; text-align: center; }
+    .cta-banner h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); font-weight: 800; color: #fff; margin-bottom: 0.75rem; letter-spacing: -0.5px; }
+    .cta-banner p { color: rgba(255,255,255,0.85); font-size: 1rem; margin-bottom: 2rem; }
+    .btn-white {
+      display: inline-block; background: #fff; color: var(--accent); padding: 13px 30px;
+      border-radius: 100px; font-weight: 700; text-decoration: none; font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .btn-white-outline {
+      display: inline-block; border: 1.5px solid #fff; color: #fff; padding: 11.5px 28px;
+      border-radius: 100px; font-weight: 700; text-decoration: none; font-size: 1rem; margin-left: 0.75rem;
+    }
+    .btn-white-outline:hover { background: rgba(255,255,255,0.12); }
+
+    .profile-inner {
+      display: flex; align-items: center; gap: 2rem; max-width: 720px; margin: 2.5rem auto 0;
+      flex-wrap: wrap; justify-content: center; text-align: left;
+    }
+    .profile-avatar {
+      width: 140px; height: 140px; border-radius: 50%; background: var(--accent-light);
+      border: 4px solid var(--accent); flex-shrink: 0; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(232,160,32,0.25);
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .profile-text { flex: 1; min-width: 260px; }
+    .profile-text h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.15rem; color: var(--text); }
+    .profile-text .role { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .profile-text p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; }
+    .profile-links { margin-top: 0.9rem; display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.88rem; }
+    .profile-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
+    .profile-links a:hover { text-decoration: underline; }
+  </style>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="how-it-works.html">How it works</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="champion.html">Champion</a></li>
+      <li><a href="graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="placement.html">Placement</a></li>
+    <li><a href="blog/index.html">Blog</a></li>
+    <li><a href="enterprise.html" class="active">DMI Enterprise</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding: 5rem 2rem 3rem; background: var(--bg);">
+  <div class="container" style="text-align:center; max-width:780px;">
+    <div class="hero-badge" style="margin-bottom:1.5rem;"><span class="dot"></span> DMI FOR ENTERPRISE</div>
+    <h1 style="font-size:clamp(1.9rem,4vw,3rem);font-weight:800;letter-spacing:-1px;margin-bottom:1.25rem;">Train your team the way we train DMI engineers.</h1>
+    <p style="color:var(--text-muted);font-size:1.05rem;line-height:1.8;">
+      Bring the DevOps Micro Internship's hands-on curriculum in-house, two ways — a self-paced
+      team license with zero scheduling, or a live cohort with a named mentor. Same real GitHub
+      work, graded automatically, with progress reporting your managers can read. Delivered by
+      <a href="https://thecloudadvisory.com/?utm_source=dmi&amp;utm_medium=enterprise" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">The CloudAdvisory</a>,
+      Pravin's own consulting company.
+    </p>
+    <p style="margin-top:2rem;">
+      <a class="btn-primary" href="https://thecloudadvisory.com/contact.html?utm_source=dmi&amp;utm_medium=enterprise-cta" target="_blank" rel="noopener">Request a quote →</a>
+      <a class="btn-outline" style="margin-left:0.75rem;" href="https://thecloudadvisory.com/dmi-for-enterprise-onepager.html?utm_source=dmi&amp;utm_medium=enterprise-cta" target="_blank" rel="noopener">Download the one-pager →</a>
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 1 — CHOOSE YOUR ENGAGEMENT -->
+<section style="padding: 3rem 2rem 4rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">Two Ways In</div>
+    <h2 class="section-title">Choose your <span style="color:var(--accent)">engagement</span></h2>
+    <p class="section-sub">Same 14-week curriculum and grading engine either way — the difference is delivery model and commitment.</p>
+    <div class="compare" style="margin-top:2.5rem;">
+      <div class="col good">
+        <span class="tier-badge">Start here</span>
+        <h3>Self-Paced</h3>
+        <ul>
+          <li>5+ seats, no upper limit</li>
+          <li>Fully async — no live sessions to schedule</li>
+          <li>Daily automated grading + a private team leaderboard</li>
+          <li>Weekly manager progress report</li>
+          <li>Async co-mentor support via Discord</li>
+          <li>Certificate on completion</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Live Cohort</h3>
+        <ul>
+          <li>10–25 seats per cohort</li>
+          <li>Live sessions with one named mentor, start to finish</li>
+          <li>Everything in Self-Paced, plus real-time mentor support</li>
+          <li>Private Discord for the cohort</li>
+          <li>Optional white-labeling</li>
+          <li>Certificate on completion</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:2rem;">
+      <a class="btn-primary" href="https://thecloudadvisory.com/contact.html?utm_source=dmi&amp;utm_medium=enterprise-tiers" target="_blank" rel="noopener">Request a quote →</a>
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 2 — CURRICULUM -->
+<section style="padding: 4rem 2rem; text-align:center;">
+  <div class="container">
+    <div class="section-label">The Curriculum</div>
+    <h2 class="section-title">The same practitioner-built curriculum, <span style="color:var(--accent)">at team scale</span></h2>
+    <p class="section-sub">14 weeks: Linux, Git, AWS, Azure, Terraform, CI/CD, Docker, Kubernetes — with Agentic AI throughout. The exact same content real DMI students work through today.</p>
+    <p><a href="index.html#curriculum" style="color:var(--accent);font-weight:600;">See the full 14-week curriculum on the homepage →</a></p>
+  </div>
+</section>
+
+<!-- SECTION 3 — PROOF -->
+<section style="padding: 4rem 2rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align:center;">
+  <div class="container">
+    <div class="section-label">Proof, Not Promises</div>
+    <h2 class="section-title">The same DMI program <span style="color:var(--accent)">already runs at real scale</span></h2>
+    <p class="section-sub">Checked live, 2026-07-27.</p>
+    <div class="hero-stats" style="border-top:none;padding-top:0;margin-top:1rem;">
+      <div class="stat"><span class="num">5k+</span><span class="label">Learners trained</span></div>
+      <div class="stat"><span class="num">11+</span><span class="label">Countries represented</span></div>
+      <div class="stat"><span class="num">155+</span><span class="label"><a href="leaderboard.html" style="color:inherit;">Publicly graded profiles, live now</a></span></div>
+      <div class="stat"><span class="num">Daily</span><span class="label">Automated grading runs</span></div>
+    </div>
+    <div class="cards" style="margin-top:2.5rem; text-align:left;">
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Alumni now at real companies</h3>
+        <p>Graduates are working as DevOps/SRE/cloud engineers at WithSecure, ADP, and Elive Limited, across Finland, India, and the Philippines — earned placements, not sponsored logos. <a href="alumni.html" style="color:var(--accent);font-weight:600;">See the alumni →</a></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏅</div>
+        <h3>Externally recognized</h3>
+        <p>Several graduates hold AWS Community Builder status, independently confirming the technical depth of the curriculum — not just DMI's own claim. <a href="graduates.html" style="color:var(--accent);font-weight:600;">See the graduates →</a></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧑‍🏫</div>
+        <h3>A real mentor bench, not one person</h3>
+        <p>Led by Pravin Mishra (15+ years cloud/DevOps consulting, 3 published books, 26K+ LinkedIn, 14K+ YouTube) with a team of 6 named co-mentors — several of them DMI alumni themselves.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📜</div>
+        <h3>Joint certification</h3>
+        <p>Every graduate's certificate is co-issued by The CloudAdvisory and Pravin Mishra — the same certification your team's cohort would receive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — SEE IT FOR YOURSELF -->
+<section style="padding: 4rem 2rem; text-align:center;">
+  <div class="container">
+    <div class="section-label">See It For Yourself</div>
+    <h2 class="section-title">No sales deck required</h2>
+    <p class="section-sub">The same public system your team's cohort would run on, live right now.</p>
+    <div class="cards" style="margin-top:2.5rem; text-align:left;">
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h3>How DMI works</h3>
+        <p>The exact weekly loop and scoring rubric — no LLM, deterministic checks, run daily.</p>
+        <p style="margin-top:0.75rem;"><a href="how-it-works.html" style="color:var(--accent);font-weight:700;">See how DMI works →</a></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏆</div>
+        <h3>Live leaderboard</h3>
+        <p>155+ real students, ranked on real graded scores, updated automatically.</p>
+        <p style="margin-top:0.75rem;"><a href="leaderboard.html" style="color:var(--accent);font-weight:700;">View the leaderboard →</a></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🥇</div>
+        <h3>Champion of the Week</h3>
+        <p>One top performer per group, every week — picked by the numbers, not a vote.</p>
+        <p style="margin-top:0.75rem;"><a href="champion.html" style="color:var(--accent);font-weight:700;">Meet this week's champions →</a></p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>Student stories</h3>
+        <p>17 real graduates, in their own words — not case studies we wrote for them.</p>
+        <p style="margin-top:0.75rem;"><a href="stories.html" style="color:var(--accent);font-weight:700;">Read their stories →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 — DELIVERED BY THE CLOUDADVISORY -->
+<section style="padding: 4rem 2rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container" style="max-width:760px; text-align:center;">
+    <div class="section-label">Who Delivers This</div>
+    <h2 class="section-title">Delivered by <span style="color:var(--accent)">The CloudAdvisory</span></h2>
+    <p class="section-sub">DMI is Pravin's curriculum and grading system. Enterprise engagements — contracting, invoicing, and mentor delivery — run through The CloudAdvisory Oy, his own Helsinki-based consulting company.</p>
+    <div class="profile-inner">
+      <div class="profile-avatar"><img src="images/milla-leppanen.jpeg" alt="Milla Leppänen"></div>
+      <div class="profile-text">
+        <h3>Milla Leppänen</h3>
+        <div class="role">Co-Founder &amp; Chief Growth Officer, The CloudAdvisory</div>
+        <p>Milla leads the enterprise side of the DMI/CloudAdvisory partnership — scoping engagements, contracting, and staying the point of contact for your team throughout.</p>
+        <div class="profile-links">
+          <a href="https://www.linkedin.com/in/millaleppanen/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="mailto:contact@thecloudadvisory.com">contact@thecloudadvisory.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-banner">
+  <div style="max-width:640px;margin:0 auto;">
+    <h2>Scope a cohort for your team</h2>
+    <p>Tell us your team size, timeline, and which tier fits — Self-Paced or Live Cohort — and we'll send a quote. No pricing is published here since every engagement is scoped to your team.</p>
+    <a class="btn-white" href="https://thecloudadvisory.com/contact.html?utm_source=dmi&amp;utm_medium=enterprise-band" target="_blank" rel="noopener">Request a quote →</a>
+    <a class="btn-white-outline" href="https://thecloudadvisory.com/dmi-for-enterprise-onepager.html?utm_source=dmi&amp;utm_medium=enterprise-band" target="_blank" rel="noopener">Download the one-pager →</a>
+    <p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.85);">Looking to enroll as an individual instead? <a href="https://university.pravinmishra.com/?utm_source=dmi&amp;utm_medium=enterprise-band" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">Head to the University</a>.</p>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
