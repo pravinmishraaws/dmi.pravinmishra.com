@@ -26,6 +26,9 @@
     .compare h3 { margin-top: 0; font-size: 1.05rem; font-weight: 800; color: var(--text); }
     .compare ul { padding-left: 1.1rem; margin: 0.75rem 0 0; color: var(--text-muted); font-size: 0.92rem; }
     .compare ul li { margin-bottom: 0.55rem; }
+    .tier-price { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 0.5rem 0 0; }
+    .tier-price span { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+    .tier-price-quote { font-size: 1.15rem; color: var(--text-muted); }
     .compare .tier-badge {
       display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;
       text-transform: uppercase; color: var(--accent); background: #fff;
@@ -140,8 +143,7 @@
       Bring the DevOps Micro Internship's hands-on curriculum in-house, two ways — a self-paced
       team license with zero scheduling, or a live cohort with a named mentor. Same real GitHub
       work, graded automatically, with progress reporting your managers can read. Delivered by
-      <a href="https://thecloudadvisory.com/?utm_source=dmi&amp;utm_medium=enterprise" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">The CloudAdvisory</a>,
-      Pravin's own consulting company.
+      <a href="https://thecloudadvisory.com/?utm_source=dmi&amp;utm_medium=enterprise" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">The CloudAdvisory</a>.
     </p>
     <p style="margin-top:2rem;">
       <a class="btn-primary" href="https://thecloudadvisory.com/contact.html?utm_source=dmi&amp;utm_medium=enterprise-cta" target="_blank" rel="noopener">Request a quote →</a>
@@ -160,8 +162,9 @@
       <div class="col good">
         <span class="tier-badge">Start here</span>
         <h3>Self-Paced</h3>
+        <div class="tier-price">$9.99<span>/seat per quarter, 10+ seats</span></div>
         <ul>
-          <li>5+ seats, no upper limit</li>
+          <li>10+ seats, no upper limit</li>
           <li>Fully async — no live sessions to schedule</li>
           <li>Daily automated grading + a private team leaderboard</li>
           <li>Weekly manager progress report</li>
@@ -171,6 +174,7 @@
       </div>
       <div class="col">
         <h3>Live Cohort</h3>
+        <div class="tier-price tier-price-quote">Custom quote</div>
         <ul>
           <li>10–25 seats per cohort</li>
           <li>Live sessions with one named mentor, start to finish</li>
