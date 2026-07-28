@@ -52,5 +52,14 @@
     "category": "Platform Engineering",
     "date": "2026-07-28",
     "image": "../images/blog/eks-cluster-creation-console-eksctl-terraform-og.jpg"
+  },
+  {
+    "slug": "eks-iam-cluster-node-pod-identity-access-entries",
+    "title": "IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access",
+    "excerpt": "Four separate IAM identities on EKS — cluster role, node role, Pod Identity/IRSA, and access entries — and the one mistake that breaks all of them: assuming the node role covers everything.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-08-01",
+    "image": "../images/blog/eks-iam-cluster-node-pod-identity-access-entries-og.jpg"
   }
 ]

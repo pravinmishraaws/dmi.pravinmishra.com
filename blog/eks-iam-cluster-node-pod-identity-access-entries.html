@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access — DMI Blog</title>
+  <meta name="description" content="Why EKS needs four separate IAM identities — the cluster role, the node role, Pod Identity (and IRSA), and access entries for kubectl — and the trust-policy details that trip people up in practice." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/eks-iam-cluster-node-pod-identity-access-entries.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access" />
+  <meta property="og:description" content="Why EKS needs four separate IAM identities — the cluster role, the node role, Pod Identity (and IRSA), and access entries for kubectl — and the trust-policy details that trip people up in practice." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/eks-iam-cluster-node-pod-identity-access-entries.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/eks-iam-cluster-node-pod-identity-access-entries-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access" />
+  <meta name="twitter:description" content="Why EKS needs four separate IAM identities — the cluster role, the node role, Pod Identity (and IRSA), and access entries for kubectl — and the trust-policy details that trip people up in practice." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/eks-iam-cluster-node-pod-identity-access-entries-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access",
+    "datePublished": "2026-08-01",
+    "dateModified": "2026-08-01",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/eks-iam-cluster-node-pod-identity-access-entries-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/eks-iam-cluster-node-pod-identity-access-entries.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="../leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="../leaderboard.html">Leaderboard</a></li>
+      <li><a href="../self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="../champion.html">Champion</a></li>
+      <li><a href="../graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../enterprise.html">DMI Enterprise</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">August 1, 2026</span>
+  </div>
+  <h1>IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>We've covered <a href="eks-architecture-control-plane.html">EKS architecture</a>, <a href="eks-cluster-creation-console-eksctl-terraform.html">cluster creation</a>, and <a href="eks-node-groups-managed-vs-self-managed.html">node groups</a>. Now it's time for IAM — and I want to be upfront about something: IAM on EKS confuses a lot of people. Not because it's difficult, but because there are several separate access paths, and it's easy to mix them up. By the end of this post you'll know exactly which IAM role is for which purpose — cluster access, node permissions, or pod-level AWS access — and why conflating them is the single most common IAM mistake on EKS.</p>
+
+  <h2>Why EKS needs IAM at all</h2>
+  <p>EKS doesn't live in isolation — it's an AWS service that constantly talks to other AWS services. When a controller provisions a load balancer for one of your Services, it calls AWS APIs. When a worker node starts up, it calls EKS APIs to join the cluster. When your application needs to read a secret from Secrets Manager, it calls the Secrets Manager API. Every one of those calls needs an identity: AWS has to verify who's asking and whether they're allowed to do it. IAM is how AWS provides that identity and permission — and on EKS, there isn't just one identity in play. There are four, and they solve four different problems.</p>
+
+  <h2>The cluster role — IAM for the control plane</h2>
+  <p>When AWS creates and manages your EKS control plane, it needs permission to perform AWS operations on your behalf — managing network interfaces, security groups, and the other AWS resources normal cluster operation depends on. You create an IAM role, EKS assumes it, and that's the <strong>cluster IAM role</strong>. The required policy is <strong>AmazonEKSClusterPolicy</strong>, an AWS-managed policy that grants exactly the permissions EKS needs for cluster operations.</p>
+  <p>eksctl creates this role automatically when you create a cluster; with Terraform, you define it yourself and attach it during creation. Without it, EKS can't create or manage the control plane at all. It's worth being precise about scope here: the cluster role is assumed only by the EKS control plane service — your applications and worker nodes never use it. It's also a different thing entirely from Kubernetes RBAC: IAM controls access to AWS resources, RBAC controls access to Kubernetes resources inside the cluster. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html" target="_blank" rel="noopener">Amazon EKS cluster IAM role</a> for the full policy detail.</p>
+
+  <h2>The node role — IAM for EC2 worker nodes</h2>
+  <p>Your worker nodes need their own AWS identity too. When a node starts, it calls the EKS API to register with the cluster. The container runtime pulls images from ECR when pods are scheduled. The VPC CNI plugin needs AWS permissions to manage pod networking — either through the node role or, preferably, through its own dedicated role. We covered exactly which policies this role needs in <a href="eks-node-groups-managed-vs-self-managed.html">the node groups post</a>, so I won't repeat the full breakdown here — the short version is that nodes need permission to join the cluster and pull images, and the CNI needs networking permissions to manage ENIs and pod IPs.</p>
+  <p>eksctl creates this role automatically; with Terraform you define it explicitly. Without it, your nodes can't join the cluster and your pods can't start. So at this point we have two roles: the cluster role lets EKS operate the control plane, the node role lets EC2 instances join the cluster, pull images, and run node-level components. The obvious next question is what covers the application itself.</p>
+
+  <h2>Why the node role isn't for application permissions</h2>
+  <p>Say the application needs to read a secret from Secrets Manager, or write an object to S3. It isn't the control plane, and it isn't the worker node — it's a pod running inside the cluster. So how should it get AWS permissions?</p>
+  <p>The wrong answer is attaching application permissions to the node role. If the node role can read Secrets Manager or write to S3, every workload scheduled on that node potentially has a path to those same permissions through the node's credentials. Now think about blast radius: if one pod is compromised — an application vulnerability, a malicious dependency, a configuration mistake — an attacker may be able to use whatever AWS permissions are reachable from that node, and those aren't limited to the one application that got compromised. They can affect every other workload sharing the node.</p>
+  <p>The production rule: don't use the node role for application permissions. The node role belongs to the node. Application pods get their own scoped AWS identity, following least privilege. There are two common ways to provide that identity on EKS — IRSA and EKS Pod Identity.</p>
+
+  <h2>IRSA — the older approach, still common in existing clusters</h2>
+  <p>IRSA — IAM Roles for Service Accounts — was introduced in 2019 and is still widely used in existing EKS clusters, so it's worth understanding even if you wouldn't reach for it on a new one. IRSA works through OIDC federation: your EKS cluster has an OpenID Connect provider URL, and AWS trusts tokens issued by it. When a pod runs under a specific Kubernetes Service Account, Kubernetes provides that pod a web identity token, and the pod exchanges the token for temporary AWS credentials through STS.</p>
+  <p>The detail that matters operationally: the IRSA trust policy contains your cluster's specific OIDC provider information, which ties the IAM role's trust relationship to that one EKS cluster. Move the workload to another cluster, and you normally have to update the trust relationship to point at the new cluster's OIDC provider. That per-cluster coupling is one of the reasons AWS introduced Pod Identity. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html" target="_blank" rel="noopener">IAM roles for service accounts</a> for the full OIDC mechanics.</p>
+
+  <h2>EKS Pod Identity — the default for new clusters</h2>
+  <p>Pod Identity became generally available in late 2023, and for a new EKS cluster, it's usually the first option to consider when applications need AWS access. The difference from IRSA is structural: Pod Identity doesn't use OIDC federation at all. Instead, the <strong>EKS Pod Identity Agent</strong> — a DaemonSet running on every node — receives a pod's credential request and hands back temporary AWS credentials based on a Pod Identity association you create in EKS.</p>
+  <p>The IAM role's trust policy doesn't reference your cluster's OIDC URL. Instead, it uses a fixed AWS service principal:</p>
+  <pre>{
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {
+      "Service": "pods.eks.amazonaws.com"
+    },
+    "Action": ["sts:AssumeRole", "sts:TagSession"]
+  }]
+}</pre>
+  <p>Two details in that policy are worth calling out. First, <code>pods.eks.amazonaws.com</code> is a fixed service principal, not a cluster-specific OIDC URL — the same trust policy works across different clusters, with no per-cluster update required. Second, both <code>sts:AssumeRole</code> <em>and</em> <code>sts:TagSession</code> are required — Pod Identity uses session tags when it assumes the role, and if <code>sts:TagSession</code> is missing, the credential flow can fail silently from the application's point of view: the pod still starts, but it gets AWS credential errors at runtime. This is a common, easy-to-miss Pod Identity misconfiguration in practice.</p>
+  <p>From there, you create an <strong>association</strong> connecting a specific Kubernetes Service Account in a specific namespace to an IAM role — notably, the association targets the Service Account, not a Pod directly, so any pod that uses that Service Account automatically gets the role's temporary credentials:</p>
+  <pre>aws eks create-pod-identity-association \
+  --cluster-name book-review \
+  --namespace default \
+  --service-account book-review-app \
+  --role-arn arn:aws:iam::123456789012:role/book-review-secrets-reader \
+  --region eu-west-1</pre>
+  <p>That's the entire setup: no IRSA annotation on the Service Account, no cluster-specific OIDC trust relationship to maintain. The namespace and Service Account together determine which workloads receive the role, and the Pod Identity Agent handles credential delivery automatically. One requirement: the <code>eks-pod-identity-agent</code> add-on has to be installed on the cluster — which is exactly why <a href="eks-cluster-creation-console-eksctl-terraform.html">the cluster creation post</a> included it in the add-ons list from the start.</p>
+  <p>So, which to use? For a new cluster, use Pod Identity — simpler trust policies, easier management, no OIDC provider relationship to maintain. For a cluster already running IRSA, there's no urgent need to migrate — it still works, and you'll keep seeing it in production environments for a while, so understanding both is worth the time. This course's labs use Pod Identity, since it's what you'd normally reach for on a new EKS environment today. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html" target="_blank" rel="noopener">EKS Pod Identity</a> and <a href="https://docs.aws.amazon.com/eks/latest/userguide/pod-id-association.html" target="_blank" rel="noopener">creating a Pod Identity association</a> for the full reference.</p>
+
+  <h2>Cluster access — who can actually run kubectl?</h2>
+  <p>We've now covered IAM roles for the control plane, worker nodes, and application pods. None of that answers a simple question: how does a human engineer, or a CI/CD pipeline, get permission to actually run <code>kubectl</code> against the cluster? This is the one that catches people off guard most often.</p>
+  <p>The old answer was the <code>aws-auth</code> ConfigMap — a Kubernetes ConfigMap inside the cluster mapping IAM users and roles to Kubernetes users and groups. It worked, but carried real operational risk: a mistake while editing it — bad YAML indentation, a wrong IAM ARN — could lock administrators out of the cluster, and recovery wasn't always straightforward.</p>
+  <p>The newer approach is <strong>EKS access entries</strong>, managed through the EKS API instead of a hand-edited ConfigMap — giving you an AWS-managed recovery path and removing most of that lockout risk. Access entries require the cluster's authentication mode to be set to <code>API</code> or <code>API_AND_CONFIG_MAP</code>. The pattern is: create an access entry for an IAM role, then associate an EKS access policy with it.</p>
+  <pre>aws eks create-access-entry \
+  --cluster-name book-review \
+  --principal-arn arn:aws:iam::123456789012:role/github-actions-deploy \
+  --region eu-west-1
+
+aws eks associate-access-policy \
+  --cluster-name book-review \
+  --principal-arn arn:aws:iam::123456789012:role/github-actions-deploy \
+  --access-scope type=cluster \
+  --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy \
+  --region eu-west-1</pre>
+  <p>That IAM role can now authenticate to the cluster and run <code>kubectl</code> operations according to whichever access policy you attached. AWS provides several managed access policies: <strong>AmazonEKSClusterAdminPolicy</strong> for full administrative access, <strong>AmazonEKSAdminPolicy</strong> for administrative access scoped to a namespace, and <strong>AmazonEKSViewPolicy</strong> for read-only access.</p>
+  <p>This is exactly where a GitHub Actions deployment pipeline fits in: the CI/CD role needs Kubernetes access to run something like <code>helm upgrade</code>, and an access entry is how it gets that access — the role's trust policy uses GitHub OIDC federation so GitHub Actions can assume the AWS role without any long-lived AWS credentials stored anywhere, and the access entry then grants that role Kubernetes permissions once it's in AWS. We'll build the full pipeline in a later post; for now, the mental model to keep is: the IAM role gets a principal into AWS, and the EKS access entry is what gives that principal Kubernetes permissions once it's there. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html" target="_blank" rel="noopener">EKS access entries</a> and the <a href="https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html" target="_blank" rel="noopener">access policy list</a> for the full reference.</p>
+
+  <h2>The four IAM concerns, side by side</h2>
+  <p>The common mistake is treating the node role as if it covers everything. It doesn't — the node role is for the node, Pod Identity or IRSA is for your applications, and access entries are for humans and automation. Here's the full picture in one place:</p>
+  <div class="lb-table-wrap">
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th>Mechanism</th>
+          <th>What it is</th>
+          <th>Who it applies to</th>
+          <th>Why it exists</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cluster role</strong></td>
+          <td>IAM role for the EKS service</td>
+          <td>The EKS control plane</td>
+          <td>EKS needs to manage AWS resources required for the cluster</td>
+        </tr>
+        <tr>
+          <td><strong>Node role</strong></td>
+          <td>IAM role for EC2 worker nodes</td>
+          <td>All nodes in the group</td>
+          <td>Nodes need to register with the cluster, pull images, and run node-level components</td>
+        </tr>
+        <tr>
+          <td><strong>Pod Identity / IRSA</strong></td>
+          <td>IAM role assigned per workload</td>
+          <td>Individual pods</td>
+          <td>Pods need AWS access without inheriting node-level permissions</td>
+        </tr>
+        <tr>
+          <td><strong>Access entries</strong></td>
+          <td>EKS API-managed cluster access</td>
+          <td>IAM users/roles — engineers and CI/CD</td>
+          <td>Controlled authentication and authorization for the Kubernetes API server</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>In production, every workload that calls an AWS service should have its own scoped pod-level permissions through Pod Identity or IRSA — the node role should carry only the minimum nodes need to operate, and nothing more.</p>
+
+  <h2>Where each role gets created in practice</h2>
+  <p>In a basic eksctl lab flow, the cluster role and node role are created automatically. Pod Identity associations and access entries can also be managed through eksctl or your IaC tool of choice, but they're deliberate, explicit steps you configure yourself — eksctl won't infer who should have pod-level AWS access or kubectl access on your behalf, and that's exactly the point: those two are workload- and human-specific decisions, not generic cluster bootstrapping.</p>
+  <p>Four identities, four different jobs: the cluster role runs the control plane, the node role runs the nodes, Pod Identity (or IRSA) runs your applications, and access entries decide who can reach the Kubernetes API at all. Getting comfortable telling these apart — and resisting the shortcut of loading permissions onto whichever role is already in front of you — is exactly the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>
