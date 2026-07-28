@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Container Registries: Docker Hub, ECR, Image Tagging, and Why "latest" Is Dangerous — DMI Blog</title>
+  <meta name="description" content="Why ECR is the production registry on AWS, the four decisions every ECR repo needs — tag immutability, encryption, scanning, lifecycle — and how tagging images :latest quietly destroys your rollback path." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/container-registries-docker-hub-ecr-image-tagging.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Container Registries: Docker Hub, ECR, Image Tagging, and Why &quot;latest&quot; Is Dangerous" />
+  <meta property="og:description" content="Why ECR is the production registry on AWS, the four decisions every ECR repo needs — tag immutability, encryption, scanning, lifecycle — and how tagging images :latest quietly destroys your rollback path." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/container-registries-docker-hub-ecr-image-tagging.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/container-registries-docker-hub-ecr-image-tagging-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Container Registries: Docker Hub, ECR, Image Tagging, and Why &quot;latest&quot; Is Dangerous" />
+  <meta name="twitter:description" content="Why ECR is the production registry on AWS, the four decisions every ECR repo needs — tag immutability, encryption, scanning, lifecycle — and how tagging images :latest quietly destroys your rollback path." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/container-registries-docker-hub-ecr-image-tagging-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Container Registries: Docker Hub, ECR, Image Tagging, and Why \"latest\" Is Dangerous",
+    "datePublished": "2026-08-05",
+    "dateModified": "2026-08-05",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/container-registries-docker-hub-ecr-image-tagging-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/container-registries-docker-hub-ecr-image-tagging.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="../leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="../leaderboard.html">Leaderboard</a></li>
+      <li><a href="../self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="../champion.html">Champion</a></li>
+      <li><a href="../graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../enterprise.html">DMI Enterprise</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">August 5, 2026</span>
+  </div>
+  <h1>Container Registries: Docker Hub, ECR, Image Tagging, and Why "latest" Is Dangerous</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>So far we've designed the foundation of a production-grade EKS cluster — <a href="eks-architecture-control-plane.html">architecture</a>, <a href="eks-iam-cluster-node-pod-identity-access-entries.html">IAM</a>, <a href="eks-node-groups-managed-vs-self-managed.html">node groups</a>. But a Kubernetes cluster doesn't run anything useful on its own — it needs container images to deploy. When the scheduler places a pod on a node, the kubelet on that node has to pull the image from somewhere. That somewhere is a container registry, and the choice of registry — plus how you tag images inside it — affects your ability to roll back a bad deployment, trace an incident to a specific code change, and keep the cluster stable.</p>
+
+  <h2>What a container registry actually is</h2>
+  <p>A container registry is a storage and distribution system for container images. Your team builds an image in a CI/CD pipeline — GitHub Actions running <code>docker build</code>, say — and pushes it to a registry. Your cluster then pulls that image from the registry whenever it needs to run a container. Without a registry, there's no clean way for EKS nodes running on EC2 to get an image that was built somewhere else entirely. In this course you'll see two registries regularly: Docker Hub and Amazon ECR.</p>
+
+  <h2>Docker Hub — fine for public images, not for yours</h2>
+  <p>Docker Hub is one of the most widely used public registries. When a Kubernetes manifest references <code>nginx</code> or <code>postgres:15</code>, you're usually pulling from Docker Hub — the short image name resolves there without needing a full registry URL. It's where most public images live: nginx, Redis, PostgreSQL, Node.js, and plenty more.</p>
+  <p>For public base images and learning examples, Docker Hub is completely fine. For your own application images — the ones your team actually builds and ships — the better pattern on AWS is a private registry like Amazon ECR. Docker Hub can host private images too, but then you're managing separate registry credentials inside Kubernetes. With ECR, the registry fits directly into the AWS environment you're already using: nodes pull with IAM permissions, your pipeline pushes with an AWS role, and access follows the same security model as everything else. The production pattern is simple — public images from trusted public registries, your own images from a private registry you control. Worth knowing if you lean on Docker Hub at all: it enforces <a href="https://docs.docker.com/docker-hub/download-rate-limit/" target="_blank" rel="noopener">pull rate limits</a> for unauthenticated and free-tier pulls, applied per IP — which can bite a cluster of nodes sharing an egress IP.</p>
+
+  <h2>Amazon ECR — the production registry on AWS</h2>
+  <p>ECR — Elastic Container Registry — is AWS's managed container registry, and it fits EKS well precisely because it's built into the same AWS security model you're already using. Images are private by default, access is controlled through IAM, your pipeline pushes with an AWS role, and worker nodes pull using node-role permissions like <code>AmazonEC2ContainerRegistryPullOnly</code>. There's no separate Docker Hub token to store as a Kubernetes Secret, no separate credential to rotate, no private-registry password someone has to remember to update before it expires.</p>
+  <p>That difference matters more in production than it sounds. A team running private application images on Docker Hub usually ends up managing a token by hand — storing it as a Secret, rotating it, hoping nobody forgets. With ECR, image access is just IAM, and with the right VPC endpoints configured, nodes can pull images without touching the public internet at all. ECR isn't just "where we store Docker images" — on an AWS-based EKS platform, it's the registry that fits naturally with IAM, private networking, CI/CD, and node-level pulls. See the <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank" rel="noopener">Amazon ECR user guide</a> for the core concepts.</p>
+
+  <h2>Creating an ECR repository: four decisions, not one</h2>
+  <p>You can create a repository from the Console for learning and quick testing, but in production it should be treated as infrastructure — defined in Terraform, reviewed in a pull request, deployed through the same pipeline as everything else. Here's a production-style repository:</p>
+  <pre>resource "aws_ecr_repository" "book_review_backend" {
+  name                 = "book-review-backend"
+  image_tag_mutability = "IMMUTABLE"
+
+  encryption_configuration {
+    encryption_type = "AES256"
+  }
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}</pre>
+  <p>Each field here is a real decision, not boilerplate. <code>image_tag_mutability = "IMMUTABLE"</code> enforces immutable tags at the registry level — ECR blocks any attempt to overwrite a published tag, so if someone tries to push <code>a3f8c21</code> again with a different image, it simply fails. You're not relying on team discipline to enforce this; the repository makes it impossible. More on why that matters below.</p>
+  <p><code>encryption_type = "AES256"</code> encrypts image layers at rest — AES-256 is ECR's default behavior anyway, but setting it explicitly makes the intent visible in code. In more regulated environments, teams may reach for KMS encryption with a customer-managed key instead, for tighter key control and audit requirements. <code>scan_on_push = true</code> runs ECR's basic vulnerability scan on every push, with findings surfaced in ECR for your pipeline or security process to act on — enhanced scanning via Amazon Inspector is a separate, deeper option, but basic scanning is a sensible baseline for any application image. The point isn't which of these you choose so much as choosing them deliberately instead of accepting whatever ECR does by default.</p>
+  <p>One more thing almost everyone forgets the first time: a <strong>lifecycle policy</strong>. Without one, a repository grows unbounded — a pipeline pushing an image on every commit accumulates thousands of images within months, and ECR charges per GB of storage. Old images pile up quietly until they show up as a line item on the AWS bill nobody can explain.</p>
+  <pre>resource "aws_ecr_lifecycle_policy" "book_review_backend" {
+  repository = aws_ecr_repository.book_review_backend.name
+
+  policy = jsonencode({
+    rules = [{
+      rulePriority = 1
+      description  = "Keep last 20 images"
+      selection = {
+        tagStatus   = "any"
+        countType   = "imageCountMoreThan"
+        countNumber = 20
+      }
+      action = {
+        type = "expire"
+      }
+    }]
+  })
+}</pre>
+  <p>Keep the last 20, expire everything older. For a lab, 20 is plenty; production teams typically land somewhere between 10 and 50 depending on deploy frequency. The exact number matters far less than having a policy at all. See <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html" target="_blank" rel="noopener">ECR lifecycle policies</a>, <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html" target="_blank" rel="noopener">tag immutability</a>, <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html" target="_blank" rel="noopener">image scanning</a>, and <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html" target="_blank" rel="noopener">encryption at rest</a> for the full reference on each.</p>
+
+  <h2>Pushing an image: authenticate, tag, push</h2>
+  <p>Once the repository exists, its URL follows a fixed format: <code>&lt;account-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repository-name&gt;:&lt;tag&gt;</code> — for the Book Review App, something like <code>123456789012.dkr.ecr.eu-west-1.amazonaws.com/book-review-backend:a3f8c21</code>. In the hands-on lab you push an image manually first, so the mechanics are clear before GitHub Actions automates all of it later in the course. Three steps: authenticate, tag, push.</p>
+  <pre># Authenticate
+aws ecr get-login-password --region eu-west-1 \
+  | docker login --username AWS --password-stdin \
+    123456789012.dkr.ecr.eu-west-1.amazonaws.com
+
+# Tag
+docker tag book-review-backend \
+  123456789012.dkr.ecr.eu-west-1.amazonaws.com/book-review-backend:a3f8c21
+
+# Push
+docker push 123456789012.dkr.ecr.eu-west-1.amazonaws.com/book-review-backend:a3f8c21</pre>
+  <p>Notice the tag is a commit SHA — <code>a3f8c21</code> — not <code>latest</code>. That's not incidental, and it's the subject of the rest of this post. One more pattern worth knowing about, even though this course runs a single AWS account: in mature multi-account setups, teams often centralize ECR repositories in one account and let other accounts pull from them via repository policies — the workload account authenticates with IAM as normal, and ECR grants the pull based on the policy. See <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html" target="_blank" rel="noopener">ECR cross-account repository policies</a> if you run into that setup.</p>
+
+  <h2>Why ":latest" is dangerous</h2>
+  <p>Build an image without specifying a tag, and Docker defaults to <code>latest</code>. It feels natural — it sounds like it means "the most recent version." So teams push <code>:latest</code>, reference it in manifests, and everything looks fine — right up until they need to debug, roll back, or prove exactly which version is actually running. Here's the scenario that plays out almost identically everywhere it happens.</p>
+  <p>The app is running in production, its deployment referencing <code>book-review-backend:latest</code>. A developer pushes a new build, tags it <code>:latest</code>, and pushes to ECR — the tag now points at the new image. Your running pods aren't affected yet; they're still running whatever they pulled when they started. Then something causes a pod to restart — a node recycles, you scale up, Kubernetes schedules a new pod. If the image isn't cached on that node, it pulls <code>:latest</code> fresh from ECR, and gets the new build.</p>
+  <p>Now you have pods running two different versions of the same deployment, and you didn't choose that — it happened as a side effect of node scheduling. Different pods return different responses; users see inconsistent behavior depending purely on which pod happens to serve them. And then the new image turns out to have a bug, and you want to roll back — to what? There's no previous <code>latest</code>; you overwrote it. Your manifest has no record of what was running before. <code>helm rollback</code> re-applies the old release's values, but the image tag in those values is still <code>:latest</code> — which now points at the broken image, not the working one. The clean rollback path is simply gone, and in production that can mean real downtime spent piecing together which image was actually running before the bad push. The problem with <code>latest</code> isn't that the tag is technically broken — it's that it removes your ability to reason about what's running, and your ability to recover when something goes wrong.</p>
+
+  <h2>How to tag images properly</h2>
+  <p>Production image tags should be immutable and traceable. Immutable means the tag always points to the same image; traceable means you can look at a running pod and quickly work out which source commit produced it. Two common options cover most cases.</p>
+  <p>The first is a <strong>Git commit SHA</strong> — <code>git rev-parse --short HEAD</code> gives you something like <code>a3f8c21</code>, and tagging the image with it tells you exactly which commit produced it. From a running pod, to the image tag, to the exact commit, in seconds. A GitHub Actions pipeline can generate this automatically on every build. The second is a <strong>semantic version</strong> like <code>1.4.2</code> — more human-readable, easier to communicate across teams for a formal release. In practice, many teams use both: release <code>1.4.2</code>, but keep the commit SHA as build metadata alongside it. The exact naming convention matters less than the underlying rule: never use a moving tag for a production deployment — use a tag that points to exactly one build.</p>
+  <pre>SHA=$(git rev-parse --short HEAD)
+
+docker tag book-review-backend \
+  123456789012.dkr.ecr.eu-west-1.amazonaws.com/book-review-backend:${SHA}
+docker push 123456789012.dkr.ecr.eu-west-1.amazonaws.com/book-review-backend:${SHA}</pre>
+  <p>Your Kubernetes manifest then references that exact tag:</p>
+  <pre>spec:
+  containers:
+    - name: book-review-backend
+      image: 123456789012.dkr.ecr.eu-west-1.amazonaws.com/book-review-backend:a3f8c21
+      imagePullPolicy: IfNotPresent</pre>
+  <p><code>imagePullPolicy: IfNotPresent</code> is worth noticing specifically — it pairs naturally with immutable tags. If a node already has that exact image cached, Kubernetes reuses it instead of pulling again, since the tag is immutable and the cached image and registry image are guaranteed to represent the same build. That's faster pod startup, less unnecessary network traffic, and predictable behavior. With <code>:latest</code>, the situation flips: Kubernetes treats it as a moving tag and defaults the pull policy to <code>Always</code>, so the kubelet checks the registry on every container start — slower, and worse, it makes it genuinely hard to know which build is actually running at any given moment. See the <a href="https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy" target="_blank" rel="noopener">Kubernetes imagePullPolicy reference</a> for the full default-behavior rules.</p>
+  <p>The production rule: never overwrite a published image tag. Once <code>a3f8c21</code> is pushed, that tag should point to that exact image forever — if you need to fix something, build a new image with a new tag. This is exactly what ECR tag immutability enforces at the registry level: with it enabled, an attempt to push a different image under an existing tag is simply rejected, no discipline required.</p>
+
+  <h2>Decisions to get right before you push your first image</h2>
+  <ul>
+    <li><strong>Registry choice.</strong> Trusted public images from Docker Hub; your own application images from a private registry like ECR.</li>
+    <li><strong>Repository config.</strong> Decide tag immutability, encryption, and scan-on-push explicitly for every repository — don't inherit whatever the default happens to be.</li>
+    <li><strong>Lifecycle policy.</strong> Every repository needs one from day one. The exact retention count matters less than having a policy at all.</li>
+    <li><strong>Tagging.</strong> Commit SHA or semantic version — never a moving tag — for anything deployed to production.</li>
+    <li><strong>Pull policy.</strong> <code>IfNotPresent</code> with immutable tags for faster, predictable startup; avoid relying on <code>:latest</code>'s implicit <code>Always</code> behavior.</li>
+  </ul>
+  <p>None of this is really about Docker mechanics — it's about whether you can answer "what's actually running in production right now, and can I get back to what was running an hour ago" without guessing. That's exactly the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>
