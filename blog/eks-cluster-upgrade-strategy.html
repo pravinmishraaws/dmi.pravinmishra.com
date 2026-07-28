@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EKS Cluster Upgrade Strategy: Control Plane, Add-Ons, and Node Groups — DMI Blog</title>
+  <meta name="description" content="Why EKS upgrades have three steps, not two — control plane, add-ons, then node groups — the before_compute ordering trick, why you can't skip minor versions, and why stage always goes first." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/eks-cluster-upgrade-strategy.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="EKS Cluster Upgrade Strategy: Control Plane, Add-Ons, and Node Groups" />
+  <meta property="og:description" content="Why EKS upgrades have three steps, not two — control plane, add-ons, then node groups — the before_compute ordering trick, why you can't skip minor versions, and why stage always goes first." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/eks-cluster-upgrade-strategy.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/eks-cluster-upgrade-strategy-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EKS Cluster Upgrade Strategy: Control Plane, Add-Ons, and Node Groups" />
+  <meta name="twitter:description" content="Why EKS upgrades have three steps, not two — control plane, add-ons, then node groups — the before_compute ordering trick, why you can't skip minor versions, and why stage always goes first." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/eks-cluster-upgrade-strategy-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "EKS Cluster Upgrade Strategy: Control Plane, Add-Ons, and Node Groups",
+    "datePublished": "2026-08-07",
+    "dateModified": "2026-08-07",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/eks-cluster-upgrade-strategy-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/eks-cluster-upgrade-strategy.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="../leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="../leaderboard.html">Leaderboard</a></li>
+      <li><a href="../self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="../champion.html">Champion</a></li>
+      <li><a href="../graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../enterprise.html">DMI Enterprise</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">August 7, 2026</span>
+  </div>
+  <h1>EKS Cluster Upgrade Strategy: Control Plane, Add-Ons, and Node Groups</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>We've now covered the foundation of a production-grade EKS cluster — <a href="eks-architecture-control-plane.html">architecture</a>, <a href="eks-iam-cluster-node-pod-identity-access-entries.html">IAM</a>, <a href="eks-node-groups-managed-vs-self-managed.html">node groups</a>, and images in <a href="container-registries-docker-hub-ecr-image-tagging.html">ECR</a>. Here's something engineers often skip when first setting up a cluster, and it's one of the things that bites teams hardest in production: a cluster isn't something you create once and forget. You have to upgrade it, regularly — and if you leave it on an unsupported version long enough, AWS can eventually update the control plane for you, on a timeline you didn't choose.</p>
+
+  <h2>Why you can't just leave the cluster running</h2>
+  <p>Kubernetes ships a new minor version roughly every four months. EKS gives each one a standard support window, then extended support, and once that full lifecycle ends, AWS can automatically update the control plane whether you're ready or not. The practical point: you get time to plan, but you shouldn't wait until AWS is planning the upgrade for you. A forced upgrade on a cluster you haven't prepared is exactly how production incidents happen — deprecated APIs your workloads depend on stop working, add-on versions break, and you're scrambling on a timeline you never chose.</p>
+  <p>Stay close to current, and you plan upgrades on a predictable cadence — often about once a year, depending on your version and its support window. Teams that treat it as a scheduled item handle it smoothly. Teams that ignore it until AWS sends a deprecation notice are the ones with weekend incidents.</p>
+
+  <h2>The three steps — and the one most people skip</h2>
+  <p>Most people think an EKS upgrade is two steps. It's actually three, and the one that gets skipped is exactly where things break.</p>
+
+  <h2>Step 1 — upgrade the control plane</h2>
+  <p>This part is simple: change the Kubernetes version in your Terraform config.</p>
+  <pre>module "eks" {
+  kubernetes_version = "1.30"   # was "1.29"
+  ...
+}</pre>
+  <p>Commit, open a pull request, let Terraform apply it through your pipeline. AWS handles everything on its side — the API server, etcd, the scheduler. Your worker nodes stay on 1.29, and your application keeps running throughout. The control plane upgrade itself takes roughly 20 to 30 minutes; you may see brief API-server interruptions during that window, but already-running pods generally keep running.</p>
+
+  <h2>Step 2 — upgrade your add-ons (the one everyone skips)</h2>
+  <p>This is the step that causes the subtle, hard-to-diagnose failures. Your cluster runs several managed add-ons — VPC CNI, CoreDNS, kube-proxy, the Pod Identity agent — and each one has its own version with its own compatibility matrix against Kubernetes versions.</p>
+  <p>Skip this step, and here's what actually happens: your control plane moves to 1.30, your nodes move to 1.30, but the VPC CNI is still on an older version that isn't the right match for the new cluster version. What you see next doesn't look like an upgrade problem at all — pods failing to get IPs, DNS behaving unpredictably, traffic looking intermittent. Teams routinely spend hours debugging this as a networking issue before realizing it's an add-on version mismatch left over from the upgrade.</p>
+  <p>The fix is to manage add-on versions as pinned Terraform variables, one set per environment:</p>
+  <pre># terraform.tfvars
+EKS_version              = "1.30"
+coredns_addon_version    = "v1.11.4-eksbuild.2"
+cni_addon_version        = "v1.19.0-eksbuild.2"
+kube_proxy_addon_version = "v1.30.3-eksbuild.5"</pre>
+  <p>When you upgrade, bump these alongside the Kubernetes version in the same pull request, applied through the same Terraform pipeline as everything else. Nobody runs ad-hoc CLI commands against production to patch an add-on version. Before bumping anything, check which add-on versions are actually compatible with your target Kubernetes version:</p>
+  <pre>aws eks describe-addon-versions \
+  --kubernetes-version 1.30 \
+  --region eu-west-1</pre>
+  <p>AWS also publishes the full compatibility matrix in the <a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html" target="_blank" rel="noopener">EKS add-ons documentation</a> — check it before every upgrade, not just the first one.</p>
+  <p>One more detail that's easy to miss but matters specifically during upgrades: in the Terraform EKS module, you can tell an add-on to install <code>before_compute</code> — before any nodes launch.</p>
+  <pre>addons = {
+  cni = {
+    name           = "vpc-cni"
+    addon_version  = var.cni_addon_version
+    before_compute = true
+  }
+  kube-proxy = {
+    name           = "kube-proxy"
+    addon_version  = var.kube_proxy_addon_version
+    before_compute = true
+  }
+}</pre>
+  <p>Why this matters: when nodes are replaced during an upgrade, they need to join a cluster where the VPC CNI is already at the correct version. If the updated CNI isn't in place before new nodes start joining, pods get stuck in <code>Pending</code> with networking errors that are confusing to trace back to the real cause. <code>before_compute = true</code> enforces the ordering — CNI and kube-proxy are ready before any node touches the cluster. This matters during initial cluster creation too, and it carries over cleanly into the upgrade workflow, since your Terraform plan updates the add-ons before replacing compute. Still worth reviewing the plan directly, so you can see that ordering happening rather than assuming it.</p>
+
+  <h2>Step 3 — upgrade the node groups</h2>
+  <p>Only after the control plane and add-ons are updated do you touch the nodes. With managed node groups, AWS performs a rolling replacement — drain one node, terminate it, launch a replacement on the updated Kubernetes version, wait for it to be healthy, move to the next. Your application can stay up through this if you have enough replicas, healthy capacity, working readiness checks, and disruption budgets set up correctly — none of that is automatic, it's the result of decisions you made when you sized and configured the deployment.</p>
+  <p>In a Terraform-managed setup this is another variable bump and apply, same as the rest. In the lab, with eksctl, you can run it directly:</p>
+  <pre>eksctl upgrade nodegroup \
+  --name bootstrap \
+  --cluster book-review \
+  --kubernetes-version 1.30 \
+  --region eu-west-1</pre>
+  <p>See <a href="https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html" target="_blank" rel="noopener">updating a managed node group</a> for the full rolling-replacement and drain behavior.</p>
+
+  <h2>You can't skip minor versions</h2>
+  <p>One hard constraint to know before you run any upgrade: you can't jump from 1.28 straight to 1.30. It has to be 1.28 → 1.29 → 1.30, each step going through all three phases above. EKS in-place upgrades are designed around moving one minor version at a time — that's what keeps API removals, component version skew, and add-on compatibility manageable. Jump further than that, and the path is unsupported; you can hit removed APIs or unsupported component combinations with no clean way through.</p>
+  <p>The practical consequence: let a cluster fall two or three versions behind, and you're not facing one upgrade, you're facing a chain of them, each one needing its own verification before the next starts. What should be a routine job becomes a multi-week project done under pressure. One upgrade a year is manageable. Three of them back-to-back in a panic is not. See the <a href="https://kubernetes.io/releases/version-skew-policy/" target="_blank" rel="noopener">Kubernetes version skew policy</a> for exactly why skipping isn't supported, and the <a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html" target="_blank" rel="noopener">EKS Kubernetes release calendar</a> to check support end dates before you plan the next one.</p>
+
+  <h2>Always upgrade stage first, never production directly</h2>
+  <p>There's one more habit that separates teams who handle upgrades calmly from the ones who have incidents: never upgrade production directly. With the same Terraform config deployed to stage and production through separate tfvars files, you bump the Kubernetes version and every add-on version in the stage tfvars first.</p>
+  <pre># stage.tfvars
+EKS_version              = "1.30"
+coredns_addon_version    = "v1.11.4-eksbuild.2"
+cni_addon_version        = "v1.19.0-eksbuild.2"
+kube_proxy_addon_version = "v1.30.3-eksbuild.5"</pre>
+  <p>Apply to stage, watch the metrics, verify your application, Helm charts, and any ArgoCD-managed workloads actually work on the new version. Only once stage is stable do you make the identical version bumps in the production tfvars.</p>
+  <pre># prod.tfvars
+EKS_version              = "1.30"
+coredns_addon_version    = "v1.11.4-eksbuild.2"
+cni_addon_version        = "v1.19.0-eksbuild.2"
+kube_proxy_addon_version = "v1.30.3-eksbuild.5"</pre>
+  <p>Same versions, no guessing — you already know exactly what Terraform will do to production, because you watched it happen on stage first. This isn't a large-team-only process either: even running the cluster solo, this discipline pays for itself. An upgrade that fails on stage at 10am is an inconvenience. The identical failure on production at 10am is a customer-facing incident.</p>
+
+  <h2>Decisions to get right before your next upgrade</h2>
+  <ul>
+    <li><strong>Cadence.</strong> Plan an upgrade roughly once a year, matched to your version's support window — don't wait for AWS's deprecation notice to force the timeline.</li>
+    <li><strong>Order.</strong> Control plane, then add-ons, then node groups. Never node groups first, and never skip the add-on step.</li>
+    <li><strong>Add-on versions.</strong> Pin them as Terraform variables, bump them in the same PR as the Kubernetes version, and check the compatibility matrix before every bump.</li>
+    <li><strong>Add-on ordering.</strong> Set <code>before_compute = true</code> on VPC CNI and kube-proxy so they're correct before any node joins.</li>
+    <li><strong>Version jumps.</strong> One minor version at a time, always — a cluster left several versions behind turns one upgrade into a chain of them.</li>
+    <li><strong>Rollout order.</strong> Stage first, verified, then the identical version bumps to production. Never the reverse.</li>
+  </ul>
+  <p>One practical habit worth carrying into the lab itself: when you're not actively working on the cluster, delete it — <code>eksctl delete cluster --name book-review --region eu-west-1 --wait</code>. About 15 minutes to delete, 15 to recreate; there's no reason to pay for idle nodes while you're still learning.</p>
+  <p>None of this is really about Kubernetes version numbers — it's about whether an upgrade is a scheduled, boring, reviewable event or an unplanned one forced on you at the worst possible time. That's exactly the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>
