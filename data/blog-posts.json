@@ -52,5 +52,14 @@
     "category": "Platform Engineering",
     "date": "2026-07-28",
     "image": "../images/blog/eks-cluster-creation-console-eksctl-terraform-og.jpg"
+  },
+  {
+    "slug": "eks-node-groups-managed-vs-self-managed",
+    "title": "EKS Node Groups: Managed vs. Self-Managed, and the Production Architecture",
+    "excerpt": "Managed node groups, self-managed, or Fargate — and the production pattern real teams use: a small bootstrap group plus Karpenter, taints, IMDSv2, minimal node IAM roles, and pod-IP limits.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-07-30",
+    "image": "../images/blog/eks-node-groups-managed-vs-self-managed-og.jpg"
   }
 ]
