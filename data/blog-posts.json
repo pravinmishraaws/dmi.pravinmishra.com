@@ -88,5 +88,14 @@
     "category": "Platform Engineering",
     "date": "2026-08-07",
     "image": "../images/blog/eks-cluster-upgrade-strategy-og.jpg"
+  },
+  {
+    "slug": "karpenter-vs-cluster-autoscaler-eks",
+    "title": "Karpenter vs Cluster Autoscaler: Node Autoscaling on EKS",
+    "excerpt": "Cluster Autoscaler scales the node groups you already defined. Karpenter looks at pending pods and provisions the right EC2 capacity directly — plus the IAM, bootstrap group, and consolidation details that trip people up.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-08-10",
+    "image": "../images/blog/karpenter-vs-cluster-autoscaler-eks-og.jpg"
   }
 ]
