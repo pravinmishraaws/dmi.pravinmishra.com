@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EKS Cluster Creation: AWS Console, eksctl, and Terraform — DMI Blog</title>
+  <meta name="description" content="Three ways to create an EKS cluster, and the production rule for each: Console for exploring only, eksctl from a versioned config file, Terraform once your AWS environment is already code." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/eks-cluster-creation-console-eksctl-terraform.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="EKS Cluster Creation: AWS Console, eksctl, and Terraform" />
+  <meta property="og:description" content="Three ways to create an EKS cluster, and the production rule for each: Console for exploring only, eksctl from a versioned config file, Terraform once your AWS environment is already code." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/eks-cluster-creation-console-eksctl-terraform.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/eks-cluster-creation-console-eksctl-terraform-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EKS Cluster Creation: AWS Console, eksctl, and Terraform" />
+  <meta name="twitter:description" content="Three ways to create an EKS cluster, and the production rule for each: Console for exploring only, eksctl from a versioned config file, Terraform once your AWS environment is already code." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/eks-cluster-creation-console-eksctl-terraform-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "EKS Cluster Creation: AWS Console, eksctl, and Terraform",
+    "datePublished": "2026-07-28",
+    "dateModified": "2026-07-28",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/eks-cluster-creation-console-eksctl-terraform-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/eks-cluster-creation-console-eksctl-terraform.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="../leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="../leaderboard.html">Leaderboard</a></li>
+      <li><a href="../self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="../champion.html">Champion</a></li>
+      <li><a href="../graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../enterprise.html">DMI Enterprise</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">July 28, 2026</span>
+  </div>
+  <h1>EKS Cluster Creation: AWS Console, eksctl, and Terraform</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>In <a href="eks-architecture-control-plane.html">the last post</a>, we went through EKS architecture — the control plane AWS owns, the worker nodes you own, and the decisions you need to get right before a cluster goes live: endpoint access mode, IAM authentication, control plane logs, the node IAM role. The obvious next question is: how do you actually create one?</p>
+  <p>There are three practical ways: the AWS Console, eksctl, and Terraform. We'll look at all three, starting with the Console — useful for exploring the options, but it should not become your normal habit for production cluster creation.</p>
+
+  <h2>The AWS Console — good for exploring, wrong for production</h2>
+  <p>The Console is the visual interface. You log in, go through the guided cluster creation workflow, fill in the required fields, choose your options, and click Create. It works fine. The problem is what happens after.</p>
+  <p>If your cluster goes down and you need to recreate it, you have to go back through the same screens, trying to remember every networking, access, logging, and node configuration choice you made months ago. If a security review asks what your endpoint access setting was at cluster creation time, you may not have an easy way to answer. If your manager needs an identical staging environment, there's nothing to hand them. CloudTrail can show you the AWS API activity, but it doesn't give you a clean, reusable cluster definition — you can't review the full desired configuration as code, and you can't version-control it.</p>
+  <p>The Console is also more prone to configuration drift. Small manual changes made over time are hard to track, which makes it harder to keep development, staging, and production environments consistent.</p>
+  <p>Use the Console to explore what fields and options EKS gives you. Avoid using it as your normal way to create a real production cluster. For a production-style cluster, use one of the next two options — starting with eksctl.</p>
+
+  <h2>eksctl — always use a config file</h2>
+  <p>eksctl is a CLI built specifically for Amazon EKS. You define the cluster configuration in a YAML file, then use eksctl to create the cluster from it. Behind the scenes, eksctl creates the required AWS resources — CloudFormation stacks, IAM roles, VPC, subnets, security groups, managed node groups, and EKS add-ons.</p>
+  <p>Before the file itself, there's one production rule worth fixing in your head: <strong>always use a config file, not bare CLI flags.</strong> Yes, you can run <code>eksctl create cluster</code> with flags directly. But without a config file, eksctl falls back to default settings — and those defaults may not match your production requirements. You may get a working cluster, but not necessarily the Kubernetes version, logging configuration, add-ons, networking, or node configuration you actually wanted.</p>
+  <p>A config file gives you a cluster definition that can be reviewed, stored in Git, approved through change processes, and recreated on demand. Treat it as infrastructure code — review changes to it the same way you'd review a Terraform or CloudFormation change. Here's the file we'll use in the hands-on lab:</p>
+
+  <pre>apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: book-review
+  region: eu-west-1
+  version: "1.36"
+
+vpc:
+  clusterEndpoints:
+    privateAccess: true
+    publicAccess: true
+    publicAccessCIDRs:
+      - "203.0.113.10/32"   # replace with your VPN or office CIDR
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["api", "authenticator"]
+
+iam:
+  withOIDC: true
+
+managedNodeGroups:
+  - name: standard-nodes
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    privateNetworking: true
+    amiFamily: AmazonLinux2023
+    instanceMetadata:
+      httpTokens: required
+      httpPutResponseHopLimit: 2
+
+addons:
+  - name: vpc-cni
+    version: v1.19.0-eksbuild.1
+    attachPolicyARNs:
+      - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+  - name: coredns
+    version: v1.11.4-eksbuild.1
+  - name: kube-proxy
+    version: v1.36.0-eksbuild.2
+  - name: eks-pod-identity-agent
+    version: v1.3.5-eksbuild.2</pre>
+
+  <p>Then create the cluster from it:</p>
+  <pre>eksctl create cluster -f cluster.yaml</pre>
+  <p>This takes roughly 15 to 20 minutes. None of the fields above are defaults you should accept without understanding — here's what each one is actually deciding.</p>
+
+  <h2>Pin the Kubernetes version</h2>
+  <p><code>version: "1.36"</code> matters because every Kubernetes minor version on EKS has a defined support lifecycle. During standard support, AWS provides normal support coverage; each minor version gets 14 months of it. After that, the version moves into extended support, which currently costs <strong>$0.60 per cluster per hour instead of $0.10</strong> — roughly six times the cluster management charge. Version choice affects cost, not just compatibility.</p>
+  <p>At the time of writing, 1.36 is the latest version in standard support — always check the <a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html" target="_blank" rel="noopener">EKS Kubernetes version lifecycle page</a> for the current supported versions and end-of-support dates before you run this. Don't reach for the newest version immediately in production either — many organizations wait until their workloads, add-ons, and third-party integrations have been tested against it. Pin the version explicitly and avoid letting upgrades happen automatically: version bumps can affect APIs, add-ons, admission controllers, and workloads, and that's worth a deliberate, planned change rather than a surprise.</p>
+
+  <h2>Endpoint access, in the YAML</h2>
+  <p>We covered the three endpoint access modes conceptually in the last post — <code>vpc.clusterEndpoints</code> is where that decision lands in the config file.</p>
+  <p><code>privateAccess: true</code> and <code>publicAccess: true</code> together create public-and-private access. Node-to-API-server traffic stays inside the VPC through the private endpoint, while you can still reach the cluster from a laptop, VPN, bastion host, or CI/CD runner through the public endpoint.</p>
+  <p><code>publicAccessCIDRs</code> restricts who can reach that public endpoint. Without a narrow CIDR range, it may be reachable from a broad internet range — IAM authentication and Kubernetes authorization still protect access, but there's no reason to leave the door that wide open. Replace the example CIDR with your VPN, office network, or approved CI/CD runner IP before running this in production. For highly restricted environments, many organizations disable public access entirely and rely on private-only access through VPN, Direct Connect, Transit Gateway, or a private CI/CD runner.</p>
+
+  <h2>Control plane logging: pick what you need, not everything</h2>
+  <p>We covered all five control plane log types last time — what each one captures, the failure modes it surfaces, and the cost implications. Here we're enabling two:</p>
+  <pre>cloudWatch:
+  clusterLogging:
+    enableTypes: ["api", "authenticator"]</pre>
+  <p>The <strong>api</strong> log records Kubernetes API requests; the <strong>authenticator</strong> log records IAM authentication activity. In production, many teams also enable <strong>audit</strong> (essential for security investigations and compliance — it shows who performed which action against which Kubernetes resource), plus <strong>controllerManager</strong> and <strong>scheduler</strong> for deeper debugging. Enable logging based on operational requirements, not on the assumption that more logs are always better — more logs mean more visibility, but also more cost.</p>
+
+  <h2>The IAM OIDC provider</h2>
+  <p><code>iam: withOIDC: true</code> is one line, but it matters: to attach AWS IAM permissions to a Kubernetes service account using IAM Roles for Service Accounts (IRSA), the cluster needs an IAM OIDC provider — this is what lets AWS IAM trust Kubernetes-issued service account tokens. <code>withOIDC: true</code> creates that provider during cluster creation. Enable it early; adding it later is possible, but it becomes one more manual step. If you later use EKS Pod Identity instead, note that's a separate authentication mechanism built on the Pod Identity Agent, not on OIDC.</p>
+
+  <h2>Managed node groups, not self-managed</h2>
+  <p>Notice this is <code>managedNodeGroups</code>, not <code>nodeGroups</code>. With managed node groups, AWS handles much of the node lifecycle — AMI updates, node replacement, rolling updates, and integration with EKS upgrade workflows. With self-managed <code>nodeGroups</code>, your team owns more of that operational surface directly. Use managed node groups by default; self-managed is a deliberate exception, not a starting point.</p>
+
+  <h2>Private worker nodes and IMDSv2</h2>
+  <p><code>privateNetworking: true</code> places worker nodes into private subnets with no public IP addresses — traffic into your application normally enters through an AWS load balancer rather than reaching worker nodes directly, which reduces the attack surface.</p>
+  <p>The <code>instanceMetadata</code> block controls EC2 Instance Metadata Service (IMDS) security on the nodes. IMDS provides instance identity information and temporary credentials tied to the node IAM role. If a workload running inside a pod can reach the metadata endpoint, there's a real risk it could obtain those node-role credentials — which is why we apply two principles here: enforce IMDSv2, and keep the node IAM role itself as narrow as possible.</p>
+  <p><code>httpTokens: required</code> enforces IMDSv2. Under IMDSv1, a simple HTTP GET was enough to read metadata; IMDSv2 requires first requesting a session token and including it in subsequent requests — stronger protection against unintended metadata access. It's not a complete security boundary on its own, though: a workload that's intentionally allowed to access instance metadata can still retrieve it. So decide deliberately whether pods should have access to EC2 instance metadata at all, and for production workloads, avoid relying on the node IAM role for application permissions — give workloads their own identity instead, via EKS Pod Identity or IRSA. That's least privilege in practice: each application gets only the AWS permissions it actually needs.</p>
+  <p><code>httpPutResponseHopLimit: 2</code> controls how far the IMDSv2 token response can travel from the instance — lower is more restrictive. A value of 1 restricts metadata responses to the EC2 instance itself, which limits what a pod can reach. A value of 2 may be needed for specific add-ons or workloads that intentionally use IMDS from inside a pod, but that should be a deliberate choice based on your architecture and security requirements, not a default left unexamined.</p>
+
+  <h2>Add-ons: the cluster isn't actually ready until these exist</h2>
+  <p>Here's something that surprises people the first time they look at a fresh EKS cluster: eksctl reports the cluster as ready, but a workload may not run correctly yet. What makes a cluster fully operational isn't built into Kubernetes itself — it comes through add-ons, and you have to configure them explicitly.</p>
+  <p><strong>vpc-cni</strong> gives pods VPC IP addresses — without it working correctly, ordinary pods can't get networking at all. <strong>coredns</strong> is cluster DNS: when a pod reaches a Service by name, coredns resolves it to an IP; without it, service discovery breaks completely. <strong>kube-proxy</strong> manages the network routing rules on each node so traffic actually reaches pods through Services. <strong>eks-pod-identity-agent</strong> is a DaemonSet that runs on worker nodes and lets pods use EKS Pod Identity — installing it now means the cluster is ready for that pattern whenever you need it.</p>
+  <p>Notice each add-on has a pinned version. Without one, eksctl resolves the default version at creation time — and that default isn't guaranteed to be the latest, or to stay the same the next time you run the file. Let six months pass, run the same YAML again, and you may get different add-on versions with no visibility into what changed. Pin the version, and any future add-on upgrade becomes a planned, reviewed change instead of silent drift you discover when something breaks. To find compatible versions for a given Kubernetes version:</p>
+  <pre>eksctl utils describe-addon-versions --kubernetes-version 1.36 --name vpc-cni</pre>
+  <p>Treat the versions in the YAML above as lab-pinned examples — when you run this yourself, check the compatible add-on versions for your Kubernetes version and update them deliberately. See the <a href="https://eksctl.io/usage/addons/" target="_blank" rel="noopener">eksctl add-ons docs</a> and <a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html" target="_blank" rel="noopener">Amazon EKS add-ons docs</a> for the full reference.</p>
+
+  <h2>Envelope encryption: default vs. customer-managed key</h2>
+  <p>EKS encrypts all Kubernetes API data — ConfigMaps, Secrets, everything stored in etcd — using KMS envelope encryption. From Kubernetes 1.28 onward this is automatic, using an AWS-owned key, and there's no field for it in the YAML above. So what's the actual production decision here?</p>
+  <p>With your own customer-managed key (CMK), KMS key usage is auditable in CloudTrail and you control who can use the key through your own key policy — more visibility and control over what encrypts your Kubernetes API data. That doesn't replace Kubernetes audit logs, though: CloudTrail shows KMS key usage, while Kubernetes audit logs show who created, modified, or deleted Kubernetes objects through the API server — you need both, for different questions. In regulated environments — financial services, healthcare, strict audit requirements — a CMK may be required or preferred. The cost is usually small relative to the cluster, but check current <a href="https://aws.amazon.com/kms/pricing/" target="_blank" rel="noopener">KMS pricing</a> and your expected request volume before deciding.</p>
+  <p>To use your own key, add this to the ClusterConfig:</p>
+  <pre>secretsEncryption:
+  keyARN: arn:aws:kms:eu-west-1:123456789012:key/your-key-id</pre>
+  <p><strong>This decision is permanent.</strong> You can add CMK encryption to an existing cluster later, but you can't remove it once enabled — EKS uses that key to decrypt Kubernetes API data stored in etcd. Delete the key, and EKS can no longer decrypt that data; the cluster becomes unrecoverable. Treat a CMK as critical infrastructure once you turn it on. For a lab, the default AWS-owned key is the right choice — there's nothing extra to configure, because the lab is about EKS operational patterns, not key-management design.</p>
+
+  <h2>Access entries: plan who needs access before you create the cluster</h2>
+  <p>When you create an EKS cluster, the creator's IAM identity can be mapped to cluster-admin Kubernetes permissions — which is why, in a lab, the same identity that runs <code>eksctl create cluster</code> can usually run <code>kubectl</code> right after. In production, though, the person or role that creates the cluster is rarely the only one who needs to operate it day to day. Before you run <code>eksctl create cluster</code>, answer one question: who needs Kubernetes access from day one?</p>
+  <p><strong>Your team's operator roles</strong> — the IAM roles your platform team or DevOps engineers actually use to view resources, troubleshoot, and manage workloads. If your organization uses AWS IAM Identity Center, engineers typically reach AWS through SSO-backed IAM roles that are distinct from whatever identity created the cluster — plan those roles into access entries before creation, not after.</p>
+  <p><strong>Your CI/CD pipeline role</strong> — the IAM role your automation uses to deploy to the cluster. If a GitHub Actions OIDC role (or similar) is missing an access entry, the pipeline can authenticate to AWS fine and still fail the moment it tries to deploy — a confusing failure to debug after the fact versus define upfront.</p>
+  <p>You can define access entries during cluster creation under eksctl's <code>accessConfig</code> block, or add them later through the Console, AWS CLI, Terraform, or the EKS API — both are supported. The production standard is to list operator and automation roles that need access and design them in before you create the cluster, rather than debugging access failures afterward. See <a href="https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html" target="_blank" rel="noopener">EKS access entries</a> for the full reference — the modern replacement for the legacy <code>aws-auth</code> ConfigMap covered in the last post.</p>
+
+  <h2>EKS Auto Mode — a real option, deliberately skipped here</h2>
+  <p>Auto Mode, launched in late 2024, extends AWS management further down the stack. In standard EKS, you manage worker nodes, add-ons, scaling, load balancing, and storage. With Auto Mode, AWS takes on much of that data-plane infrastructure: nodes run AWS-managed, immutable AMIs with restricted direct access and are replaced automatically at end of life, and Karpenter-based provisioning handles scaling by creating and removing nodes as needed. You spend more time on applications and less on the nodes underneath them.</p>
+  <p>For teams that want minimum operational overhead and are comfortable with less visibility into nodes, Auto Mode is a legitimate choice. We're deliberately not using it in this series, though — it abstracts away exactly what we're here to understand. If the VPC CNI is managed for you, you don't learn how pods get IP addresses; if node groups are managed for you, you don't learn what happens when a node is lost. Build from the components up first. Once you understand how each piece works, you can evaluate <a href="https://docs.aws.amazon.com/eks/latest/userguide/automode.html" target="_blank" rel="noopener">Auto Mode</a> on its real benefits, and know exactly what you're trading away.</p>
+
+  <h2>Terraform — the production reality</h2>
+  <p>Your EKS cluster doesn't live alone. It lives inside a VPC managed by Terraform, using IAM roles managed by Terraform, referencing security groups managed by Terraform. When your entire infrastructure is code, the cluster has to be code too — reviewed and deployed through the same pipeline as everything else. That's why many production teams reach for Terraform once the surrounding AWS environment is already managed that way.</p>
+  <p>So why aren't we using it here? Terraform needs a state backend, a full VPC setup, surrounding IAM, and other supporting resources before your first <code>apply</code> even runs — that's a full course of its own. eksctl gets a real EKS cluster running from a single file in about 20 minutes: same EKS cluster, same Kubernetes API, same Kubernetes behavior. The tool changes; the EKS concepts, Kubernetes components, and architecture transfer directly. The capstone project in this course includes a Terraform-based EKS cluster — that's where you'll see Terraform manage EKS in a production-style setup.</p>
+
+  <h2>Cost and cleanup</h2>
+  <p>When eksctl creates a cluster, it creates real AWS resources that incur real charges: the EKS cluster itself, EC2 instances, networking resources, CloudFormation stacks, IAM roles, security groups, and CloudWatch logs. Exact cost depends on region, instance type, runtime, and log retention. Always delete a lab cluster when you're done:</p>
+  <pre>eksctl delete cluster --name book-review --region eu-west-1 --wait</pre>
+  <p>Two things about this command matter. First, always delete through eksctl, not by manually deleting CloudFormation stacks in the Console — manual deletion can leave orphaned IAM roles, security groups, and ENIs behind in your account. Second, always use <code>--wait</code>. Without it, eksctl starts the deletion and exits immediately; if a Pod Disruption Budget or a stuck AWS resource blocks deletion, you won't know, the cluster can sit in a partial state, and you keep paying for resources you think are gone. <code>--wait</code> keeps the command running and monitoring the CloudFormation stack deletion until it actually completes, reporting an error if something prevents it. See the <a href="https://eksctl.io/usage/deleting-a-cluster/" target="_blank" rel="noopener">eksctl cluster deletion docs</a> and current <a href="https://aws.amazon.com/eks/pricing/" target="_blank" rel="noopener">EKS pricing</a> before you spin one up.</p>
+
+  <h2>Decisions to get right before you create a cluster</h2>
+  <ul>
+    <li><strong>Tool choice.</strong> Console to explore only. eksctl from a config file for this course and most hands-on work. Terraform once the surrounding AWS environment is already code.</li>
+    <li><strong>Kubernetes version.</strong> Pin it explicitly; check the version lifecycle page for standard-support end dates before choosing.</li>
+    <li><strong>Endpoint access and logging.</strong> Restrict <code>publicAccessCIDRs</code> if public access is enabled at all; enable at minimum <code>api</code> and <code>authenticator</code> logs, add <code>audit</code> for anything compliance-sensitive.</li>
+    <li><strong>Add-on versions.</strong> Pin every one. An unpinned add-on drifts silently between runs.</li>
+    <li><strong>Encryption and access entries.</strong> Default AWS-owned KMS key is fine for a lab; a CMK is permanent once enabled. Design operator and CI/CD access entries before creation, not after.</li>
+    <li><strong>Cleanup.</strong> Delete with eksctl and <code>--wait</code> — never by hand in the Console.</li>
+  </ul>
+  <p>The Console, eksctl, and Terraform all end up at the same EKS cluster with the same Kubernetes API. What changes is whether your configuration is something you can review, version, and recreate — or something you have to remember. That discipline, not the tool itself, is the production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>
