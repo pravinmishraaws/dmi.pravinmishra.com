@@ -43,5 +43,14 @@
     "category": "DevOps",
     "date": "2026-07-26",
     "image": "../images/blog/self-paced-leaderboard-og.jpg"
+  },
+  {
+    "slug": "eks-cluster-creation-console-eksctl-terraform",
+    "title": "EKS Cluster Creation: AWS Console, eksctl, and Terraform",
+    "excerpt": "Three ways to create an EKS cluster and the production rule for each: Console for exploring only, eksctl from a versioned config file, Terraform once your AWS environment is already code.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-07-28",
+    "image": "../images/blog/eks-cluster-creation-console-eksctl-terraform-og.jpg"
   }
 ]
