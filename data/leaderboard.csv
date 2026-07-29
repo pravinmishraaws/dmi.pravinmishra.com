@@ -1,10 +1,12 @@
 Name,Group,Github,Total
 Folarin Wale,Group 1,walefolarin0-glitch,840
+Nebeolisa Chiemelie Kelvin,Group 3,chukwuemelie-design,830
 Bharadwaja Kachiraju,Group 3,kachiraju,800
-Nebeolisa Chiemelie Kelvin,Group 3,chukwuemelie-design,800
+Ayomikun Philip Ajayi,Group 2,ayomikunphilip,790
 Peace Offor Nwadinachi,Group 3,PeaceCloud-Solutions,780
 Timothy Olubiyi,Group 1,Timothyolubiyi,780
-Ayomikun Philip Ajayi,Group 2,ayomikunphilip,760
+Avoseh Moses,Group 3,DMIC3-G3-Avoseh-Moses,760
+Gideon Osaze Omole,Group 3,Gideon-Omole,760
 Henrietta Ogochukwu Okechukwu,Group 1,Harietonyeabor,760
 IBITOYE OLONI,Group 1,excelchips,760
 Inibehe Emmanuel Sunday,Group 3,sundayinibehe75-afk,760
@@ -25,11 +27,10 @@ Oluwatobiloba Reuben Adeje,Group 2,Tobilee10,740
 Ronnie Santos,Group 2,santosronnie26-sr,740
 Abhinav T,Group 3,abhinavleo,730
 Anthonia Akwuohia,Group 3,Tonia-onyeka,730
-Avoseh Moses,Group 3,DMIC3-G3-Avoseh-Moses,730
-Gideon Osaze Omole,Group 3,Gideon-Omole,730
 Oladosu Qudus,Group 1,AbdulQuduss,730
 Rohan Kumar Das,Group 3,rohandas98,730
 Sarah Wambui Amadi,Group 2,sarah254-tech,730
+Temitope Ademola-Davids,Group 3,accelage,730
 Tim Olunna Obi,Group 2,timobi784,730
 AKUBUKO JAPHET UCHENNA,Group 1,akubukojaphet,720
 Abdul Ganiyu Sumaila Ali,Group 2,G-abdul,720
@@ -38,13 +39,12 @@ Ibitoye Olatunde,Group 2,horlartundhey,720
 Maneetta Antony,Group 3,dev-enthusiast-84,720
 shanmuki reddy,Group 3,shanmukireddy,720
 Aanuoluwapo Tolu-Omodara,Group 1,PricelessMercy1,710
+CHRISTIAN ARYEE,Group 2,chrispok18,710
+Stephen Chinedu Okam,Group 3,steveX12,710
 Ndubuisi Ebenezer Uchenna,Group 2,UchennaEbenezer,700
-Temitope Ademola-Davids,Group 3,accelage,700
 Adebukunola Oyetimehin,Group 1,Mayowa2020,690
 Adekunle Adepoju,Group 1,adeitup11,690
 GEORGE ADIMOWEI EPEBIFIE,Group 3,wisegeorge1,690
-CHRISTIAN ARYEE,Group 2,chrispok18,680
-Stephen Chinedu Okam,Group 3,steveX12,680
 Boyi Kenneth Efe,Group 2,Weblife007,670
 Atoyebi Micheal,Group 3,Fhelobanty,660
 EKWEOZOR NKEMAKONAM VICTORIA,Group 2,nkemveekee-ike,660
@@ -67,6 +67,7 @@ EZEOBI CHINECHEREM,Group 2,PALLOTI,610
 Favour Iruoghene Agbaike,Group 1,agbaike,610
 Godwin Obi,Group 2,GodLoN,610
 Joshua Chibuisi,Group 3,cjemmyyy,610
+Evangeline Obeta,Group 1,EAgeless,600
 Kleber Vincent,Group 2,kakpoklebervincent,600
 Nji Menyonga Ariane Ruth,Group 2,NjiAriane,600
 AZIZ OLAIDE KAFAYAT,Group 1,kaphaaya,590
@@ -74,21 +75,20 @@ Victor Durojaiye,Group 2,Kingjaiyee,590
 Deji Adedokun,Group 1,dejidokun,580
 Millicent Amalachukwu Anadi,Group 1,MiDevopsEngineer,580
 Srinivasan Raman,Group 2,imsrinivas,570
-Evangeline Obeta,Group 1,EAgeless,560
 Gift Nkechi Juwe,Group 2,NkJuwe,560
 Toluwalase Koroma,Group 1,Toluwalase124,560
 Ubani Onu Chukwu,Group 2,Ubani-Onu-C,560
+Ifeoma Jane Akabueze,Group 3,Ifeoma-Obinna23,550
 Richmond Usoh,Group 2,richmondusoh,550
 Saima Usman,Group 2,Saima-Devops,550
 Egekenze Kelechi,Group 1,Keicee32,540
 Michael Oyeniran Oyeku,Group 3,mykofonics,540
 Oluwafemi Aremu,Group 2,holarmyde,540
-Ifeoma Jane Akabueze,Group 3,Ifeoma-Obinna23,520
 Peter Ogbebor,Group 1,Peroxy101,520
 Jerrica Valentine,Group 1,jlvalentinedev,490
+Spencer Quesie Enchill,Group 2,Spencer2312-op,490
 Vivekanandan Satheeshbabu,Group 3,Vivekanandan-Satheeshbabu,480
 Isaiah Emeka Prestige,Group 2,Emesiah,460
-Spencer Quesie Enchill,Group 2,Spencer2312-op,460
 Eyibio George,Group 2,eyibiogeorge,450
 Angus Egbekobar,Group 1,angus-egbekobar,440
 Pamela Chidinma Ezeotika,Group 2,Ella3323,440
@@ -100,9 +100,9 @@ Tolulope Omodara,Group 1,ToluFemiTayo,400
 Judah Oyekunle Marvellous,Group 3,Judahforge,390
 Oyebajo Inioluwa Flourish,Group 1,inioluwaflourish12-cloud,390
 Ginika Ndubuisi,Group 2,iam-ginika,380
+Supun Jayathilake,Group 3,supunsridhara,380
 chukwuka Miracle unigwe,Group 3,Nerdymaxx,380
 Abihail Osahon,Group 1,abihail22558,360
-Supun Jayathilake,Group 3,supunsridhara,360
 Abraham Aigbokhan,Group 2,Abrahamnosa23,350
 Kennedy Nwachukwu,Group 1,Kenny2113,350
 Sharon Adigwe,Group 1,ad-sharon,340
@@ -134,6 +134,7 @@ Abhay Gupta,Group 1,Roman-ab,110
 Aiyudubie Ediagbonya,Group 3,aiyus2020,100
 Chinazom,Group 2,mbabuikechinazom-creator,100
 Gautam Kevadiya,Group 3,DMI-C3-Gautam,100
+Hope Odu,Group 2,mummytwin,100
 Amarachi Ekwebelem Janefrancis,Group 1,Cloudcrackamara,90
 Manish Hiraman Ghadge,Group 1,DMI-C3-Manish,90
 UGO-OLUMBA ANOINTING CHUKWUEBUKA,Group 2,DMI-C3-ANOINTING,90
@@ -147,6 +148,7 @@ Okeke Christian Chima,Group 1,cchristok,50
 Anaebo Edith Chinonye,Group 3,anaeboedith-dot,40
 Fancy Kejriwal,Group 3,fancy1505,40
 nwasike christiana,Group 2,DMI-C3-CHRISTIANA,40
+Ikechukwu Emmanuel,Group 1,ikechukwuemmanuel2024-source,30
 Olayinka Abass,Group 3,DMI-C3-OLAYINKA,30
 Uche Ugochukwu,Group 1,Sosthenes-arch,30
 dapo Yusuf,Group 2,Dayusuf23,30
@@ -154,3 +156,4 @@ Adnan Hassan,Group 3,adnaneeun,20
 DAVID AGADA ADIKWU,Group 2,Agadadavid,20
 Jude Oshiomha,Group 2,judedammy,20
 DMIC3-G3:Bright Tony,Group 3,BluuOps,10
+Onyemaechi Blessing Brenda,Group 3,BrendyBrendora,10
