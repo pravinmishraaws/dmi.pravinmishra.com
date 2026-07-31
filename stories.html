@@ -167,11 +167,15 @@
 
     const meta = [s.country, s.cohort].filter(Boolean).join(' · ');
 
+    const quoteBlock = s.screenshot_src
+      ? `<img class="story-quote-screenshot" src="${escHtml(s.screenshot_src)}" alt="${escHtml(s.name)}'s LinkedIn post about DMI">`
+      : `<p class="story-quote">"${escHtml(s.quote)}"</p>`;
+
     return `
       <div class="story-row">
         <div class="story-media">${media}</div>
         <div class="story-text">
-          <p class="story-quote">"${escHtml(s.quote)}"</p>
+          ${quoteBlock}
           <p class="story-byline">
             ${nameLink}${meta ? ' · ' + escHtml(meta) : ''}
             ${s.role ? `<br><span class="text-muted">${escHtml(s.role)}</span>` : ''}
