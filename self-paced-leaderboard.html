@@ -167,6 +167,7 @@
     <li><a href="placement.html">Placement</a></li>
     <li><a href="blog/index.html">Blog</a></li>
     <li><a href="enterprise.html">DMI Enterprise</a></li>
+    <li><a href="campus.html">DMI Campuses</a></li>
     <li><a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
@@ -212,7 +213,7 @@
                 <th>Rank</th>
                 <th></th>
                 <th>Student</th>
-                <th>Sections Completed</th>
+                <th>Weeks Completed</th>
                 <th>DMI GitHub Portfolio</th>
                 <th>Total</th>
                 <th>Badge</th>
@@ -251,7 +252,7 @@
 
 <script src="app.js"></script>
 <script>
-  const TOTAL_SECTIONS = 14;
+  const TOTAL_WEEKS = 14;
   const LB_CSV_URL = 'data/self-paced-leaderboard.csv';
   const GRAD_JSON_URL = 'data/self-paced-graduates.json';
 
@@ -335,7 +336,7 @@
     let data = [...allStudents];
     if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
 
-    // Sections completed first, total as tiebreaker — pacing matters more than raw points.
+    // Weeks completed first, total as tiebreaker — pacing matters more than raw points.
     data.sort((a, b) => {
       const w = (parseInt(b.sectionscompleted) || 0) - (parseInt(a.sectionscompleted) || 0);
       if (w !== 0) return w;
@@ -354,9 +355,9 @@
 
     tbody.innerHTML = data.map((s, i) => {
       const rank = i + 1;
-      const sections = parseInt(s.sectionscompleted) || 0;
+      const weeks = parseInt(s.sectionscompleted) || 0;
       const total = parseInt(s.total) || 0;
-      const pct = Math.round((sections / TOTAL_SECTIONS) * 100);
+      const pct = Math.round((weeks / TOTAL_WEEKS) * 100);
       const username = s.githubusername || '';
       // Must point at the student's assignment repo, not their bare GitHub
       // profile — that's the actual DevOps portfolio "View" is meant to show.
@@ -369,7 +370,7 @@
           <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" target="_blank" rel="noopener" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
           <td>
             <div class="weeks-pill">
-              <span>${sections} / ${TOTAL_SECTIONS}</span>
+              <span>${weeks} / ${TOTAL_WEEKS}</span>
               <span class="bar"><span style="width:${pct}%;"></span></span>
             </div>
           </td>
@@ -399,7 +400,7 @@
         <div class="grad-name">${escHtml(g.name)}</div>
         <div class="grad-role">${escHtml(g.role || 'Cloud & DevOps Engineer')}</div>
         ${g.country ? `<div class="grad-country">${escHtml(g.country)}</div>` : ''}
-        <span class="grad-badge">🎓 ${g.sections_completed || TOTAL_SECTIONS}/${TOTAL_SECTIONS} Sections</span>
+        <span class="grad-badge">🎓 ${g.sections_completed || TOTAL_WEEKS}/${TOTAL_WEEKS} Weeks</span>
         <div class="grad-links">
           ${g.linkedin ? `<a href="${escHtml(g.linkedin)}" target="_blank" rel="noopener" class="grad-linkedin">LinkedIn →</a>` : ''}
           ${g.github_username ? `<a href="s/${escHtml(g.github_username)}.html" target="_blank" rel="noopener" class="grad-badge-link">View Badge →</a>` : ''}

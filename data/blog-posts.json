@@ -54,6 +54,15 @@
     "image": "../images/blog/eks-cluster-creation-console-eksctl-terraform-og.jpg"
   },
   {
+    "slug": "eks-node-groups-managed-vs-self-managed",
+    "title": "EKS Node Groups: Managed vs. Self-Managed, and the Production Architecture",
+    "excerpt": "Managed node groups, self-managed, or Fargate — and the production pattern real teams use: a small bootstrap group plus Karpenter, taints, IMDSv2, minimal node IAM roles, and pod-IP limits.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-07-30",
+    "image": "../images/blog/eks-node-groups-managed-vs-self-managed-og.jpg"
+  },
+  {
     "slug": "eks-iam-cluster-node-pod-identity-access-entries",
     "title": "IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access",
     "excerpt": "Four separate IAM identities on EKS — cluster role, node role, Pod Identity/IRSA, and access entries — and the one mistake that breaks all of them: assuming the node role covers everything.",

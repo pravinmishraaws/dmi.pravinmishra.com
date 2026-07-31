@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EKS Node Groups: Managed vs. Self-Managed, and the Production Architecture — DMI Blog</title>
+  <meta name="description" content="Managed node groups, self-managed, or Fargate; instance type choice; the bootstrap-group-plus-Karpenter pattern; and the IMDSv2, node IAM role, and pod-IP decisions that matter before you scale." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/eks-node-groups-managed-vs-self-managed.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="EKS Node Groups: Managed vs. Self-Managed, and the Production Architecture" />
+  <meta property="og:description" content="Managed node groups, self-managed, or Fargate; instance type choice; the bootstrap-group-plus-Karpenter pattern; and the IMDSv2, node IAM role, and pod-IP decisions that matter before you scale." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/eks-node-groups-managed-vs-self-managed.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/eks-node-groups-managed-vs-self-managed-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EKS Node Groups: Managed vs. Self-Managed, and the Production Architecture" />
+  <meta name="twitter:description" content="Managed node groups, self-managed, or Fargate; instance type choice; the bootstrap-group-plus-Karpenter pattern; and the IMDSv2, node IAM role, and pod-IP decisions that matter before you scale." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/eks-node-groups-managed-vs-self-managed-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "EKS Node Groups: Managed vs. Self-Managed, and the Production Architecture",
+    "datePublished": "2026-07-30",
+    "dateModified": "2026-07-30",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/eks-node-groups-managed-vs-self-managed-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/eks-node-groups-managed-vs-self-managed.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="../leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="../leaderboard.html">Leaderboard</a></li>
+      <li><a href="../self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="../champion.html">Champion</a></li>
+      <li><a href="../graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../enterprise.html">DMI Enterprise</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">July 30, 2026</span>
+  </div>
+  <h1>EKS Node Groups: Managed vs. Self-Managed, and the Production Architecture</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>In <a href="eks-cluster-creation-console-eksctl-terraform.html">the last post</a>, we walked through a production eksctl config file field by field. Buried in it were three choices we made without explaining them: <code>managedNodeGroups</code>, <code>t3.medium</code>, and a <code>desiredCapacity</code> of 2. This post is about those choices — because your worker nodes are where the application actually runs, and the decisions here affect cost, availability, performance, and how much operational work lands on your team.</p>
+
+  <h2>What a node group actually is</h2>
+  <p>A node group is a collection of EC2 worker nodes that share the same configuration — same instance type, same operating system, same IAM role, same scaling settings. Think of it as a fleet: you define it once, and every node in it follows the same rules. If it's a <em>managed</em> node group, AWS helps with the EC2 lifecycle. If it's <em>self-managed</em>, your team owns more of that lifecycle directly.</p>
+  <p>A single cluster can have multiple node groups — a general-purpose group for most workloads, a memory-optimized group for something like a cache or database. The Kubernetes scheduler sees every node across every group and places pods based on what each node can offer. But within one node group, every node is identical — that uniformity is what makes a group easy to scale, replace, and manage.</p>
+  <p>There are three practical ways to run worker capacity on EKS: managed node groups, self-managed node groups, and AWS Fargate.</p>
+
+  <h2>Managed node groups — the practical default</h2>
+  <p>With a managed node group, AWS handles the EC2 lifecycle. Ask for two nodes, and AWS provisions two EC2 instances, joins them to your cluster, and keeps them registered. When you need to update the nodes, AWS can perform a rolling update — draining one node, replacing it, waiting for the new node to become healthy, then moving to the next. With enough replicas and the right disruption settings on your application, this keeps it available through the update.</p>
+  <p>You still own the EC2 instances — they run in your account, and you pay for them. What AWS takes off your plate is the lifecycle work: node updates, rolling replacement, health monitoring. That's why managed node groups are the practical default for most teams, and what we use throughout this course. See the <a href="https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html" target="_blank" rel="noopener">managed node groups docs</a> for the full mechanics.</p>
+
+  <h2>Self-managed node groups — full control, full responsibility</h2>
+  <p>Self-managed means you provision and manage the EC2 instances yourself, typically through an Auto Scaling Group with a custom launch template. You get complete control — custom OS images, custom bootstrap scripts, specific kernel settings, hardware configurations a managed node group may not support.</p>
+  <p>Complete control means complete responsibility, though: manual node upgrades, your own drain-and-replace process, your own AMI maintenance, and every other operational task around the node lifecycle. Self-managed node groups make sense when you have a specific requirement a managed node group can't satisfy — a regulatory constraint, custom security tooling baked into the image, or unusual hardware. For this course, and for most production teams without one of those reasons, managed node groups are the right starting point.</p>
+
+  <h2>Fargate — no nodes, but real limitations</h2>
+  <p>Fargate is a different model entirely. There are no EC2 worker nodes for you to manage at all. You define a Fargate profile — which namespaces and pod selectors it applies to — and AWS runs the matching pods on infrastructure you never see. No nodes to patch, no node capacity to manage. You pay for the vCPU and memory the pods actually use, calculated per second.</p>
+  <p>That sounds appealing, but Fargate has real limitations for a production platform. <strong>DaemonSets don't run on Fargate</strong> — which affects node-level tools like log collectors and security agents, anything that normally needs one pod on every node. Storage differs too: EFS is supported, but EBS-backed Persistent Volumes that depend on node-attached storage aren't the same pattern. Pod startup can take longer, since there's no EC2 node already sitting there waiting. And for steady, predictable workloads, per-pod pricing can end up more expensive than EC2 worker nodes. For a platform running Prometheus, Grafana, and Loki — where node-level DaemonSets are a real part of the observability and security model — managed node groups are the right foundation. See the <a href="https://docs.aws.amazon.com/eks/latest/userguide/fargate.html" target="_blank" rel="noopener">Fargate on EKS docs</a> for the full list of constraints.</p>
+
+  <h2>Choosing an instance type</h2>
+  <p>AWS instance types follow a naming pattern: family, generation, size. <code>t3.medium</code> — the <strong>t</strong> family is general-purpose with burstable CPU, generation 3, medium size: 2 vCPUs, 4 GB RAM. <code>m6i.large</code> — the <strong>m</strong> family is general-purpose with consistent CPU, generation 6, Intel. <code>c6g.xlarge</code> — the <strong>c</strong> family is compute-optimized, generation 6, Graviton (ARM).</p>
+  <p>This course uses <code>t3.medium</code> as a low-cost starting point for the early labs; once the observability stack lands, we monitor actual capacity and scale if needed. For production, the general guidance:</p>
+  <ul>
+    <li><strong>General workloads</strong> — <code>m6i</code> or <code>m7i</code>: balanced CPU and memory for a wide range of applications.</li>
+    <li><strong>CPU-intensive workloads</strong> — <code>c6i</code> or <code>c7i</code>: a higher CPU-to-memory ratio for compute-heavy work.</li>
+    <li><strong>Memory-intensive workloads</strong> — <code>r6i</code> or <code>r7i</code>: a higher memory-to-CPU ratio.</li>
+    <li><strong>Cost-conscious production</strong> — <code>m6g</code> or <code>c6g</code>: Graviton (ARM), often a strong price-performance option if your container images support the architecture.</li>
+  </ul>
+  <p>That last point is the catch worth checking before you commit: most modern container images ship as multi-architecture builds, but an image published only as <code>amd64</code> simply won't run on a Graviton node. Verify your image architecture support before betting production on ARM. See the <a href="https://aws.amazon.com/ec2/instance-types/" target="_blank" rel="noopener">EC2 instance types reference</a> and the <a href="https://aws.amazon.com/ec2/graviton/" target="_blank" rel="noopener">Graviton processor page</a>.</p>
+
+  <h2>The production node architecture: a bootstrap group, plus Karpenter</h2>
+  <p>In production, teams typically don't size one fixed node group to carry every workload — they split the responsibility. A small managed node group, often called the <strong>bootstrap group</strong>, gives critical platform components a stable place to run. Karpenter and CoreDNS shouldn't have to compete with application pods for a spot. Some components — the VPC CNI, the EKS Pod Identity agent — run as DaemonSets on every node regardless, but the bootstrap group gives the cluster a safe starting point.</p>
+  <p>Everything else runs on nodes that <strong>Karpenter</strong> provisions on demand: it watches for pods that can't be scheduled, picks the right instance type and size for what they actually need, launches new nodes in seconds, and terminates them when they're no longer needed.</p>
+  <p>Why split it this way? Karpenter is what creates the rest of your compute. If it has to compete with application pods for scheduling, or has no stable place to run at all, your autoscaling becomes fragile exactly when you need it most. The bootstrap group protects the infrastructure that creates the rest of the infrastructure. We'll go deep on <a href="https://karpenter.sh/docs/getting-started/" target="_blank" rel="noopener">Karpenter versus Cluster Autoscaler</a> in a dedicated post — for now, the architecture to hold onto is: one small fixed group for critical platform components, Karpenter for everything else.</p>
+  <p>For the hands-on lab in this course, we run a single node group that handles everything — the right call for a learning cluster where simplicity matters. When you move to production, the bootstrap-plus-Karpenter split is the pattern to reach for.</p>
+
+  <h2>Taints keep the split clean</h2>
+  <p>If the bootstrap group is meant for critical add-ons only, what stops your application pods from landing there anyway? A taint. A taint is a signal on a node that says: don't schedule here unless you explicitly tolerate this. Taint the bootstrap nodes with <code>CriticalAddonsOnly:NoSchedule</code>, and regular workload pods — which don't carry a matching toleration — can't be placed there. Only pods that explicitly declare the <code>CriticalAddonsOnly</code> toleration, like Karpenter itself, can land on those nodes. Application pods usually don't have that toleration, so the split stays clean without any extra scheduling logic. In eksctl, you add the taint directly to the node group:</p>
+  <pre>managedNodeGroups:
+  - name: bootstrap
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 3
+    taints:
+      - key: CriticalAddonsOnly
+        effect: NoSchedule</pre>
+  <p>See the Kubernetes <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/" target="_blank" rel="noopener">taints and tolerations reference</a> for the full set of effects (<code>NoSchedule</code>, <code>PreferNoSchedule</code>, <code>NoExecute</code>).</p>
+
+  <h2>Node security: IMDSv2 and EBS encryption</h2>
+  <p>Worker nodes are EC2 instances — they have metadata, IAM access, root volumes, OS-level configuration. Node group design isn't only about scaling and instance types; it's also about security, and two settings are worth deciding explicitly rather than leaving at their defaults.</p>
+  <p>The <strong>instance metadata service</strong>, at <code>169.254.169.254</code>, is how a node retrieves its own metadata — including credentials for its IAM role. If IMDSv1 is allowed, a compromised workload may be able to make a metadata request and walk away with the node role's credentials, then do anything that role permits. IMDSv2 closes that gap by requiring a session token before metadata can be read at all. It isn't a substitute for least privilege, though — the safer EKS pattern is to require IMDSv2, keep the node IAM role minimal, and give application pods their own AWS permissions through Pod Identity or IRSA rather than leaning on the node role. You set this in the node group config:</p>
+  <pre>instanceMetadata:
+  httpTokens: required
+  httpPutResponseHopLimit: 2</pre>
+  <p><code>httpPutResponseHopLimit</code> controls how far the IMDSv2 token response can travel. A value of 1 keeps it close to the instance itself, which in many EKS environments helps stop ordinary pods from reaching node metadata at all. A value of 2 may be justified if a node-level component genuinely needs IMDS access from inside a container — but don't reach for 2 casually; document why you need it. See the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html" target="_blank" rel="noopener">IMDSv2 mechanics</a> and the <a href="https://docs.aws.amazon.com/eks/latest/best-practices/security-groups.html" target="_blank" rel="noopener">EKS Best Practices Guide's take on node credential theft</a>.</p>
+  <p>The second setting protects the node's disk rather than its credentials. Every worker node has a root EBS volume — where the OS, kubelet files, and container image layers live — and you should not assume it's encrypted by default; that depends on your account settings and node group configuration. The production rule is simple: verify or enforce encryption on worker-node root volumes, whether through your IaC tool or account-level EBS encryption defaults. The exact syntax matters less than the decision itself — an unencrypted root volume left to chance is exactly the kind of gap a compliance review finds. See <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html" target="_blank" rel="noopener">Amazon EBS encryption</a> for the defaults and KMS options.</p>
+
+  <h2>The node IAM role — keep it minimal</h2>
+  <p>Every EC2 worker node in a managed node group runs with an IAM role — the node IAM role. Application pods shouldn't use it for their own permissions, but if a pod can reach the metadata service, it may be able to obtain that role's credentials anyway. That's the direct reason to keep it as small as possible.</p>
+  <p>What the node actually needs is narrow: <strong>AmazonEKSWorkerNodePolicy</strong> lets it communicate with the cluster and register with the control plane; <strong>AmazonEC2ContainerRegistryPullOnly</strong> lets it pull images from ECR with read-only permissions. There's one common exception — the VPC CNI needs AWS permissions to manage pod networking, provided through <strong>AmazonEKS_CNI_Policy</strong>. You'll see that attached directly to the node role on simple lab clusters, but for production, attach it instead to a separate role used by the <code>aws-node</code> service account, not the node role itself. Then there's <strong>AmazonSSMManagedInstanceCore</strong>, which Kubernetes workloads don't need at all — it's only relevant if you want to reach the EC2 nodes through Systems Manager Session Manager instead of SSH, and should be added only if you actually need that access.</p>
+  <p>The production rule: keep the node IAM role small, move CNI permissions to the <code>aws-node</code> service account where possible, add SSM only if you need node access, and never attach anything broad like <code>AmazonEC2FullAccess</code> or administrator-level permissions. If a workload escapes its container boundary or reaches node metadata, it inherits whatever the node role allows — least privilege here directly reduces the blast radius, not just a checkbox for a security review. eksctl creates the node IAM role for you with managed node groups; for production, review exactly what's attached. Full reference: <a href="https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html" target="_blank" rel="noopener">Amazon EKS node IAM role</a>.</p>
+
+  <h2>Pod density and VPC CNI prefix delegation</h2>
+  <p>Here's something that surprises many teams the first time they run EKS in production: a node can still have CPU and memory to spare, and Kubernetes still can't schedule another pod on it. The reason is IP addresses, not compute. With the Amazon VPC CNI, every pod gets an IP from your VPC, and each EC2 instance type supports a limited number of network interfaces and IPs — so the number of pods a node can run is also an IP-address question, and on smaller instance types that limit can be lower than you'd expect. When you pick an instance type, check its EKS max-pods behavior alongside vCPU and RAM, not instead of it.</p>
+  <p>In a real cluster this shows up as pods stuck in <code>Pending</code> while the nodes don't look full on CPU or memory at all — the missing resource is pod IPs. One way to improve this is <strong>VPC CNI prefix delegation</strong>: instead of assigning individual secondary IPs to a node, the CNI assigns IPv4 prefixes — for IPv4 clusters, each prefix is a <code>/28</code> block of 16 addresses — which can meaningfully raise pod density on supported instance types.</p>
+  <p>One design point matters here: prefix delegation doesn't create free IP addresses, it still consumes them from your VPC subnets. If your worker subnets are too small, or too fragmented to offer enough contiguous <code>/28</code> blocks, you can still hit IP exhaustion with prefix delegation enabled. Before a production cluster exists, check three things: the instance types you plan to use, the max-pods behavior for those types, and whether your subnets actually have enough IP capacity for the nodes and pods you expect. Subnet design is painful to change after the fact — plan it before the cluster, not after. See <a href="https://docs.aws.amazon.com/eks/latest/best-practices/vpc-cni.html" target="_blank" rel="noopener">increasing available IPs for EC2 nodes</a> for the full prefix-delegation and subnet-sizing guide.</p>
+
+  <h2>Right-sizing your nodes</h2>
+  <p>Avoid choosing a node size just because it looks cheaper. Every node carries overhead before your application gets any usable capacity at all — kubelet, kube-proxy, the container runtime, OS processes, and system add-ons all consume CPU and memory first. On something as small as <code>t3.micro</code>, a node can technically join the cluster and still have very little practical capacity left over — it looks available and can't actually schedule much.</p>
+  <p>For this course's labs, two <code>t3.medium</code> nodes are a reasonable starting point, and we watch and scale as the observability stack gets added later. In production, many teams skip fixed-size sizing altogether and let Karpenter handle it: Karpenter looks at pending pods, their resource requests, and their scheduling constraints, then provisions nodes that actually match — often improving bin-packing and cost compared with running one fixed instance type for every workload. Node design isn't a decision you make once; it's about continuously matching capacity to the workloads you actually run.</p>
+
+  <h2>Decisions to get right before you create a node group</h2>
+  <ul>
+    <li><strong>Node model.</strong> Managed node groups by default. Self-managed only for a specific requirement they can't satisfy. Fargate only where node-level DaemonSets aren't a hard requirement.</li>
+    <li><strong>Instance type.</strong> Match the family to the workload (general/CPU/memory-optimized), and verify multi-arch image support before committing to Graviton.</li>
+    <li><strong>Production topology.</strong> A small bootstrap group, tainted <code>CriticalAddonsOnly:NoSchedule</code>, for platform components; Karpenter for everything else.</li>
+    <li><strong>Node security.</strong> <code>httpTokens: required</code> always; keep <code>httpPutResponseHopLimit</code> at the lowest value that works; verify or enforce root EBS volume encryption.</li>
+    <li><strong>Node IAM role.</strong> Only <code>AmazonEKSWorkerNodePolicy</code> and <code>AmazonEC2ContainerRegistryPullOnly</code> by default. CNI permissions on <code>aws-node</code>, not the node role. SSM only if you need it. Nothing broader.</li>
+    <li><strong>Pod density.</strong> Check max-pods per instance type and subnet IP capacity before creating the cluster — prefix delegation raises density, it doesn't create IP addresses.</li>
+  </ul>
+  <p>None of this is a one-time checkbox — instance type, node topology, and IAM scope all shape how the cluster behaves under real load, long after the CLI command that created it is forgotten. That's the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop, one real decision at a time.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>

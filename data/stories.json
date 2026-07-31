@@ -237,5 +237,19 @@
     "source": "self-submitted",
     "consent_ref": "PENDING-2026-07-27",
     "date_added": "2026-07-27"
+  },
+  {
+    "id": "ogonna-angela-umeh-2026-07",
+    "name": "Ogonna Angela Umeh",
+    "country": "Nigeria",
+    "cohort": "Cohort 2",
+    "media_type": "image",
+    "media_src": "images/stories/ogonna-angela-umeh.jpg",
+    "quote": "Being part of this journey has transformed the way I approach learning and my career. Beyond the technical skills in DevOps, Cloud, Kubernetes, Terraform, Git, and Agentic AI, the biggest lesson I have gained is self discipline. Showing up every day, completing tasks consistently, learning from mistakes, and pushing through challenges has built habits that will stay with me throughout my career. Pravin Mishra I am truly grateful for your mentorship, your patience, and your commitment to seeing us succeed. Thank you for investing your time and knowledge in us. I am proud to be a member of DMI Cohort 2, and I look forward to applying everything I have learned to create value wherever I go.",
+    "role": "Cloud Engineer & Agentic AI Architect",
+    "linkedin": "https://www.linkedin.com/in/ogonna-angela-ebube-umeh/",
+    "source": "self-submitted",
+    "consent_ref": "PENDING-2026-07-30",
+    "date_added": "2026-07-30"
   }
 ]

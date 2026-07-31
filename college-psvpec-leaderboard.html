@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Campus Leaderboard Preview — Prince Shri Venkateshwara Padmavathy Engineering College | DMI</title>
+  <meta name="description" content="Preview of a private, self-paced campus leaderboard for Prince Shri Venkateshwara Padmavathy Engineering College — DevOps Micro Internship by Pravin Mishra." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/college-psvpec-leaderboard.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .weeks-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .weeks-pill .bar {
+      width: 44px;
+      height: 5px;
+      border-radius: 100px;
+      background: var(--border);
+      overflow: hidden;
+    }
+    .weeks-pill .bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+    }
+    .badge-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+    }
+    .badge-link:hover { text-decoration: underline; }
+
+    /* Graduates tab — card grid, mirrors graduates.html */
+    .grad-card {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .grad-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .grad-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .grad-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .grad-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .grad-role { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; line-height: 1.4; }
+    .grad-country { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+    .grad-badge {
+      display: inline-block;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      border-radius: 100px;
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .grad-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .grad-linkedin, .grad-badge-link {
+      color: var(--accent);
+      font-size: 0.82rem;
+      text-decoration: none;
+      border: 1px solid var(--accent-border);
+      border-radius: 100px;
+      padding: 3px 12px;
+      transition: background 0.2s;
+    }
+    .grad-linkedin:hover, .grad-badge-link:hover { background: var(--accent-light); }
+    .graduates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 1rem;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 13px 30px;
+      border-radius: 100px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .demo-banner {
+      max-width: 640px;
+      margin: 0 auto 2rem;
+      text-align: center;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      border-radius: var(--radius);
+      padding: 0.65rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+  </style>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="how-it-works.html">How it works</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="champion.html">Champion</a></li>
+      <li><a href="graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="placement.html">Placement</a></li>
+    <li><a href="blog/index.html">Blog</a></li>
+    <li><a href="enterprise.html">DMI Enterprise</a></li>
+    <li><a href="campus.html">DMI Campuses</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section class="leaderboard-section" style="padding: 4rem 2rem 3rem;">
+  <div class="container">
+
+    <div class="section-label">Private Campus Leaderboard — Preview</div>
+    <h2 class="section-title">Prince Shri Venkateshwara Padmavathy Engineering College</h2>
+    <p class="section-sub">A preview of the private campus leaderboard your students and placement cell would see — one graded assignment per week, 14 weeks total, completed within a single quarter (about 4 months). Same daily-graded engine as DMI's public <a href="leaderboard.html" style="color:var(--accent);font-weight:600;">Live Leaderboard</a>, scoped to your campus only.</p>
+
+    <div class="demo-banner">⚠️ Sample data shown below for preview purposes — not real student records.</div>
+
+  </div>
+</section>
+
+<!-- ── Campus verifier ──────────────────────────────────────────────── -->
+<section style="padding: 2rem 2rem 3rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container" style="max-width:760px; text-align:center;">
+    <div class="section-label">Campus Verification</div>
+    <h2 class="section-title">Progress verified on-campus by</h2>
+    <p class="section-sub">Every student's weekly graded progress is confirmed by a named point of contact at the college — not just self-reported.</p>
+    <div class="profile-inner">
+      <div class="profile-avatar"><img src="images/venkata-subramanian-dayanandan.jpg" alt="Venkata Subramanian Dayanandan"></div>
+      <div class="profile-text">
+        <h3>Venkata Subramanian Dayanandan</h3>
+        <div class="role">Campus Verifier, Prince Shri Venkateshwara Padmavathy Engineering College</div>
+        <p>Reviews and confirms student progress on behalf of the college before it's reflected on this leaderboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leaderboard-section" style="padding: 3rem 2rem 5rem;">
+  <div class="container">
+
+    <!-- Tabs -->
+    <div class="cohort-tabs">
+      <button class="cohort-tab active" data-tab="active">Active</button>
+      <button class="cohort-tab" data-tab="graduates">Graduates</button>
+    </div>
+
+    <!-- ── Active leaderboard ─────────────────────────────────────────── -->
+    <div id="panelActive">
+      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+        <input id="lbSearch" type="text" placeholder="Search by name…"
+          style="background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:10px 20px;color:var(--text);font-size:0.95rem;width:100%;max-width:340px;outline:none;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+
+      <div id="lbLoading" class="lb-loading">
+        <div class="lb-spinner"></div>
+        Loading leaderboard…
+      </div>
+
+      <div id="lbContent" style="display:none;">
+        <div class="lb-table-wrap">
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th></th>
+                <th>Student</th>
+                <th>Weeks Completed</th>
+                <th>DMI GitHub Portfolio</th>
+                <th>Total</th>
+                <th>Badge</th>
+              </tr>
+            </thead>
+            <tbody id="lbBody"></tbody>
+          </table>
+        </div>
+        <div id="lbEmpty" class="lb-empty" style="display:none;">No students found.</div>
+        <p style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-top:1.5rem;" id="lbTimestamp"></p>
+      </div>
+    </div>
+
+    <!-- ── Graduates ──────────────────────────────────────────────────── -->
+    <div id="panelGraduates" style="display:none;">
+      <p id="gradCount" style="text-align:center;color:var(--text-muted);font-size:0.875rem;margin-bottom:1rem;"></p>
+      <div class="graduates-grid" id="graduatesGrid">
+        <div style="color:var(--text-muted);font-size:0.95rem;padding:2rem 0;grid-column:1/-1;text-align:center;">
+          <div class="lb-spinner" style="margin:0 auto 1rem;"></div>
+          Loading graduates…
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-banner">
+  <div style="max-width:640px;margin:0 auto;">
+    <h2>Want this live for your campus?</h2>
+    <p>This preview shows sample data. A real campus partnership replaces it with your own students, graded daily, with a report your placement cell can use.</p>
+    <a class="btn-white" href="https://thecloudadvisory.com/contact.html?utm_source=dmi&amp;utm_medium=college-psvpec-demo" target="_blank" rel="noopener">Talk to us about your campus →</a>
+    <p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.85);">See how campus partnerships work on the <a href="campus.html" style="color:#fff;text-decoration:underline;">DMI Campuses page</a>.</p>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const TOTAL_WEEKS = 14;
+  const LB_CSV_URL = 'data/college-psvpec-leaderboard.csv';
+  const GRAD_JSON_URL = 'data/college-psvpec-graduates.json';
+
+  let allStudents = [];
+  let searchQuery = '';
+  let allGrads = [];
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function initials(name) {
+    const parts = (name || '').trim().split(/\s+/);
+    return parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : (name || '?')[0].toUpperCase();
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const rawHeaders = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
+    return lines.slice(1).map(line => {
+      // Simple comma split (not the cohort page's regex) — that regex drops empty
+      // fields entirely, which shifts every column after a blank GithubUsername.
+      const vals = line.split(',');
+      const obj = {};
+      rawHeaders.forEach((h, i) => {
+        obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim();
+      });
+      if (obj.total) obj.total = obj.total.replace(/,/g, '');
+      return obj;
+    }).filter(r => (r.name || '').length > 0);
+  }
+
+  function rankClass(rank) {
+    if (rank === 1) return 'rank-badge rank-1';
+    if (rank === 2) return 'rank-badge rank-2';
+    if (rank === 3) return 'rank-badge rank-3';
+    return 'rank-badge rank-other';
+  }
+
+  function renderActive() {
+    let data = [...allStudents];
+    if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
+
+    // Weeks completed first, total as tiebreaker — pacing matters more than raw points.
+    data.sort((a, b) => {
+      const w = (parseInt(b.sectionscompleted) || 0) - (parseInt(a.sectionscompleted) || 0);
+      if (w !== 0) return w;
+      return (parseInt(b.total) || 0) - (parseInt(a.total) || 0);
+    });
+
+    const tbody = document.getElementById('lbBody');
+    const empty = document.getElementById('lbEmpty');
+
+    if (data.length === 0) {
+      tbody.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    tbody.innerHTML = data.map((s, i) => {
+      const rank = i + 1;
+      const weeks = parseInt(s.sectionscompleted) || 0;
+      const total = parseInt(s.total) || 0;
+      const pct = Math.round((weeks / TOTAL_WEEKS) * 100);
+      const username = s.githubusername || '';
+      // Must point at the student's assignment repo, not their bare GitHub
+      // profile — that's the actual DevOps portfolio "View" is meant to show.
+      const portfolioUrl = username ? `https://github.com/${username}/devops-micro-internship-pravinmishra` : '';
+      const badgeUrl = username ? `s/${username}.html` : '';
+      return `
+        <tr>
+          <td><div class="${rankClass(rank)}">${rank}</div></td>
+          <td><div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:#fff;flex-shrink:0;">${initials(s.name)}</div></td>
+          <td><div class="student-name">${escHtml(s.name)}</div></td>
+          <td>
+            <div class="weeks-pill">
+              <span>${weeks} / ${TOTAL_WEEKS}</span>
+              <span class="bar"><span style="width:${pct}%;"></span></span>
+            </div>
+          </td>
+          <td>${portfolioUrl ? `<a href="${escHtml(portfolioUrl)}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:0.875rem;">View →</a>` : '—'}</td>
+          <td>${total > 0 ? `<span class="total-marks">${total}</span>` : '—'}</td>
+          <td>${badgeUrl ? `<a href="${escHtml(badgeUrl)}" target="_blank" rel="noopener" class="badge-link">View →</a>` : '—'}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function renderGraduates() {
+    const grid = document.getElementById('graduatesGrid');
+    document.getElementById('gradCount').textContent =
+      allGrads.length > 0 ? `${allGrads.length} student${allGrads.length === 1 ? '' : 's'} completed the track` : '';
+
+    if (allGrads.length === 0) {
+      grid.innerHTML = `<div style="color:var(--text-muted);font-size:0.95rem;padding:2rem 0;grid-column:1/-1;text-align:center;">No graduates yet.</div>`;
+      return;
+    }
+
+    grid.innerHTML = allGrads.map(g => `
+      <div class="grad-card">
+        <div class="grad-avatar">
+          ${g.photo ? `<img src="${escHtml(g.photo)}" alt="${escHtml(g.name)}">` : initials(g.name)}
+        </div>
+        <div class="grad-name">${escHtml(g.name)}</div>
+        <div class="grad-role">${escHtml(g.role || 'Cloud & DevOps Engineer')}</div>
+        ${g.country ? `<div class="grad-country">${escHtml(g.country)}</div>` : ''}
+        <span class="grad-badge">🎓 ${g.sections_completed || TOTAL_WEEKS}/${TOTAL_WEEKS} Weeks</span>
+        <div class="grad-links">
+          ${g.linkedin ? `<a href="${escHtml(g.linkedin)}" target="_blank" rel="noopener" class="grad-linkedin">LinkedIn →</a>` : ''}
+          ${g.github_username ? `<a href="s/${escHtml(g.github_username)}.html" target="_blank" rel="noopener" class="grad-badge-link">View Badge →</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Load active leaderboard
+  fetch(LB_CSV_URL + '?t=' + Date.now())
+    .then(r => r.text())
+    .then(text => {
+      allStudents = parseCSV(text);
+      document.getElementById('lbLoading').style.display = 'none';
+      document.getElementById('lbContent').style.display = 'block';
+      document.getElementById('lbTimestamp').textContent = 'Last updated: ' + new Date().toLocaleString();
+      renderActive();
+    })
+    .catch(() => {
+      document.getElementById('lbLoading').innerHTML =
+        '<p style="color:var(--text-muted)">Leaderboard data not available yet. Check back soon!</p>';
+    });
+
+  // Load graduates
+  fetch(GRAD_JSON_URL + '?t=' + Date.now())
+    .then(r => r.json())
+    .then(data => { allGrads = data; renderGraduates(); })
+    .catch(() => { allGrads = []; renderGraduates(); });
+
+  document.getElementById('lbSearch').addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    renderActive();
+  });
+
+  // Tabs
+  document.querySelectorAll('.cohort-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cohort-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.dataset.tab;
+      document.getElementById('panelActive').style.display = target === 'active' ? 'block' : 'none';
+      document.getElementById('panelGraduates').style.display = target === 'graduates' ? 'block' : 'none';
+    });
+  });
+</script>
+</body>
+</html>
