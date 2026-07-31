@@ -896,6 +896,11 @@ footer a:hover { text-decoration: underline; }
 }
 .story-text { flex: 1; }
 .story-quote { font-size: 1.15rem; line-height: 1.6; }
+.story-quote-screenshot {
+  width: 100%; max-width: 420px; display: block;
+  border-radius: 12px; border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
 .story-byline { margin-top: 0.75rem; }
 .story-byline .story-name { color: var(--accent); font-weight: 600; text-decoration: none; }
 
