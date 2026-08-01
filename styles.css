@@ -970,6 +970,9 @@ footer a:hover { text-decoration: underline; }
   border: 1px solid var(--accent-border); border-radius: 100px; padding: 0.2rem 0.7rem; margin-bottom: 0.75rem;
 }
 @media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+.compare.compare-3 { grid-template-columns: repeat(3, 1fr); max-width: 1100px; }
+.compare.compare-3 .col.premium { border-color: var(--accent-border); }
+@media (max-width: 900px) { .compare.compare-3 { grid-template-columns: 1fr; } }
 
 .btn-primary {
   display: inline-block;
