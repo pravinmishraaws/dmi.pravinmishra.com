@@ -1,6 +1,6 @@
 {
   "cohort": "Cohort 3",
-  "current_week": 3,
+  "current_week": 4,
   "weeks": [
     {
       "week": 1,
@@ -24,6 +24,14 @@
         { "group": "Group 1", "name": "kirangandhi chitturi", "score": 160, "comment": "", "linkedin": "https://www.linkedin.com/in/kirangandhi-chitturi-9a997919a/", "photo": "" },
         { "group": "Group 2", "name": "Jacquelina Shalinie Stanley", "score": 160, "comment": "", "linkedin": "https://www.linkedin.com/in/jacquelinastanley/", "photo": "" },
         { "group": "Group 3", "name": "Abhinav T", "score": 160, "comment": "", "linkedin": "https://www.linkedin.com/in/abhinav-t-210682296/", "photo": "" }
+      ]
+    },
+    {
+      "week": 4,
+      "champions": [
+        { "group": "Group 1", "name": "Folarin Wale", "score": 190, "comment": "", "linkedin": "https://www.linkedin.com/in/wale-folarin-956b6022a/", "photo": "" },
+        { "group": "Group 2", "name": "Sarah Wambui Amadi", "score": 190, "comment": "", "linkedin": "https://www.linkedin.com/in/sarah-w-amadi/", "photo": "" },
+        { "group": "Group 3", "name": "Nebeolisa Chiemelie Kelvin", "score": 190, "comment": "", "linkedin": "", "photo": "" }
       ]
     }
   ]
