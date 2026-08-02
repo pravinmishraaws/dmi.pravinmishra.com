@@ -1032,6 +1032,9 @@ footer a:hover { text-decoration: underline; }
 .profile-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
 .profile-links a:hover { text-decoration: underline; }
 
+.delivery-team { display: flex; gap: 1rem 3rem; flex-wrap: wrap; justify-content: center; margin-top: 2.5rem; }
+.delivery-team .profile-inner { margin: 0; max-width: 420px; flex: 1 1 380px; }
+
 /* CAMPUS-SPECIFIC (campus.html) */
 .campus-model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 1000px; margin: 2.5rem auto 0; }
 .campus-model-grid .step { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; background: var(--bg-card); text-align: left; }
