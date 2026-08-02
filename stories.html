@@ -195,7 +195,7 @@
       const sorted = [...stories].sort((a, b) => {
         const shotDiff = (b.screenshot_src ? 1 : 0) - (a.screenshot_src ? 1 : 0);
         if (shotDiff !== 0) return shotDiff;
-        return (b.date_added || '').localeCompare(a.date_added || '');
+        return (a.date_added || '').localeCompare(b.date_added || '');
       });
       container.innerHTML = sorted.map(storyRow).join('');
     })
