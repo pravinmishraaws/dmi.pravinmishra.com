@@ -1045,3 +1045,24 @@ footer a:hover { text-decoration: underline; }
 .campus-model-grid .step h3 { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
 .campus-model-grid .step p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
 @media (max-width: 780px) { .campus-model-grid { grid-template-columns: 1fr; } }
+
+/* COOKIE CONSENT BANNER (pixel-consent.js) */
+#dmi-consent-banner {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
+  background: var(--text); color: #fff;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+}
+.dmi-consent-inner {
+  max-width: 1100px; margin: 0 auto; padding: 1rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+}
+.dmi-consent-inner p { font-size: 0.88rem; color: #f0f0f0; margin: 0; flex: 1 1 300px; }
+.dmi-consent-actions { display: flex; gap: 0.6rem; flex-shrink: 0; }
+.dmi-consent-actions button {
+  font-family: var(--font); font-size: 0.85rem; font-weight: 700;
+  padding: 0.55rem 1.1rem; border-radius: var(--radius); border: 1px solid transparent; cursor: pointer;
+}
+#dmi-consent-decline { background: transparent; border-color: rgba(255,255,255,0.35); color: #fff; }
+#dmi-consent-decline:hover { background: rgba(255,255,255,0.1); }
+#dmi-consent-accept { background: var(--accent); color: #0f0f0f; }
+#dmi-consent-accept:hover { background: var(--accent-hover); }
