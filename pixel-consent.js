@@ -17,6 +17,26 @@
     }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', PIXEL_ID);
     fbq('track', 'PageView');
+    bindOutboundClickTracking();
+  }
+
+  // Fires a custom event when a visitor clicks through to University (the
+  // enrollment site) — mirrors Plausible's "Outbound Link: Click" goal so the
+  // same action can become a Meta custom conversion once it's observed firing.
+  function bindOutboundClickTracking() {
+    document.addEventListener('click', function (e) {
+      var link = e.target && e.target.closest && e.target.closest('a[href]');
+      if (!link) return;
+      var url;
+      try {
+        url = new URL(link.href, window.location.href);
+      } catch (err) {
+        return;
+      }
+      if (url.hostname === 'university.pravinmishra.com') {
+        fbq('trackCustom', 'OutboundClickUniversity', { destination_url: url.href });
+      }
+    }, true);
   }
 
   var consent = localStorage.getItem(CONSENT_KEY);
