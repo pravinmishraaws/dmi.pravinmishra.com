@@ -63,6 +63,16 @@
       transition: background 0.2s;
     }
     .btn-outline-white:hover { background: rgba(255,255,255,0.15); }
+    .story-linkedin {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .story-linkedin:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -171,6 +181,10 @@
 
     const meta = [s.country, s.cohort].filter(Boolean).join(' · ');
 
+    const linkedinLink = s.linkedin
+      ? `<a href="${escHtml(s.linkedin)}" target="_blank" rel="noopener" class="story-linkedin" title="View on LinkedIn">LinkedIn</a>`
+      : '';
+
     const quoteBlock = s.screenshot_src
       ? `<img class="story-quote-screenshot" src="${escHtml(s.screenshot_src)}" alt="${escHtml(s.name)}'s LinkedIn post about DMI">`
       : `<p class="story-quote">"${escHtml(s.quote)}"</p>`;
@@ -181,7 +195,7 @@
         <div class="story-text">
           ${quoteBlock}
           <p class="story-byline">
-            ${nameLink}${meta ? ' · ' + escHtml(meta) : ''}
+            ${nameLink}${meta ? ' · ' + escHtml(meta) : ''}${linkedinLink ? ' · ' + linkedinLink : ''}
             ${s.role ? `<br><span class="text-muted">${escHtml(s.role)}</span>` : ''}
           </p>
         </div>
