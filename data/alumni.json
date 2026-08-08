@@ -1,14 +1,95 @@
 [
   {
+    "name": "Mobarak Hosen",
+    "cohort": "1",
+    "country": "Bangladesh",
+    "company": "Syftet Limited",
+    "logo": "images/logos/syfet-ltd.jpg",
+    "role": "DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/imshakil/",
+    "photo": "images/mobarak-h.jpeg"
+  },
+  {
+    "name": "Maleesha Ranawaka",
+    "cohort": "1",
+    "country": "Sri Lanka",
+    "company": "Acuity Analytics",
+    "logo": "images/logos/acuity_knowledge_partners_logo.jpg",
+    "role": "Senior DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/umranawaka/",
+    "photo": "images/alumni/maleesha-ranawaka.jpg"
+  },
+  {
+    "name": "Onuche Paul",
+    "cohort": "1",
+    "country": "Nigeria",
+    "company": "andjello",
+    "logo": "images/logos/andjello.jpg",
+    "role": "DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/onuche-paul/",
+    "photo": "images/onuche-p.jpeg"
+  },
+  {
+    "name": "Supuni Saradha",
+    "cohort": "1",
+    "country": "Sweden",
+    "company": "ITSL Solutions",
+    "logo": "images/logos/itsl_solutions_logo.jpg",
+    "role": "Database & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/supuni-saradha/",
+    "photo": "images/supuni-s.jpeg"
+  },
+  {
+    "name": "Aderinto Adedayo",
+    "cohort": "2",
+    "country": "Nigeria",
+    "company": "WayaLinks",
+    "logo": "images/logos/waya_paychat_logo.jpg",
+    "role": "DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/aderinto-adedayo/",
+    "photo": "images/alumni/aderinto-adedayo.jpeg"
+  },
+  {
+    "name": "Shraddha Bag",
+    "cohort": "2",
+    "country": "India",
+    "company": "V I Point Solutions Private Limited",
+    "logo": "images/logos/vipoint_logo.jpg",
+    "role": "Sr. Systems Engineer",
+    "linkedin": "https://www.linkedin.com/in/shraddha-bag-24a793110/",
+    "photo": "images/alumni/shraddha-bag.png"
+  },
+  {
+    "name": "Karan Memane",
+    "cohort": "1",
+    "country": "India",
+    "company": "Accenture",
+    "logo": "images/logos/accentureindia_logo.jpg",
+    "role": "Software Quality Engineer",
+    "linkedin": "https://www.linkedin.com/in/karan-memane/",
+    "photo": "images/alumni/karan-memane.png"
+  },
+  {
+    "name": "Sumit Tiwari",
+    "cohort": "1",
+    "country": "India",
+    "company": "ADP",
+    "logo": "images/logos/adp.jpg",
+    "role": "DevOps & SRE Engineer",
+    "story": "Terraform and Kubernetes clicked in Cohort 1 — now he runs DevOps & SRE for one of the world's largest HR tech platforms.",
+    "linkedin": "https://www.linkedin.com/in/sumittiwaridevops/",
+    "photo": "images/alumni/sumit-tiwari.jpeg"
+  },
+  {
     "name": "Sirisha Molugu",
     "cohort": "1",
     "country": "Finland",
     "company": "WithSecure",
     "logo": "images/logos/withsecure.jpg",
-    "role": "Test Engineer",
+    "role": "Quality Assurance Engineer",
     "story": "Cohort 1's steady hand in Linux and CI/CD — now testing security-critical systems at a European cybersecurity leader.",
     "linkedin": "https://www.linkedin.com/in/sirisha-molugu/",
-    "photo": ""
+    "photo": "images/alumni/sirisha-molugu.jpg"
   },
   {
     "name": "George Asufra",
@@ -22,14 +103,23 @@
     "photo": ""
   },
   {
-    "name": "Sumit Tiwari",
-    "cohort": "1",
+    "name": "Bola Balogun",
+    "cohort": "2",
+    "country": "Nigeria",
+    "company": "Hyperia Limited",
+    "logo": "images/logos/hyperia-ltd.jpg",
+    "role": "Cloud Engineer",
+    "linkedin": "https://www.linkedin.com/in/bola-balogun-47208231a/",
+    "photo": "images/alumni/bola-balogun.jpg"
+  },
+  {
+    "name": "Mahesh Sonnad",
+    "cohort": "2",
     "country": "India",
-    "company": "ADP",
-    "logo": "images/logos/adp.jpg",
-    "role": "DevOps & SRE Engineer",
-    "story": "Terraform and Kubernetes clicked in Cohort 1 — now he runs DevOps & SRE for one of the world's largest HR tech platforms.",
-    "linkedin": "https://www.linkedin.com/in/sumittiwaridevops/",
+    "company": "Tata Consultancy Services",
+    "logo": "images/logos/tata_consultancy_services_logo.jpg",
+    "role": "DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/mahesh-m-sonnad053/",
     "photo": ""
   }
 ]
