@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Already Working in Tech? Move Into DevOps — DMI</title>
+  <meta name="description" content="158 students, graded publicly every week. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/join.html" />
+  <meta name="robots" content="noindex, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Already Working in Tech? Move Into DevOps — DMI" />
+  <meta property="og:description" content="158 students, graded publicly every week. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/join.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Already Working in Tech? Move Into DevOps — DMI" />
+  <meta name="twitter:description" content="158 students, graded publicly every week. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Minimal nav — landing page, one job only, no exits via full site nav */
+    .join-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 1.5rem;
+      display: flex; align-items: center;
+    }
+    .join-nav .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+
+    .join-hero {
+      padding: 3.5rem 1.5rem 2.5rem;
+      text-align: center;
+      background: var(--bg-section);
+      border-bottom: 1px solid var(--border);
+    }
+    .join-hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.75px;
+      max-width: 780px;
+      margin: 0 auto 1rem;
+    }
+    .join-hero p.lede {
+      color: var(--text-muted);
+      font-size: 1.08rem;
+      max-width: 620px;
+      margin: 0 auto 2rem;
+    }
+    .join-stats {
+      display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+      padding: 1.5rem 2rem; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      max-width: 640px; margin: 0 auto;
+    }
+    .join-stats .stat .num { font-size: 1.6rem; }
+    .join-cta-inline { margin-top: 2rem; }
+
+    /* Proof cards — reuse .card/.cards grid, add a few landing-specific tweaks */
+    .proof-section { padding: 3.5rem 1.5rem; }
+    .alum-mini {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.5rem; text-align: center; box-shadow: var(--shadow);
+    }
+    .alum-mini .company { color: var(--accent); font-weight: 700; font-size: 1rem; }
+    .alum-mini .role { color: var(--text-muted); font-size: 0.85rem; margin: 0.15rem 0 0.6rem; }
+    .alum-mini .story { font-size: 0.88rem; color: var(--text-muted); font-style: italic; line-height: 1.55; }
+    .alum-mini .name { font-weight: 700; font-size: 0.9rem; margin-top: 0.75rem; }
+
+    .quote-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.5rem; box-shadow: var(--shadow);
+    }
+    .quote-card p.quote { font-size: 0.93rem; line-height: 1.6; color: var(--text); margin-bottom: 0.9rem; }
+    .quote-card .byline { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+
+    /* Form */
+    .join-form-section {
+      background: var(--bg-section); border-top: 1px solid var(--border);
+      padding: 3.5rem 1.5rem 4.5rem;
+    }
+    .join-form-card {
+      max-width: 480px; margin: 0 auto;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 2rem; box-shadow: var(--shadow);
+    }
+    .join-form-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.4rem; text-align: center; }
+    .join-form-card p.form-sub { color: var(--text-muted); font-size: 0.9rem; text-align: center; margin-bottom: 1.5rem; }
+    .form-field { margin-bottom: 1rem; }
+    .form-field label {
+      display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text);
+    }
+    .form-field input, .form-field select {
+      width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-radius: 8px;
+      font-family: var(--font); font-size: 0.95rem; background: #fff; color: var(--text);
+    }
+    .form-field input:focus, .form-field select:focus { outline: 2px solid var(--accent-light); border-color: var(--accent); }
+    .join-submit-btn {
+      width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 100px;
+      padding: 0.85rem; font-family: var(--font); font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .join-submit-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .join-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-msg { text-align: center; font-size: 0.88rem; margin-top: 1rem; display: none; }
+    .form-msg.success { color: #2e7d32; display: block; }
+    .form-msg.error { color: #b3261e; display: block; }
+    .form-privacy { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 1rem; }
+  </style>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav class="join-nav">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+</nav>
+
+<section class="join-hero">
+  <div class="container">
+    <h1>Already Working in Tech? Here's How You Actually Move Into DevOps.</h1>
+    <p class="lede">No black box, no "trust us." 158 students are graded publicly, every single week — by AI, not a mentor picking favorites. See the leaderboard, the real alumni, and the real stories below — then decide.</p>
+    <div class="join-stats">
+      <div class="stat"><span class="num">158</span><span class="label">Students graded weekly</span></div>
+      <div class="stat"><span class="num">3</span><span class="label">Real companies below</span></div>
+      <div class="stat"><span class="num">100%</span><span class="label">Public, verifiable work</span></div>
+    </div>
+    <div class="join-cta-inline">
+      <a href="#join-form" class="btn-primary">See where alumni work, then join the waitlist ↓</a>
+    </div>
+  </div>
+</section>
+
+<section class="proof-section">
+  <div class="container">
+    <div class="section-label">Real Alumni</div>
+    <h2 class="section-title">Where DMI Graduates Work Today</h2>
+    <p class="section-sub">Not a marketing claim — real names, real companies, real LinkedIn profiles.</p>
+    <div class="cards">
+      <div class="alum-mini">
+        <div class="company">ADP</div>
+        <div class="role">DevOps &amp; SRE Engineer</div>
+        <p class="story">"Terraform and Kubernetes clicked in Cohort 1 — now he runs DevOps &amp; SRE for one of the world's largest HR tech platforms."</p>
+        <div class="name">Sumit Tiwari · Cohort 1 · India</div>
+      </div>
+      <div class="alum-mini">
+        <div class="company">WithSecure</div>
+        <div class="role">Test Engineer</div>
+        <p class="story">"Cohort 1's steady hand in Linux and CI/CD — now testing security-critical systems at a European cybersecurity leader."</p>
+        <div class="name">Sirisha Molugu · Cohort 1 · Finland</div>
+      </div>
+      <div class="alum-mini">
+        <div class="company">Elive Limited</div>
+        <div class="role">IT Administrator</div>
+        <p class="story">"Came in for the networking and Linux fundamentals — now applying them daily, with DevOps as the next stop."</p>
+        <div class="name">George Asufra · Cohort 1 · Philippines</div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;">
+      <a href="alumni.html" style="color:var(--accent);font-weight:600;text-decoration:none;">See the full alumni page →</a>
+    </p>
+  </div>
+</section>
+
+<section class="proof-section" style="background:var(--bg-section);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">In Their Own Words</div>
+    <h2 class="section-title">Real Students, Real Stories</h2>
+    <div class="cards">
+      <div class="quote-card">
+        <p class="quote">"DMI is not something you 'consume.' It's something you commit to... The biggest lesson I learned here: consistency beats talent when the goal is to become a DevOps engineer."</p>
+        <div class="byline">Pratyush Pahari · Cloud &amp; DevOps Engineer · Cohort 2</div>
+      </div>
+      <div class="quote-card">
+        <p class="quote">"It's very easy to claim something great, and it's just as hard to maintain... the level of transparency is on the next level, where each and every member can know where he or she is lacking."</p>
+        <div class="byline">Rohan Kumar Das · System Engineer at Tata Consultancy Services · Cohort 3</div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;">
+      <a href="stories.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Read more stories →</a>
+      &nbsp;·&nbsp;
+      <a href="leaderboard.html" style="color:var(--accent);font-weight:600;text-decoration:none;">See the live leaderboard →</a>
+    </p>
+  </div>
+</section>
+
+<section class="join-form-section" id="join-form">
+  <div class="join-form-card">
+    <h2>Join the Waitlist</h2>
+    <p class="form-sub">Takes 30 seconds. We'll follow up with real next steps — no spam.</p>
+    <form id="joinForm" novalidate>
+      <div class="form-field">
+        <label for="firstName">First name</label>
+        <input type="text" id="firstName" name="firstName" required autocomplete="given-name" />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="form-field">
+        <label for="whatsapp">WhatsApp number (with country code)</label>
+        <input type="tel" id="whatsapp" name="whatsapp" required placeholder="+91 98765 43210" autocomplete="tel" />
+      </div>
+      <div class="form-field">
+        <label for="describe">What best describes you right now?</label>
+        <select id="describe" name="describe" required>
+          <option value="" disabled selected>Select one</option>
+          <option>Student</option>
+          <option>Developer</option>
+          <option>QA</option>
+          <option>SysAdmin</option>
+          <option>IT Support</option>
+          <option>Working in IT</option>
+          <option>Non-IT</option>
+          <option>Career break</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <!-- Hidden tracking fields — populated by JS below, not shown to the user -->
+      <input type="hidden" id="fbclid" name="fbclid" />
+      <input type="hidden" id="fbc" name="fbc" />
+      <input type="hidden" id="fbp" name="fbp" />
+      <input type="hidden" id="eventId" name="eventId" />
+      <input type="hidden" id="leadSource" name="leadSource" value="fb-landing" />
+      <input type="hidden" id="pageUrl" name="pageUrl" />
+
+      <button type="submit" class="join-submit-btn" id="joinSubmitBtn">Join the Waitlist →</button>
+      <div class="form-msg" id="formMsg"></div>
+    </form>
+    <p class="form-privacy">By joining, you agree to receive emails about DMI. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+<script src="pixel-consent.js"></script>
+<script>
+  // ---------------------------------------------------------------------
+  // Pabbly webhook — TODO: replace with the real inbound webhook URL
+  // before merging. This is a placeholder and will fail silently (caught
+  // below) until it's swapped for the real endpoint.
+  // See dmi-growth/.paid-lead-funnel-landing-page-spec.md §3.3 / §5.
+  // ---------------------------------------------------------------------
+  var PABBLY_WEBHOOK_URL = 'https://connect.pabbly.com/workflow/sendwebhookdata/REPLACE_ME';
+
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    // Fallback for older browsers
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : '';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var params = new URLSearchParams(window.location.search);
+    var fbclid = params.get('fbclid') || '';
+
+    document.getElementById('fbclid').value = fbclid;
+    document.getElementById('fbc').value = getCookie('_fbc');
+    document.getElementById('fbp').value = getCookie('_fbp');
+    document.getElementById('eventId').value = uuid();
+    document.getElementById('pageUrl').value = window.location.href;
+
+    var form = document.getElementById('joinForm');
+    var btn = document.getElementById('joinSubmitBtn');
+    var msg = document.getElementById('formMsg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Joining…';
+      msg.className = 'form-msg';
+      msg.textContent = '';
+
+      var payload = {
+        firstName: document.getElementById('firstName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        whatsapp: document.getElementById('whatsapp').value.trim(),
+        describe: document.getElementById('describe').value,
+        fbclid: document.getElementById('fbclid').value,
+        fbc: document.getElementById('fbc').value,
+        fbp: document.getElementById('fbp').value,
+        eventId: document.getElementById('eventId').value,
+        leadSource: document.getElementById('leadSource').value,
+        pageUrl: document.getElementById('pageUrl').value,
+        submittedAt: new Date().toISOString()
+      };
+
+      fetch(PABBLY_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function () {
+          onJoinSuccess(payload.eventId);
+        })
+        .catch(function (err) {
+          console.error('Waitlist submit failed', err);
+          btn.disabled = false;
+          btn.textContent = 'Join the Waitlist →';
+          msg.classList.add('error');
+          msg.textContent = "Something went wrong. Please try again, or email hello@pravinmishra.com.";
+        });
+    });
+
+    function onJoinSuccess(eventId) {
+      // Fire Meta's standard Lead event, deduplicated against the server-side
+      // Conversions API event via the shared eventId (see spec §4.3).
+      if (window.fbq) {
+        fbq('track', 'Lead', {}, { eventID: eventId });
+      }
+      form.style.display = 'none';
+      msg.classList.add('success');
+      msg.innerHTML = "You're on the list! We'll follow up on WhatsApp/email with next steps — meanwhile, explore the <a href='leaderboard.html' style='color:inherit;text-decoration:underline;'>live leaderboard</a>.";
+    }
+  });
+</script>
+</body>
+</html>
