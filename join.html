@@ -144,9 +144,31 @@
     .join-submit-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
     .join-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .form-msg { text-align: center; font-size: 0.88rem; margin-top: 1rem; display: none; }
-    .form-msg.success { color: #2e7d32; display: block; }
+    .form-msg.success { display: block; }
     .form-msg.error { color: #b3261e; display: block; }
     .form-privacy { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 1rem; }
+
+    /* Post-submit success screen — the whitelist/deliverability ask happens
+       here, right when the visitor is most engaged, not buried in an email
+       they may never see because of the exact problem this text warns about */
+    .success-box { text-align: left; }
+    .success-box .sb-check { font-size: 2rem; text-align: center; margin-bottom: 0.5rem; }
+    .success-box .sb-title { font-size: 1.15rem; font-weight: 800; text-align: center; color: var(--text); margin-bottom: 1.25rem; }
+    .success-box .sb-steps {
+      background: var(--bg-card2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1rem 1.1rem; margin-bottom: 1rem;
+    }
+    .success-box .sb-steps p { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; }
+    .success-box .sb-steps ol { margin: 0; padding-left: 1.1rem; }
+    .success-box .sb-steps li { font-size: 0.86rem; color: var(--text); line-height: 1.6; margin-bottom: 0.3rem; }
+    .success-box .sb-steps li:last-child { margin-bottom: 0; }
+    .success-box p.sb-ask { font-size: 0.87rem; color: var(--text); line-height: 1.6; margin-bottom: 0.6rem; }
+    .success-box p.sb-ask strong { color: var(--accent-hover); }
+    .success-box .sb-warn {
+      background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px;
+      padding: 0.7rem 0.9rem; font-size: 0.83rem; color: #7a5b00; line-height: 1.55; margin-top: 0.75rem;
+    }
+    .success-box .sb-question { font-size: 0.9rem; font-weight: 700; text-align: center; margin-top: 1rem; color: var(--text); }
   </style>
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
@@ -465,7 +487,24 @@
       }
       form.style.display = 'none';
       msg.classList.add('success');
-      msg.innerHTML = "You're on the list! We'll follow up on WhatsApp/email with next steps — meanwhile, explore the <a href='leaderboard.html' target='_blank' rel='noopener' style='color:inherit;text-decoration:underline;'>live leaderboard</a>.";
+      msg.innerHTML =
+        '<div class="success-box">' +
+          '<div class="sb-check">✅</div>' +
+          '<div class="sb-title">You\'re on the list!</div>' +
+          '<div class="sb-steps">' +
+            '<p>I\'ve just sent you an email with your next steps — do this right now, it takes 10 seconds:</p>' +
+            '<ol>' +
+              '<li>Open your email app right now</li>' +
+              '<li>Check your <strong>Inbox</strong> first</li>' +
+              '<li>Not there? Check <strong>Promotions</strong> or <strong>Updates</strong></li>' +
+              '<li>Still nothing? Check <strong>Spam</strong></li>' +
+            '</ol>' +
+          '</div>' +
+          '<p class="sb-ask">Please add my email — <strong>hello@pravinmishra.com</strong> — to your Google Contacts.</p>' +
+          '<p class="sb-ask">👉 Otherwise, my emails may end up in Promotions, Updates, or even Spam, and you could miss out on the coupon codes (which are available only for a limited time).</p>' +
+          '<div class="sb-warn">⚠️ Last time, 99% of students who complained about not receiving the coupon had my emails filtered into those tabs. Don\'t let that happen to you!</div>' +
+          '<div class="sb-question">So, have you added my email to your contacts yet?</div>' +
+        '</div>';
     }
   });
 </script>
