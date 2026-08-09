@@ -81,7 +81,8 @@
       overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
     }
     .shot-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--accent); }
-    .shot-card img { width: 100%; display: block; border-bottom: 1px solid var(--border); }
+    .shot-card .shot-img-wrap { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-card2); border-bottom: 1px solid var(--border); }
+    .shot-card img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: top center; }
     .shot-card .cap { padding: 0.75rem 0.9rem; }
     .shot-card .cap .n { font-weight: 700; font-size: 0.85rem; }
     .shot-card .cap .r { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.1rem; }
@@ -172,10 +173,10 @@
         <div class="name">Sirisha Molugu · Cohort 1 · Finland</div>
       </div>
       <div class="alum-mini">
-        <div class="company">Accenture</div>
-        <div class="role">Software Quality Engineer</div>
-        <p class="story">Cohort 1 graduate — now Software Quality Engineer at Accenture.</p>
-        <div class="name">Karan Memane · Cohort 1 · India</div>
+        <div class="company">WayaLinks</div>
+        <div class="role">DevOps Engineer</div>
+        <p class="story">Cohort 1 graduate — now DevOps Engineer at WayaLinks.</p>
+        <div class="name">Aderinto Adedayo · Cohort 1 · Nigeria</div>
       </div>
     </div>
     <p style="text-align:center;margin-top:1.5rem;">
@@ -191,28 +192,16 @@
     <p class="section-sub">Actual LinkedIn posts, not paraphrased quotes. Click any of them to read the full story.</p>
     <div class="shot-grid">
       <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
-        <img src="images/stories/screenshots/ranbir-kaur.png" alt="Ranbir Kaur's LinkedIn post about DMI" loading="lazy" />
+        <div class="shot-img-wrap"><img src="images/stories/screenshots/ranbir-kaur.png" alt="Ranbir Kaur's LinkedIn post about DMI" loading="lazy" /></div>
         <div class="cap"><div class="n">Ranbir Kaur</div><div class="r">AWS Community Builder · Cloud &amp; DevOps Engineer</div></div>
       </a>
       <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
-        <img src="images/stories/screenshots/bhupendra-bhati.png" alt="Bhupendra Bhati's LinkedIn post about DMI" loading="lazy" />
+        <div class="shot-img-wrap"><img src="images/stories/screenshots/bhupendra-bhati.png" alt="Bhupendra Bhati's LinkedIn post about DMI" loading="lazy" /></div>
         <div class="cap"><div class="n">Bhupendra Bhati</div><div class="r">AWS Community Builder · Cloud &amp; DevOps Engineer</div></div>
       </a>
       <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
-        <img src="images/stories/screenshots/anjana-muthunayake.png" alt="Anjana Muthunayake's LinkedIn post about DMI" loading="lazy" />
+        <div class="shot-img-wrap"><img src="images/stories/screenshots/anjana-muthunayake.png" alt="Anjana Muthunayake's LinkedIn post about DMI" loading="lazy" /></div>
         <div class="cap"><div class="n">Anjana Muthunayake</div><div class="r">Lead Co-Mentor · AWS Community Builder</div></div>
-      </a>
-      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
-        <img src="images/stories/screenshots/kirangandhi-chitturi.png" alt="Kirangandhi Chitturi's LinkedIn post about DMI" loading="lazy" />
-        <div class="cap"><div class="n">Kirangandhi Chitturi</div><div class="r">Senior Software Engineer</div></div>
-      </a>
-      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
-        <img src="images/stories/screenshots/henrietta-ogochukwu.png" alt="Henrietta Ogochukwu Okechukwu's LinkedIn post about DMI" loading="lazy" />
-        <div class="cap"><div class="n">Henrietta Ogochukwu</div><div class="r">Technical Project &amp; Product Manager</div></div>
-      </a>
-      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
-        <img src="images/stories/screenshots/charanteja-chavithina.png" alt="CharanTeja Chavithina's LinkedIn post about DMI" loading="lazy" />
-        <div class="cap"><div class="n">CharanTeja Chavithina</div><div class="r">Technical Manager at GSPANN Technologies</div></div>
       </a>
     </div>
     <p style="text-align:center;margin-top:1.5rem;">
