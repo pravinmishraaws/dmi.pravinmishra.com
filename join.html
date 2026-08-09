@@ -87,6 +87,34 @@
     .shot-card .cap .n { font-weight: 700; font-size: 0.85rem; }
     .shot-card .cap .r { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.1rem; }
 
+    /* Mini live leaderboard — fetches the real data/leaderboard.csv, same
+       source leaderboard.html uses, so it can never go stale like a screenshot would */
+    .mini-lb-wrap {
+      max-width: 720px; margin: 0 auto;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .mini-lb-table { width: 100%; border-collapse: collapse; }
+    .mini-lb-table th {
+      text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--text-muted); padding: 0.7rem 1rem; border-bottom: 1px solid var(--border);
+    }
+    .mini-lb-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .mini-lb-table tr:last-child td { border-bottom: none; }
+    .mini-lb-rank {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 50%; font-weight: 700; font-size: 0.78rem;
+      background: var(--bg-card2); color: var(--text-muted);
+    }
+    .mini-lb-rank.top3 { background: var(--accent); color: #fff; }
+    .mini-lb-avatar {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--accent);
+      color: #fff; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.7rem; margin-right: 0.6rem; vertical-align: middle;
+    }
+    .mini-lb-total { font-weight: 800; color: var(--accent); }
+    .mini-lb-loading { padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+
     /* Form */
     .join-form-section {
       background: var(--bg-section); border-top: 1px solid var(--border);
@@ -151,6 +179,26 @@
     <div class="join-cta-inline">
       <a href="#join-form" class="btn-primary">See where alumni work, then join the waitlist ↓</a>
     </div>
+  </div>
+</section>
+
+<section class="proof-section">
+  <div class="container">
+    <div class="section-label">Live Right Now</div>
+    <h2 class="section-title">Graded Publicly. No Black Box.</h2>
+    <p class="section-sub">Not a screenshot — this fetches the real leaderboard data, live, right now. Check it yourself before you sign up.</p>
+    <div class="mini-lb-wrap">
+      <div class="mini-lb-loading" id="miniLbLoading">Loading live leaderboard…</div>
+      <table class="mini-lb-table" id="miniLbTable" style="display:none;">
+        <thead>
+          <tr><th>Rank</th><th>Student</th><th>Group</th><th style="text-align:right;">Score</th></tr>
+        </thead>
+        <tbody id="miniLbBody"></tbody>
+      </table>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;">
+      <a href="leaderboard.html" style="color:var(--accent);font-weight:600;text-decoration:none;">See the full leaderboard — 158 students →</a>
+    </p>
   </div>
 </section>
 
@@ -297,7 +345,67 @@
     return match ? decodeURIComponent(match[2]) : '';
   }
 
+  // ---------------------------------------------------------------------
+  // Mini live leaderboard — same data/leaderboard.csv and parse logic as
+  // leaderboard.html (simplified: no group filter, no share buttons, top
+  // 5 rows only). Kept live rather than a screenshot so it never goes
+  // stale as real students get added.
+  // ---------------------------------------------------------------------
+  function lbEscHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function lbInitials(name) {
+    var parts = (name || '').trim().split(/\s+/);
+    return parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : (name || '?')[0].toUpperCase();
+  }
+
+  function loadMiniLeaderboard() {
+    fetch('data/leaderboard.csv?t=' + Date.now())
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        var lines = text.trim().split('\n');
+        var headers = lines[0].split(',').map(function (h) { return h.trim().replace(/^"|"$/g, '').toLowerCase(); });
+        var rows = lines.slice(1).map(function (line) {
+          var vals = line.split(',');
+          var obj = {};
+          headers.forEach(function (h, i) { obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim(); });
+          if (obj.group) {
+            var m = obj.group.match(/#(\d+)/) || obj.group.match(/(\d+)/);
+            if (m) obj.group = m[1];
+          }
+          if (obj.total) obj.total = obj.total.replace(/,/g, '');
+          return obj;
+        }).filter(function (r) { return (r.name || '').length > 0; });
+
+        rows.sort(function (a, b) { return (parseInt(b.total) || 0) - (parseInt(a.total) || 0); });
+        var top = rows.slice(0, 5);
+
+        var body = document.getElementById('miniLbBody');
+        body.innerHTML = top.map(function (s, i) {
+          var rank = i + 1;
+          var total = parseInt(s.total) || 0;
+          return '<tr>' +
+            '<td><span class="mini-lb-rank' + (rank <= 3 ? ' top3' : '') + '">' + rank + '</span></td>' +
+            '<td><span class="mini-lb-avatar">' + lbEscHtml(lbInitials(s.name)) + '</span>' + lbEscHtml(s.name) + '</td>' +
+            '<td>' + lbEscHtml(s.group || '—') + '</td>' +
+            '<td style="text-align:right;" class="mini-lb-total">' + total + '</td>' +
+            '</tr>';
+        }).join('');
+
+        document.getElementById('miniLbLoading').style.display = 'none';
+        document.getElementById('miniLbTable').style.display = 'table';
+      })
+      .catch(function () {
+        document.getElementById('miniLbLoading').textContent = "Couldn't load live data right now — see the full leaderboard below.";
+      });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    loadMiniLeaderboard();
     var params = new URLSearchParams(window.location.search);
     var fbclid = params.get('fbclid') || '';
 
