@@ -346,12 +346,10 @@
 <script src="pixel-consent.js"></script>
 <script>
   // ---------------------------------------------------------------------
-  // Pabbly webhook — TODO: replace with the real inbound webhook URL
-  // before merging. This is a placeholder and will fail silently (caught
-  // below) until it's swapped for the real endpoint.
+  // Pabbly webhook — "DMI Ads" workflow, Catch Webhook (Preferred) trigger.
   // See dmi-growth/.paid-lead-funnel-landing-page-spec.md §3.3 / §5.
   // ---------------------------------------------------------------------
-  var PABBLY_WEBHOOK_URL = 'https://connect.pabbly.com/workflow/sendwebhookdata/REPLACE_ME';
+  var PABBLY_WEBHOOK_URL = 'https://connect.pabbly.com/webhook-listener/webhook/IjU3NjYwNTZkMDYzMjA0MzU1MjY0NTUzMiI_3D_pc/IjU3NjcwNTY4MDYzNjA0MzU1MjY1NTUzNjUxMzUi_pc';
 
   function uuid() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
