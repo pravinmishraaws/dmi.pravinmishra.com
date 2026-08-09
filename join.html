@@ -70,12 +70,21 @@
     .alum-mini .story { font-size: 0.88rem; color: var(--text-muted); font-style: italic; line-height: 1.55; }
     .alum-mini .name { font-weight: 700; font-size: 0.9rem; margin-top: 0.75rem; }
 
-    .quote-card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 1.5rem; box-shadow: var(--shadow);
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
     }
-    .quote-card p.quote { font-size: 0.93rem; line-height: 1.6; color: var(--text); margin-bottom: 0.9rem; }
-    .quote-card .byline { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+    .shot-card {
+      display: block; text-decoration: none; color: inherit;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .shot-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--accent); }
+    .shot-card img { width: 100%; display: block; border-bottom: 1px solid var(--border); }
+    .shot-card .cap { padding: 0.75rem 0.9rem; }
+    .shot-card .cap .n { font-weight: 700; font-size: 0.85rem; }
+    .shot-card .cap .r { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.1rem; }
 
     /* Form */
     .join-form-section {
@@ -158,15 +167,15 @@
       </div>
       <div class="alum-mini">
         <div class="company">WithSecure</div>
-        <div class="role">Test Engineer</div>
+        <div class="role">Quality Assurance Engineer</div>
         <p class="story">"Cohort 1's steady hand in Linux and CI/CD — now testing security-critical systems at a European cybersecurity leader."</p>
         <div class="name">Sirisha Molugu · Cohort 1 · Finland</div>
       </div>
       <div class="alum-mini">
-        <div class="company">Elive Limited</div>
-        <div class="role">IT Administrator</div>
-        <p class="story">"Came in for the networking and Linux fundamentals — now applying them daily, with DevOps as the next stop."</p>
-        <div class="name">George Asufra · Cohort 1 · Philippines</div>
+        <div class="company">Accenture</div>
+        <div class="role">Software Quality Engineer</div>
+        <p class="story">Cohort 1 graduate — now Software Quality Engineer at Accenture.</p>
+        <div class="name">Karan Memane · Cohort 1 · India</div>
       </div>
     </div>
     <p style="text-align:center;margin-top:1.5rem;">
@@ -178,19 +187,36 @@
 <section class="proof-section" style="background:var(--bg-section);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
     <div class="section-label">In Their Own Words</div>
-    <h2 class="section-title">Real Students, Real Stories</h2>
-    <div class="cards">
-      <div class="quote-card">
-        <p class="quote">"DMI is not something you 'consume.' It's something you commit to... The biggest lesson I learned here: consistency beats talent when the goal is to become a DevOps engineer."</p>
-        <div class="byline">Pratyush Pahari · Cloud &amp; DevOps Engineer · Cohort 2</div>
-      </div>
-      <div class="quote-card">
-        <p class="quote">"It's very easy to claim something great, and it's just as hard to maintain... the level of transparency is on the next level, where each and every member can know where he or she is lacking."</p>
-        <div class="byline">Rohan Kumar Das · System Engineer at Tata Consultancy Services · Cohort 3</div>
-      </div>
+    <h2 class="section-title">Real Posts. Not Our Words — Theirs.</h2>
+    <p class="section-sub">Actual LinkedIn posts, not paraphrased quotes. Click any of them to read the full story.</p>
+    <div class="shot-grid">
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <img src="images/stories/screenshots/ranbir-kaur.png" alt="Ranbir Kaur's LinkedIn post about DMI" loading="lazy" />
+        <div class="cap"><div class="n">Ranbir Kaur</div><div class="r">AWS Community Builder · Cloud &amp; DevOps Engineer</div></div>
+      </a>
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <img src="images/stories/screenshots/bhupendra-bhati.png" alt="Bhupendra Bhati's LinkedIn post about DMI" loading="lazy" />
+        <div class="cap"><div class="n">Bhupendra Bhati</div><div class="r">AWS Community Builder · Cloud &amp; DevOps Engineer</div></div>
+      </a>
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <img src="images/stories/screenshots/anjana-muthunayake.png" alt="Anjana Muthunayake's LinkedIn post about DMI" loading="lazy" />
+        <div class="cap"><div class="n">Anjana Muthunayake</div><div class="r">Lead Co-Mentor · AWS Community Builder</div></div>
+      </a>
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <img src="images/stories/screenshots/kirangandhi-chitturi.png" alt="Kirangandhi Chitturi's LinkedIn post about DMI" loading="lazy" />
+        <div class="cap"><div class="n">Kirangandhi Chitturi</div><div class="r">DevOps &amp; Testing Engineer</div></div>
+      </a>
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <img src="images/stories/screenshots/henrietta-ogochukwu.png" alt="Henrietta Ogochukwu Okechukwu's LinkedIn post about DMI" loading="lazy" />
+        <div class="cap"><div class="n">Henrietta Ogochukwu</div><div class="r">Technical Project &amp; Product Manager</div></div>
+      </a>
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <img src="images/stories/screenshots/charanteja-chavithina.png" alt="CharanTeja Chavithina's LinkedIn post about DMI" loading="lazy" />
+        <div class="cap"><div class="n">CharanTeja Chavithina</div><div class="r">Technical Manager at GSPANN Technologies</div></div>
+      </a>
     </div>
     <p style="text-align:center;margin-top:1.5rem;">
-      <a href="stories.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Read more stories →</a>
+      <a href="stories.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Read all 27 stories →</a>
       &nbsp;·&nbsp;
       <a href="leaderboard.html" style="color:var(--accent);font-weight:600;text-decoration:none;">See the live leaderboard →</a>
     </p>
