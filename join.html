@@ -486,7 +486,11 @@
           eventId: document.getElementById('eventId').value,
           leadSource: document.getElementById('leadSource').value,
           pageUrl: document.getElementById('pageUrl').value,
-          submittedAt: new Date().toISOString()
+          submittedAt: new Date().toISOString(),
+          // Meta's Conversions API requires event_time as Unix seconds, not
+          // an ISO string — Pabbly has no date-conversion function (checked),
+          // so this is computed here instead.
+          eventTimeUnix: Math.floor(Date.now() / 1000)
         };
 
         return fetch(PABBLY_WEBHOOK_URL, {
