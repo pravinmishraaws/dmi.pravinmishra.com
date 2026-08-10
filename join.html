@@ -376,6 +376,19 @@
     return match ? decodeURIComponent(match[2]) : '';
   }
 
+  // SHA-256 hex digest, matching Meta's Conversions API requirement for
+  // user_data.em: lowercase + trim the email, then hash it here in the
+  // browser so the raw address never needs to be hashed server-side —
+  // Pabbly has no hashing capability, only relays this value through.
+  function sha256Hex(str) {
+    var data = new TextEncoder().encode(str.trim().toLowerCase());
+    return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+      return Array.from(new Uint8Array(buf))
+        .map(function (b) { return b.toString(16).padStart(2, '0'); })
+        .join('');
+    });
+  }
+
   // ---------------------------------------------------------------------
   // Mini live leaderboard — same data/leaderboard.csv and parse logic as
   // leaderboard.html (simplified: no group filter, no share buttons, top
@@ -457,29 +470,33 @@
       msg.className = 'form-msg';
       msg.textContent = '';
 
-      var payload = {
-        firstName: document.getElementById('firstName').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        whatsapp: document.getElementById('whatsapp').value.trim(),
-        describe: document.getElementById('describe').value,
-        goal: document.getElementById('goal').value,
-        fbclid: document.getElementById('fbclid').value,
-        fbc: document.getElementById('fbc').value,
-        fbp: document.getElementById('fbp').value,
-        eventId: document.getElementById('eventId').value,
-        leadSource: document.getElementById('leadSource').value,
-        pageUrl: document.getElementById('pageUrl').value,
-        submittedAt: new Date().toISOString()
-      };
+      var emailValue = document.getElementById('email').value.trim();
 
-      fetch(PABBLY_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(function () {
+      sha256Hex(emailValue).then(function (emailHash) {
+        var payload = {
+          firstName: document.getElementById('firstName').value.trim(),
+          email: emailValue,
+          emailHash: emailHash,
+          whatsapp: document.getElementById('whatsapp').value.trim(),
+          describe: document.getElementById('describe').value,
+          goal: document.getElementById('goal').value,
+          fbclid: document.getElementById('fbclid').value,
+          fbc: document.getElementById('fbc').value,
+          fbp: document.getElementById('fbp').value,
+          eventId: document.getElementById('eventId').value,
+          leadSource: document.getElementById('leadSource').value,
+          pageUrl: document.getElementById('pageUrl').value,
+          submittedAt: new Date().toISOString()
+        };
+
+        return fetch(PABBLY_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function () {
           onJoinSuccess(payload.eventId);
-        })
+        });
+      })
         .catch(function (err) {
           console.error('Waitlist submit failed', err);
           btn.disabled = false;
