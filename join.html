@@ -314,6 +314,17 @@
           <option>Other</option>
         </select>
       </div>
+      <div class="form-field">
+        <label for="goal">After learning DevOps, what's your primary goal?</label>
+        <select id="goal" name="goal" required>
+          <option value="" disabled selected>Select one</option>
+          <option>Switch to a DevOps role</option>
+          <option>Build a strong portfolio</option>
+          <option>Prepare for interviews</option>
+          <option>Implement DevOps in my current project</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
 
       <!-- Hidden tracking fields — populated by JS below, not shown to the user -->
       <input type="hidden" id="fbclid" name="fbclid" />
@@ -451,6 +462,7 @@
         email: document.getElementById('email').value.trim(),
         whatsapp: document.getElementById('whatsapp').value.trim(),
         describe: document.getElementById('describe').value,
+        goal: document.getElementById('goal').value,
         fbclid: document.getElementById('fbclid').value,
         fbc: document.getElementById('fbc').value,
         fbp: document.getElementById('fbp').value,
