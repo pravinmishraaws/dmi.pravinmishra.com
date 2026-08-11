@@ -79,5 +79,14 @@
     "category": "Platform Engineering",
     "date": "2026-08-05",
     "image": "../images/blog/container-registries-docker-hub-ecr-image-tagging-og.jpg"
+  },
+  {
+    "slug": "eks-cluster-upgrade-strategy",
+    "title": "EKS Cluster Upgrade Strategy: Control Plane, Add-Ons, and Node Groups",
+    "excerpt": "EKS upgrades aren't two steps, they're three — and skipping the middle one (add-on version compatibility) is exactly what turns a routine upgrade into a networking outage nobody can explain.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-08-07",
+    "image": "../images/blog/eks-cluster-upgrade-strategy-og.jpg"
   }
 ]
