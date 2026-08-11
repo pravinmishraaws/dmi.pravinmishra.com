@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karpenter vs Cluster Autoscaler: Node Autoscaling on EKS — DMI Blog</title>
+  <meta name="description" content="How Cluster Autoscaler and Karpenter actually differ, the NodePool/EC2NodeClass split, the two separate IAM identities Karpenter needs, why a bootstrap node group still matters, and using Spot safely." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/karpenter-vs-cluster-autoscaler-eks.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Karpenter vs Cluster Autoscaler: Node Autoscaling on EKS" />
+  <meta property="og:description" content="How Cluster Autoscaler and Karpenter actually differ, the NodePool/EC2NodeClass split, the two separate IAM identities Karpenter needs, why a bootstrap node group still matters, and using Spot safely." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/karpenter-vs-cluster-autoscaler-eks.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/blog/karpenter-vs-cluster-autoscaler-eks-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Karpenter vs Cluster Autoscaler: Node Autoscaling on EKS" />
+  <meta name="twitter:description" content="How Cluster Autoscaler and Karpenter actually differ, the NodePool/EC2NodeClass split, the two separate IAM identities Karpenter needs, why a bootstrap node group still matters, and using Spot safely." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/blog/karpenter-vs-cluster-autoscaler-eks-og.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Karpenter vs Cluster Autoscaler: Node Autoscaling on EKS",
+    "datePublished": "2026-08-10",
+    "dateModified": "2026-08-10",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/blog/karpenter-vs-cluster-autoscaler-eks-og.jpg",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/karpenter-vs-cluster-autoscaler-eks.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">by Pravin Mishra</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="../leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="../leaderboard.html">Leaderboard</a></li>
+      <li><a href="../self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="../champion.html">Champion</a></li>
+      <li><a href="../graduates.html">Graduates</a></li>
+      </ul>
+    </li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../enterprise.html">DMI Enterprise</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">Platform Engineering</span>
+    <span class="post-date">August 10, 2026</span>
+  </div>
+  <h1>Karpenter vs Cluster Autoscaler: Node Autoscaling on EKS</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>In <a href="eks-cluster-upgrade-strategy.html">the last post</a>, we covered how to keep a cluster current without turning an upgrade into an incident. Once the cluster is running, another operational question shows up fast: how does it get more worker-node capacity when workloads actually need it? Traffic isn't constant — an HPA might scale an app from two pods to twenty during a spike, a rollout might create extra pods temporarily, or someone might bump replicas for a load test. Those extra pods still need somewhere to run, and that's the problem node autoscaling solves. On EKS, two tools come up constantly: Cluster Autoscaler and Karpenter. Both add capacity when pods can't be scheduled, but they work in genuinely different ways.</p>
+
+  <h2>What happens without node autoscaling</h2>
+  <p>When the scheduler can't place a pod — no node has enough CPU or memory available — the pod sits in <code>Pending</code>. That's not just a status; it means the application doesn't have the capacity it needs right now. If an app needs more pods during a traffic spike and those pods can't schedule, requests queue, response times climb, and users feel it directly. Without node autoscaling you're choosing between two bad options: over-provision for peak traffic and pay for capacity that sits idle most of the time, or under-provision and scramble to add nodes exactly when the application needs them most. Node autoscaling exists to take that trade-off off the table.</p>
+
+  <h2>Cluster Autoscaler — the original approach</h2>
+  <p>Cluster Autoscaler is the original Kubernetes node autoscaler, and on EKS it works with AWS Auto Scaling Groups. The idea is straightforward: your node group is backed by an ASG, and when Cluster Autoscaler sees a pod that can't be scheduled, it checks whether adding another node from that existing group would help. If yes, it raises the ASG's desired capacity, AWS provisions a new EC2 instance, the instance joins the cluster, and the scheduler places the pending pod. Scale-down runs the same logic in reverse — it looks for underused nodes, checks whether their pods can safely move elsewhere, and if so drains the node and shrinks the ASG.</p>
+  <p>Cluster Autoscaler works. It's stable, widely used, and still a completely valid option. Its real limitation is that it scales the node groups you already defined — which means you have to think about node group shapes in advance. If one workload needs more memory, another needs more CPU, and a third runs better on a different instance family, you typically end up creating those groups ahead of time. Cluster Autoscaler picks from the capacity shapes you already gave it; it doesn't design a new node shape per workload. For plenty of teams that's fine. For more dynamic workloads, it can mean too many node groups, too much upfront planning, or nodes that are bigger than the pending pods actually need.</p>
+
+  <h2>Karpenter — provisioning from the pod up</h2>
+  <p>Karpenter takes the opposite starting point. Cluster Autoscaler starts from the node groups you already created and asks which one to scale. Karpenter starts from the pods that can't be scheduled and asks what kind of node this workload actually needs — looking at CPU, memory, architecture, zones, taints, tolerations, affinities, and every other scheduling constraint, then provisioning a node that fits. It isn't bumping an ASG's desired count; for the nodes it manages, it provisions EC2 capacity directly against the workload's actual requirements. Instead of defining many fixed node groups upfront, you define the boundaries Karpenter is allowed to operate within — capacity types, instance families, zones, subnets, security groups, node IAM role — and Karpenter decides which instance type actually fits the pods waiting right now. That's why it's often the better fit for EKS platforms that need flexible, right-sized, cost-aware provisioning.</p>
+  <p>Two resources make this work: <strong>NodePool</strong> and <strong>EC2NodeClass</strong>. The short version — NodePool defines what Karpenter is allowed to create; EC2NodeClass defines how those EC2 nodes get created in AWS. The NodePool carries the scheduling and capacity rules:</p>
+  <pre>apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  template:
+    spec:
+      requirements:
+        - key: kubernetes.io/arch
+          operator: In
+          values: ["amd64"]
+        - key: kubernetes.io/os
+          operator: In
+          values: ["linux"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["spot", "on-demand"]
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["c", "m", "r"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: Gt
+          values: ["3"]
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: default
+  limits:
+    cpu: "100"
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 30s</pre>
+  <p>Don't worry about memorizing every field — the point is that the NodePool defines the boundaries: what kind of capacity Karpenter is allowed to create at all. The EC2NodeClass covers the AWS-specific details — which AMI, which subnets, which security groups, which node identity:</p>
+  <pre>apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  amiSelectorTerms:
+    - alias: al2023@v20240807
+  role: KarpenterNodeRole-book-review
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: book-review
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: book-review</pre>
+  <p>NodePool says what Karpenter is allowed to provision; EC2NodeClass says how those nodes get created in AWS. Karpenter combines both: when a pod goes <code>Pending</code>, it checks the pod's requirements, the NodePool's constraints, and the EC2NodeClass's AWS settings, then launches a suitable instance — no fixed node group required in advance. See the <a href="https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/" target="_blank" rel="noopener">Karpenter getting started guide</a>, the <a href="https://karpenter.sh/docs/concepts/nodepools/" target="_blank" rel="noopener">NodePool spec reference</a>, and the <a href="https://karpenter.sh/docs/concepts/nodeclasses/" target="_blank" rel="noopener">EC2NodeClass spec reference</a> for the full field list.</p>
+
+  <h2>Karpenter's two IAM identities</h2>
+  <p>If Karpenter is going to launch EC2 instances directly, it needs an AWS identity to do that with — and the instances it launches need their own identity once they exist. These are two separate roles solving two separate problems, and mixing them up is an easy first-setup mistake.</p>
+  <p>The <strong>Karpenter controller role</strong> is what the controller pod itself uses to call AWS APIs — launching instances, terminating them, discovering AMIs, reading cluster information, passing the node role when it creates a node. In this course, we use <a href="eks-iam-cluster-node-pod-identity-access-entries.html">EKS Pod Identity</a> for this: an IAM role assumable through the <code>pods.eks.amazonaws.com</code> service principal, with a Pod Identity association for the <code>karpenter</code> service account in the <code>karpenter</code> namespace.</p>
+  <pre>resource "aws_iam_role" "karpenter_controller" {
+  name = "karpenter-controller"
+
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "pods.eks.amazonaws.com" }
+      Action    = ["sts:AssumeRole", "sts:TagSession"]
+    }]
+  })
+}
+
+resource "aws_eks_pod_identity_association" "karpenter" {
+  cluster_name    = module.eks.cluster_name
+  namespace       = "karpenter"
+  service_account = "karpenter"
+  role_arn        = aws_iam_role.karpenter_controller.arn
+}</pre>
+  <p>That's the role Karpenter uses to talk to AWS — but it's only half the picture. When Karpenter launches a new EC2 instance, that instance needs its own identity too, because the node has to join the cluster, talk to the control plane, pull images from ECR, and run the usual node-level components. That's the <strong>node role</strong> — you can use a dedicated Karpenter node role, or reuse the same minimum-permission pattern from <a href="eks-node-groups-managed-vs-self-managed.html">the node groups post</a>. The controller role answers "what is Karpenter allowed to do in AWS?"; the node role answers "what are the EC2 instances Karpenter launches allowed to do once they exist?" — different questions, different roles.</p>
+  <p>The EC2NodeClass is where you connect Karpenter to that node identity — either a role directly, or a pre-created instance profile:</p>
+  <pre>resource "aws_iam_instance_profile" "karpenter_node" {
+  name = "karpenter-node"
+  role = aws_iam_role.karpenter_node.name
+}</pre>
+  <pre>apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  amiSelectorTerms:
+    - alias: al2023@v20240807
+  instanceProfile: karpenter-node
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: book-review
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: book-review</pre>
+  <p>In a production setup, these IAM resources live in Terraform, while the Karpenter controller itself is deployed with Helm through your GitOps repository — Terraform prepares the AWS foundation, Helm deploys the Kubernetes-side application. That split — cloud infrastructure in Terraform, Kubernetes applications through Helm and GitOps — is deliberate, not incidental. See <a href="https://karpenter.sh/docs/reference/iam-roles/" target="_blank" rel="noopener">Karpenter IAM permissions</a> for the full controller policy reference.</p>
+
+  <h2>The bootstrap node group — solving Karpenter's chicken-and-egg problem</h2>
+  <p>Karpenter is a controller pod — it runs inside your cluster. But it's also responsible for provisioning new nodes, and it needs a node to run on before it can provision anything. If the entire cluster depends on Karpenter for compute from the very start, there may be nothing available for Karpenter itself to run on.</p>
+  <p>The fix is a small, fixed <strong>bootstrap node group</strong> — a standard managed node group, often just two small nodes, running the stable platform layer of the cluster. Karpenter runs there, and depending on your setup, so do other critical components: CoreDNS, the AWS Load Balancer Controller, External Secrets, cert-manager, metrics-server. The bootstrap group isn't for application workloads — its entire job is keeping the cluster's core platform layer alive. A taint protects it from ordinary application pods:</p>
+  <pre>managedNodeGroups:
+  - name: bootstrap
+    instanceType: t3.medium
+    desiredCapacity: 2
+    taints:
+      - key: CriticalAddonsOnly
+        effect: NoSchedule</pre>
+  <p><code>CriticalAddonsOnly:NoSchedule</code> means ordinary pods won't land there unless they explicitly tolerate it — your application pods shouldn't have that toleration, but Karpenter and the platform components you want on that group do. Many production setups add node affinity on top, so those components prefer or require the bootstrap group specifically. The resulting layout:</p>
+  <pre>Cluster
+├── Bootstrap Node Group
+│   ├── Managed node group
+│   ├── Fixed small capacity, for example 2 nodes
+│   ├── Taint: CriticalAddonsOnly:NoSchedule
+│   └── Runs: Karpenter, CoreDNS, AWS LB Controller, cert-manager, ...
+│
+└── Karpenter Nodes
+    ├── Created dynamically
+    ├── Scaled based on pending Pods
+    └── Runs: application workloads</pre>
+  <p>Managed node groups and Karpenter aren't either-or — they coexist by design. The managed group runs the stable system layer; Karpenter runs the dynamic application layer on top of it.</p>
+
+  <h2>Consolidation — how Karpenter handles scale-down</h2>
+  <p>Everything so far has been about scale-up — a pod goes <code>Pending</code>, Karpenter notices, Karpenter launches capacity. The other half of autoscaling is removing capacity once it's no longer needed, and Karpenter does that through <strong>consolidation</strong>: continuously checking whether the same workloads could run on fewer, better-packed, or cheaper nodes. If the NodePool's disruption settings allow it, Karpenter can drain a node and remove or replace it — and this isn't limited to empty nodes; depending on settings, it can also consolidate nodes that are still running pods but sitting underused.</p>
+  <pre>disruption:
+  consolidationPolicy: WhenEmptyOrUnderutilized
+  consolidateAfter: 30s</pre>
+  <p><code>consolidationPolicy</code> controls what kind of nodes Karpenter is allowed to consolidate — <code>WhenEmptyOrUnderutilized</code> covers both empty and underused nodes. <code>consolidateAfter</code> controls how long Karpenter waits before acting; a value like <code>30s</code> is aggressive, moving quickly once conditions are met. In production, many teams use a higher value, since bursty workloads can look briefly idle without actually being done — you don't want nodes replaced the moment traffic dips for a few seconds. Cluster Autoscaler can also remove underused nodes, but it stays tied to the ASGs and node groups you created; Karpenter's consolidation is more flexible and, depending on your disruption settings, more proactive about ongoing cost optimization rather than just scale-down. See <a href="https://karpenter.sh/docs/concepts/disruption/" target="_blank" rel="noopener">Karpenter disruption</a> for the full consolidation and Spot-interruption handling reference.</p>
+
+  <h2>Spot instances — a real cost lever, used deliberately</h2>
+  <p>Allow Spot capacity in a NodePool, and Karpenter can use Spot instances whenever they fit the workload's requirements — significantly cheaper than On-Demand, with one condition attached: AWS can reclaim that capacity, giving a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html" target="_blank" rel="noopener">two-minute interruption notice</a> before it does. With Karpenter's interruption handling configured, it can react to that notice, start replacement capacity, and try to drain the node before termination — but that only works safely if the workload itself is designed for disruption.</p>
+  <p>Two things matter here specifically. Run more than one replica for anything that matters — a single-replica Deployment on a Spot node that gets interrupted means real downtime until the pod reschedules elsewhere. And use Pod Disruption Budgets for critical workloads: a PDB tells Kubernetes how many replicas must stay available during voluntary disruptions like a node drain, so when Karpenter drains a Spot node, the PDB helps prevent too many replicas being evicted at once. A PDB isn't magic, though — if the underlying Spot instance is actually terminated, Kubernetes can't keep that exact node alive regardless of the budget. It makes a graceful drain safer; your application still needs enough replicas, fast startup, and real health and readiness checks to make interruption a non-event. See <a href="https://kubernetes.io/docs/concepts/workloads/pods/disruptions/" target="_blank" rel="noopener">Kubernetes disruptions and PDBs</a> for the <code>minAvailable</code>/<code>maxUnavailable</code> configuration. Spot is a genuine cost lever — just not one to flip on blindly for every workload. Decide it deliberately, workload by workload.</p>
+
+  <h2>Cluster Autoscaler vs Karpenter, side by side</h2>
+  <div class="lb-table-wrap">
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>Cluster Autoscaler</th>
+          <th>Karpenter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>How it works</strong></td>
+          <td>Adjusts Auto Scaling Group desired capacity</td>
+          <td>Provisions EC2 capacity based on pending pod requirements</td>
+        </tr>
+        <tr>
+          <td><strong>Capacity model</strong></td>
+          <td>Scales pre-defined node groups</td>
+          <td>Uses constraints from NodePools and EC2NodeClasses</td>
+        </tr>
+        <tr>
+          <td><strong>Instance flexibility</strong></td>
+          <td>Limited to the node groups you created</td>
+          <td>Chooses from allowed instance families, sizes, zones, and capacity types</td>
+        </tr>
+        <tr>
+          <td><strong>Provisioning path</strong></td>
+          <td>Goes through Auto Scaling Groups</td>
+          <td>Uses EC2 provisioning directly</td>
+        </tr>
+        <tr>
+          <td><strong>Scale-down</strong></td>
+          <td>Removes nodes when pods can move elsewhere</td>
+          <td>Uses consolidation to remove or replace empty or underused nodes</td>
+        </tr>
+        <tr>
+          <td><strong>Complexity</strong></td>
+          <td>Simpler and familiar</td>
+          <td>More powerful, more concepts to learn</td>
+        </tr>
+        <tr>
+          <td><strong>Best fit</strong></td>
+          <td>Existing clusters or simpler ASG-based setups</td>
+          <td>Newer EKS platforms needing flexible, right-sized, cost-aware provisioning</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The decision isn't emotional. Cluster Autoscaler works — stable, well-understood, a valid option especially if your cluster already runs on managed node groups and ASGs. If you're designing a new EKS platform and want flexible provisioning, better instance selection, Spot support, and consolidation, Karpenter is often the better starting point. Understand both, and choose deliberately rather than by default. See the <a href="https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws" target="_blank" rel="noopener">Cluster Autoscaler AWS setup</a> for its IAM requirements and ASG integration.</p>
+
+  <h2>Decisions to get right before you turn on Karpenter</h2>
+  <ul>
+    <li><strong>IAM.</strong> Two separate roles — the controller role for Karpenter's own AWS calls, the node role for whatever it launches. Don't conflate them.</li>
+    <li><strong>Where Karpenter itself runs.</strong> A small, tainted bootstrap node group, not the dynamic capacity Karpenter manages — solving the chicken-and-egg problem directly.</li>
+    <li><strong>NodePool boundaries.</strong> Define instance families, capacity types, zones, and limits deliberately — this is what keeps Karpenter's flexibility from turning into unpredictable spend.</li>
+    <li><strong>Consolidation pace.</strong> Match <code>consolidateAfter</code> to how bursty your workloads actually are, not to the most aggressive default you can find.</li>
+    <li><strong>Spot.</strong> Multiple replicas and a PDB for anything critical, decided per workload — never a blanket setting.</li>
+  </ul>
+  <p>Neither tool is really the point — the point is whether your cluster's capacity tracks what your workloads actually need, without someone babysitting node groups by hand or discovering a cost problem a month later. That's exactly the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+</body>
+</html>
