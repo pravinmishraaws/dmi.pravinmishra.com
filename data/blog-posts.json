@@ -70,5 +70,14 @@
     "category": "Platform Engineering",
     "date": "2026-08-01",
     "image": "../images/blog/eks-iam-cluster-node-pod-identity-access-entries-og.jpg"
+  },
+  {
+    "slug": "container-registries-docker-hub-ecr-image-tagging",
+    "title": "Container Registries: Docker Hub, ECR, Image Tagging, and Why \"latest\" Is Dangerous",
+    "excerpt": "Docker Hub vs. Amazon ECR, and the real reason :latest breaks production: it removes your ability to know what's running and your ability to roll back once something goes wrong.",
+    "author": "Pravin Mishra",
+    "category": "Platform Engineering",
+    "date": "2026-08-05",
+    "image": "../images/blog/container-registries-docker-hub-ecr-image-tagging-og.jpg"
   }
 ]
