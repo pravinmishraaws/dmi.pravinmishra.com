@@ -497,7 +497,11 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
-        }).then(function () {
+        }).then(function (response) {
+          // fetch() only rejects on network failure, not on 4xx/5xx — without this
+          // check a failed webhook (lead never reaches Pabbly/Sendy/CRM) would still
+          // show the user "success" and still fire the Meta Lead pixel.
+          if (!response.ok) throw new Error('Webhook returned ' + response.status);
           onJoinSuccess(payload.eventId);
         });
       })
