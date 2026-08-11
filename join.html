@@ -377,9 +377,9 @@
   }
 
   // SHA-256 hex digest, matching Meta's Conversions API requirement for
-  // user_data.em: lowercase + trim the email, then hash it here in the
-  // browser so the raw address never needs to be hashed server-side —
-  // Pabbly has no hashing capability, only relays this value through.
+  // user_data.em/fn: lowercase + trim, then hash it here in the browser so
+  // the raw value never needs to be hashed server-side — Pabbly has no
+  // hashing capability, only relays this value through.
   function sha256Hex(str) {
     var data = new TextEncoder().encode(str.trim().toLowerCase());
     return crypto.subtle.digest('SHA-256', data).then(function (buf) {
@@ -387,6 +387,13 @@
         .map(function (b) { return b.toString(16).padStart(2, '0'); })
         .join('');
     });
+  }
+
+  // Meta's user_data.ph requires digits only (country code + number, no
+  // leading '+', no spaces/dashes/parens) before hashing — strip everything
+  // else so "+91 98765 43210" becomes "919876543210" prior to sha256Hex.
+  function sha256HexPhone(rawPhone) {
+    return sha256Hex(rawPhone.replace(/\D/g, ''));
   }
 
   // ---------------------------------------------------------------------
@@ -471,13 +478,26 @@
       msg.textContent = '';
 
       var emailValue = document.getElementById('email').value.trim();
+      var firstNameValue = document.getElementById('firstName').value.trim();
+      var whatsappValue = document.getElementById('whatsapp').value.trim();
 
-      sha256Hex(emailValue).then(function (emailHash) {
+      Promise.all([
+        sha256Hex(emailValue),
+        sha256Hex(firstNameValue),
+        sha256HexPhone(whatsappValue)
+      ]).then(function (hashes) {
+        var emailHash = hashes[0], firstNameHash = hashes[1], phoneHash = hashes[2];
         var payload = {
-          firstName: document.getElementById('firstName').value.trim(),
+          firstName: firstNameValue,
           email: emailValue,
           emailHash: emailHash,
-          whatsapp: document.getElementById('whatsapp').value.trim(),
+          // CAPI match-key hashes — added 2026-08-11 (tracking audit item 4)
+          // so the Conversions API leg carries the same Email/First name/
+          // Phone match keys the browser pixel's Automatic Advanced Matching
+          // already sends, instead of email alone.
+          firstNameHash: firstNameHash,
+          phoneHash: phoneHash,
+          whatsapp: whatsappValue,
           describe: document.getElementById('describe').value,
           goal: document.getElementById('goal').value,
           fbclid: document.getElementById('fbclid').value,
