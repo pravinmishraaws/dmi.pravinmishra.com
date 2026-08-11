@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Self-Paced Leaderboard — DMI</title>
-  <meta name="description" content="Self-Paced Engineer track leaderboard and graduates — DevOps Micro Internship with Agentic AI" />
-  <link rel="canonical" href="https://dmi.pravinmishra.com/self-paced-leaderboard.html" />
+  <title>Foundation Track Leaderboard — DMI</title>
+  <meta name="description" content="Foundation Track leaderboard — DevOps Micro Internship with Agentic AI" />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/foundation-leaderboard.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Self-Paced Leaderboard — DMI" />
-  <meta property="og:description" content="Self-Paced Engineer track leaderboard and graduates — DevOps Micro Internship with Agentic AI" />
-  <meta property="og:url" content="https://dmi.pravinmishra.com/self-paced-leaderboard.html" />
+  <meta property="og:title" content="Foundation Track Leaderboard — DMI" />
+  <meta property="og:description" content="Foundation Track leaderboard — DevOps Micro Internship with Agentic AI" />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/foundation-leaderboard.html" />
   <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Self-Paced Leaderboard — DMI" />
-  <meta name="twitter:description" content="Self-Paced Engineer track leaderboard and graduates — DevOps Micro Internship with Agentic AI" />
+  <meta name="twitter:title" content="Foundation Track Leaderboard — DMI" />
+  <meta name="twitter:description" content="Foundation Track leaderboard — DevOps Micro Internship with Agentic AI" />
   <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
@@ -44,73 +44,13 @@
       height: 100%;
       background: var(--accent);
     }
+    .weeks-pill.complete { color: var(--accent); border-color: var(--accent-border); }
     .badge-link {
       color: var(--accent);
       text-decoration: none;
       font-size: 0.875rem;
     }
     .badge-link:hover { text-decoration: underline; }
-
-    /* Graduates tab — card grid, mirrors graduates.html */
-    .grad-card {
-      background: var(--bg-card2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      text-align: center;
-      transition: border-color 0.2s, transform 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .grad-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-    .grad-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: var(--bg-card);
-      border: 2px solid var(--border);
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .grad-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .grad-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
-    .grad-role { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; line-height: 1.4; }
-    .grad-country { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; }
-    .grad-badge {
-      display: inline-block;
-      background: var(--accent-light);
-      border: 1px solid var(--accent-border);
-      color: var(--accent);
-      border-radius: 100px;
-      padding: 2px 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    .grad-links { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-    .grad-linkedin, .grad-badge-link {
-      color: var(--accent);
-      font-size: 0.82rem;
-      text-decoration: none;
-      border: 1px solid var(--accent-border);
-      border-radius: 100px;
-      padding: 3px 12px;
-      transition: background 0.2s;
-    }
-    .grad-linkedin:hover, .grad-badge-link:hover { background: var(--accent-light); }
-    .graduates-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 1rem;
-    }
     .btn-primary {
       display: inline-block;
       background: var(--accent);
@@ -159,8 +99,8 @@
       <a href="leaderboard.html" class="active">Proof</a>
       <ul class="dropdown-menu">
       <li><a href="leaderboard.html">Leaderboard</a></li>
-      <li><a href="self-paced-leaderboard.html" class="active">Self-Paced Leaderboard</a></li>
-      <li><a href="foundation-leaderboard.html">Foundation Leaderboard</a></li>
+      <li><a href="self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="foundation-leaderboard.html" class="active">Foundation Leaderboard</a></li>
       <li><a href="champion.html">Champion</a></li>
       <li><a href="graduates.html">Graduates</a></li>
       <li><a href="alumni.html">Alumni</a></li>
@@ -170,7 +110,7 @@
     <li><a href="blog/index.html">Blog</a></li>
     <li><a href="enterprise.html">DMI Enterprise</a></li>
     <li><a href="campus.html">DMI Campuses</a></li>
-    <li><a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
     <span></span><span></span><span></span>
@@ -180,64 +120,44 @@
 <section class="leaderboard-section" style="padding: 4rem 2rem 5rem;">
   <div class="container">
 
-    <div class="section-label">Self-Paced Engineer Track</div>
-    <h2 class="section-title">Self-Paced Leaderboard</h2>
-    <p class="section-sub">No cohort, no groups — just weekly progress. Updated after each automated review run.<br><a href="blog/how-self-paced-leaderboard-works.html" style="font-size:0.85rem;color:var(--accent);font-weight:600;text-decoration:none;">How is this scored? Read the guide →</a></p>
+    <div class="section-label">Foundation Track</div>
+    <h2 class="section-title">Foundation Track Leaderboard</h2>
+    <p class="section-sub">Week 00 — Internet &amp; Networking. Updated after each automated review run.</p>
 
     <div style="text-align:center;margin-bottom:2.5rem;">
-      <a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=self-paced-leaderboard&utm_campaign=enroll-now" target="_blank" rel="noopener" class="btn-primary">Enroll Now →</a>
+      <a href="https://university.pravinmishra.com/b/dmi-foundation-track?utm_source=dmi&utm_medium=foundation-leaderboard&utm_campaign=enroll-now" target="_blank" rel="noopener" class="btn-primary">Start the Foundation Track →</a>
     </div>
 
-    <!-- Tabs -->
-    <div class="cohort-tabs">
-      <button class="cohort-tab active" data-tab="active">Active</button>
-      <button class="cohort-tab" data-tab="graduates">Graduates</button>
+    <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+      <input id="lbSearch" type="text" placeholder="Search by name…"
+        style="background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:10px 20px;color:var(--text);font-size:0.95rem;width:100%;max-width:340px;outline:none;transition:border-color 0.2s;"
+        onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
     </div>
 
-    <!-- ── Active leaderboard ─────────────────────────────────────────── -->
-    <div id="panelActive">
-      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
-        <input id="lbSearch" type="text" placeholder="Search by name…"
-          style="background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:10px 20px;color:var(--text);font-size:0.95rem;width:100%;max-width:340px;outline:none;transition:border-color 0.2s;"
-          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-
-      <div id="lbLoading" class="lb-loading">
-        <div class="lb-spinner"></div>
-        Loading leaderboard…
-      </div>
-
-      <div id="lbContent" style="display:none;">
-        <div class="lb-table-wrap">
-          <table class="lb-table">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th></th>
-                <th>Student</th>
-                <th>Weeks Completed</th>
-                <th>DMI GitHub Portfolio</th>
-                <th>Total</th>
-                <th>Badge</th>
-              </tr>
-            </thead>
-            <tbody id="lbBody"></tbody>
-          </table>
-        </div>
-        <div id="lbEmpty" class="lb-empty" style="display:none;">No students found.</div>
-        <p style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-top:1.5rem;" id="lbTimestamp"></p>
-      </div>
+    <div id="lbLoading" class="lb-loading">
+      <div class="lb-spinner"></div>
+      Loading leaderboard…
     </div>
 
-    <!-- ── Graduates ──────────────────────────────────────────────────── -->
-    <div id="panelGraduates" style="display:none;">
-      <p id="gradCount" style="text-align:center;color:var(--text-muted);font-size:0.875rem;margin-bottom:1rem;"></p>
-      <div class="graduates-grid" id="graduatesGrid">
-        <div style="color:var(--text-muted);font-size:0.95rem;padding:2rem 0;grid-column:1/-1;text-align:center;">
-          <div class="lb-spinner" style="margin:0 auto 1rem;"></div>
-          Loading graduates…
-        </div>
+    <div id="lbContent" style="display:none;">
+      <div class="lb-table-wrap">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th></th>
+              <th>Student</th>
+              <th>Week 00 Progress</th>
+              <th>DMI GitHub Portfolio</th>
+              <th>Total Points</th>
+              <th>Badge</th>
+            </tr>
+          </thead>
+          <tbody id="lbBody"></tbody>
+        </table>
       </div>
+      <div id="lbEmpty" class="lb-empty" style="display:none;">No Foundation Track students have been added yet.</div>
+      <p style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-top:1.5rem;" id="lbTimestamp"></p>
     </div>
 
   </div>
@@ -255,13 +175,14 @@
 <script src="app.js"></script>
   <script src="pixel-consent.js"></script>
 <script>
-  const TOTAL_WEEKS = 14;
-  const LB_CSV_URL = 'data/self-paced-leaderboard.csv';
-  const GRAD_JSON_URL = 'data/self-paced-graduates.json';
+  // Week 00 has 6 required tasks (see CLAUDE.md "Foundation Track" for the list).
+  // Foundation students are a separate roster from Cohort 3 / Self-Paced — this
+  // CSV is never shared with leaderboard.html or self-paced-leaderboard.html.
+  const TOTAL_TASKS = 6;
+  const LB_CSV_URL = 'data/foundation-leaderboard.csv';
 
   let allStudents = [];
   let searchQuery = '';
-  let allGrads = [];
 
   function escHtml(str) {
     if (!str) return '';
@@ -279,8 +200,6 @@
     const lines = text.trim().split('\n');
     const rawHeaders = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
     return lines.slice(1).map(line => {
-      // Simple comma split (not the cohort page's regex) — that regex drops empty
-      // fields entirely, which shifts every column after a blank GithubUsername.
       const vals = line.split(',');
       const obj = {};
       rawHeaders.forEach((h, i) => {
@@ -299,11 +218,7 @@
   }
 
   // ── Share buttons (top 10 only) ─────────────────────────────────────────
-  // Plain share-intent links — no API keys, no backend, just a prefilled
-  // compose window. LinkedIn/Facebook ignore text params (they scrape
-  // og:title/description from the URL instead), so only X/WhatsApp carry text.
   const SHARE_LABELS = { linkedin: 'LinkedIn', x: 'X', facebook: 'Facebook', whatsapp: 'WhatsApp' };
-  // Minimal single-path brand glyphs (viewBox 0 0 24 24, fill=currentColor).
   const SHARE_ICONS = {
     linkedin: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
     x: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z',
@@ -331,17 +246,24 @@
   function rankShareRow(rank, username) {
     if (rank > 10 || !username) return '';
     const pageUrl = `https://dmi.pravinmishra.com/s/${username}.html`;
-    const message = `I'm ranked #${rank} on the DMI Self-Paced Engineer leaderboard! 🏆`;
+    const message = `I'm ranked #${rank} on the DMI Foundation Track leaderboard! 🏆`;
     return `<div class="share-mini-label">Share your progress:</div><div class="share-mini-row">${shareButtonsHtml(pageUrl, message, 'leaderboard-share')}</div>`;
+  }
+
+  // "Completed" only once all 6 required Week 00 checks pass — never inferred,
+  // only ever read from Week00TasksCompleted as published by the review-agent.
+  function week00ProgressLabel(tasks) {
+    if (tasks >= TOTAL_TASKS) return 'Completed';
+    return `${tasks} / ${TOTAL_TASKS} Tasks`;
   }
 
   function renderActive() {
     let data = [...allStudents];
     if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
 
-    // Weeks completed first, total as tiebreaker — pacing matters more than raw points.
+    // Week 00 progress first, total points as secondary tiebreaker.
     data.sort((a, b) => {
-      const w = (parseInt(b.sectionscompleted) || 0) - (parseInt(a.sectionscompleted) || 0);
+      const w = (parseInt(b.week00taskscompleted) || 0) - (parseInt(a.week00taskscompleted) || 0);
       if (w !== 0) return w;
       return (parseInt(b.total) || 0) - (parseInt(a.total) || 0);
     });
@@ -358,12 +280,13 @@
 
     tbody.innerHTML = data.map((s, i) => {
       const rank = i + 1;
-      const weeks = parseInt(s.sectionscompleted) || 0;
+      const tasks = parseInt(s.week00taskscompleted) || 0;
       const total = parseInt(s.total) || 0;
-      const pct = Math.round((weeks / TOTAL_WEEKS) * 100);
+      const pct = Math.round((tasks / TOTAL_TASKS) * 100);
+      const complete = tasks >= TOTAL_TASKS;
       const username = s.githubusername || '';
-      // Must point at the student's assignment repo, not their bare GitHub
-      // profile — that's the actual DevOps portfolio "View" is meant to show.
+      // Same fallback as the other DMI leaderboards: points at the student's
+      // assignment repo, not their bare GitHub profile.
       const portfolioUrl = username ? `https://github.com/${username}/devops-micro-internship-pravinmishra` : '';
       const badgeUrl = username ? `s/${username}.html` : '';
       return `
@@ -372,8 +295,8 @@
           <td><div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:#fff;flex-shrink:0;">${initials(s.name)}</div></td>
           <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" target="_blank" rel="noopener" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
           <td>
-            <div class="weeks-pill">
-              <span>${weeks} / ${TOTAL_WEEKS}</span>
+            <div class="weeks-pill${complete ? ' complete' : ''}">
+              <span>${week00ProgressLabel(tasks)}</span>
               <span class="bar"><span style="width:${pct}%;"></span></span>
             </div>
           </td>
@@ -385,41 +308,14 @@
     }).join('');
   }
 
-  function renderGraduates() {
-    const grid = document.getElementById('graduatesGrid');
-    document.getElementById('gradCount').textContent =
-      allGrads.length > 0 ? `${allGrads.length} student${allGrads.length === 1 ? '' : 's'} completed the Self-Paced track` : '';
-
-    if (allGrads.length === 0) {
-      grid.innerHTML = `<div style="color:var(--text-muted);font-size:0.95rem;padding:2rem 0;grid-column:1/-1;text-align:center;">No graduates yet.</div>`;
-      return;
-    }
-
-    grid.innerHTML = allGrads.map(g => `
-      <div class="grad-card">
-        <div class="grad-avatar">
-          ${g.photo ? `<img src="${escHtml(g.photo)}" alt="${escHtml(g.name)}">` : initials(g.name)}
-        </div>
-        <div class="grad-name">${escHtml(g.name)}</div>
-        <div class="grad-role">${escHtml(g.role || 'Cloud & DevOps Engineer')}</div>
-        ${g.country ? `<div class="grad-country">${escHtml(g.country)}</div>` : ''}
-        <span class="grad-badge">🎓 ${g.sections_completed || TOTAL_WEEKS}/${TOTAL_WEEKS} Weeks</span>
-        <div class="grad-links">
-          ${g.linkedin ? `<a href="${escHtml(g.linkedin)}" target="_blank" rel="noopener" class="grad-linkedin">LinkedIn →</a>` : ''}
-          ${g.github_username ? `<a href="s/${escHtml(g.github_username)}.html" target="_blank" rel="noopener" class="grad-badge-link">View Badge →</a>` : ''}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // Load active leaderboard
+  // Load leaderboard
   fetch(LB_CSV_URL + '?t=' + Date.now())
     .then(r => r.text())
     .then(text => {
       allStudents = parseCSV(text);
       document.getElementById('lbLoading').style.display = 'none';
       document.getElementById('lbContent').style.display = 'block';
-      document.getElementById('lbTimestamp').textContent = 'Last updated: ' + new Date().toLocaleString();
+      document.getElementById('lbTimestamp').textContent = allStudents.length > 0 ? ('Last updated: ' + new Date().toLocaleString()) : '';
       renderActive();
     })
     .catch(() => {
@@ -427,26 +323,9 @@
         '<p style="color:var(--text-muted)">Leaderboard data not available yet. Check back soon!</p>';
     });
 
-  // Load graduates
-  fetch(GRAD_JSON_URL + '?t=' + Date.now())
-    .then(r => r.json())
-    .then(data => { allGrads = data; renderGraduates(); })
-    .catch(() => { allGrads = []; renderGraduates(); });
-
   document.getElementById('lbSearch').addEventListener('input', e => {
     searchQuery = e.target.value.toLowerCase().trim();
     renderActive();
-  });
-
-  // Tabs
-  document.querySelectorAll('.cohort-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.cohort-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const target = tab.dataset.tab;
-      document.getElementById('panelActive').style.display = target === 'active' ? 'block' : 'none';
-      document.getElementById('panelGraduates').style.display = target === 'graduates' ? 'block' : 'none';
-    });
   });
 </script>
 </body>
