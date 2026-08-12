@@ -1,6 +1,6 @@
 {
   "cohort": "Cohort 3",
-  "current_week": 4,
+  "current_week": 5,
   "weeks": [
     {
       "week": 1,
@@ -32,6 +32,14 @@
         { "group": "Group 1", "name": "Folarin Wale", "score": 190, "comment": "", "linkedin": "https://www.linkedin.com/in/wale-folarin-956b6022a/", "photo": "" },
         { "group": "Group 2", "name": "Sarah Wambui Amadi", "score": 190, "comment": "", "linkedin": "https://www.linkedin.com/in/sarah-w-amadi/", "photo": "" },
         { "group": "Group 3", "name": "Nebeolisa Chiemelie Kelvin", "score": 190, "comment": "", "linkedin": "", "photo": "" }
+      ]
+    },
+    {
+      "week": 5,
+      "champions": [
+        { "group": "Group 1", "name": "Aziz Olaide Kafayat", "score": 170, "comment": "", "linkedin": "https://www.linkedin.com/in/aziz-kafayat/", "photo": "" },
+        { "group": "Group 2", "name": "Tayssir Oueslati", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/taysir-ouaslati-9b6527a3/", "photo": "" },
+        { "group": "Group 3", "name": "George Adimowei Epebifie", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/wisgeorge1/", "photo": "" }
       ]
     }
   ]
