@@ -279,7 +279,7 @@
             </div>
             <div class="champ-info">
               <div class="champ-name">${escHtml(c.name)}</div>
-              <div class="champ-score">Score: <span>${c.score}</span></div>
+              ${c.score !== '' && c.score !== null && c.score !== undefined ? `<div class="champ-score">Score: <span>${c.score}</span></div>` : ''}
               ${c.comment ? `<div style="font-size:0.85rem;color:var(--text-muted);margin:0.4rem 0;font-style:italic;line-height:1.4;">"${escHtml(c.comment)}"</div>` : ''}
               ${li ? `<a href="${escHtml(li)}" target="_blank" rel="noopener" class="champ-linkedin">LinkedIn →</a>` : ''}
             </div>
