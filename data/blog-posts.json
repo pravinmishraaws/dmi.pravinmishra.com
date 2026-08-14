@@ -105,7 +105,7 @@
     "author": "Pravin Mishra",
     "category": "DevOps",
     "date": "2026-08-14",
-    "image": "../images/og-self-paced-banner.png"
+    "image": "../images/blog/aws-iam-users-groups-roles-policies-explained-og.jpg"
   },
   {
     "slug": "ec2-instance-types-naming-convention-explained",
@@ -114,6 +114,6 @@
     "author": "Pravin Mishra",
     "category": "DevOps",
     "date": "2026-08-14",
-    "image": "../images/og-self-paced-banner.png"
+    "image": "../images/blog/ec2-instance-types-naming-convention-explained-og.jpg"
   }
 ]
