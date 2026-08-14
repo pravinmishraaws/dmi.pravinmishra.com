@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS IAM Explained: Users, Groups, Roles, and Policies — DMI Blog</title>
+  <meta name="description" content="Root user vs. IAM user, why policies belong on groups not people, what a role actually is, and a real console walkthrough: create your first IAM user with least-privilege access." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/blog/aws-iam-users-groups-roles-policies-explained.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AWS IAM Explained: Users, Groups, Roles, and Policies" />
+  <meta property="og:description" content="Root user vs. IAM user, why policies belong on groups not people, what a role actually is, and a real console walkthrough: create your first IAM user with least-privilege access." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/blog/aws-iam-users-groups-roles-policies-explained.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AWS IAM Explained: Users, Groups, Roles, and Policies" />
+  <meta name="twitter:description" content="Root user vs. IAM user, why policies belong on groups not people, what a role actually is, and a real console walkthrough: create your first IAM user with least-privilege access." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .post-body pre {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 1.5rem 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AWS IAM Explained: Users, Groups, Roles, and Policies",
+    "datePublished": "2026-08-14",
+    "dateModified": "2026-08-14",
+    "author": { "@type": "Person", "name": "Pravin Mishra" },
+    "image": "https://dmi.pravinmishra.com/images/og-self-paced-banner.png",
+    "publisher": { "@type": "Organization", "name": "DevOps Micro Internship", "url": "https://dmi.pravinmishra.com" },
+    "mainEntityOfPage": "https://dmi.pravinmishra.com/blog/aws-iam-users-groups-roles-policies-explained.html"
+  }
+  </script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">with Agentic AI</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../stories.html">Stories</a></li>
+    <li class="has-dropdown">
+      <a href="../leaderboard.html">Proof</a>
+      <ul class="dropdown-menu">
+      <li><a href="../leaderboard.html">Leaderboard</a></li>
+      <li><a href="../self-paced-leaderboard.html">Self-Paced Leaderboard</a></li>
+      <li><a href="../foundation-leaderboard.html">Foundation Leaderboard</a></li>
+      <li><a href="../champion.html">Champion</a></li>
+      <li><a href="../graduates.html">Graduates</a></li>
+      <li><a href="../alumni.html">Alumni</a></li>
+      </ul>
+    </li>
+    <li><a href="../placement.html">Placement</a></li>
+    <li><a href="index.html" class="active">Blog</a></li>
+    <li><a href="../enterprise.html">DMI Enterprise</a></li>
+    <li><a href="../campus.html">DMI Campuses</a></li>
+    <li><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=nav" target="_blank" rel="noopener">University</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<article class="post-body">
+  <div class="post-meta">
+    <span class="post-category">DevOps</span>
+    <span class="post-date">August 14, 2026</span>
+  </div>
+  <h1>AWS IAM Explained: Users, Groups, Roles, and Policies</h1>
+  <div class="post-byline">By <a href="https://pravinmishra.com?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Pravin Mishra</a></div>
+
+  <p>The single most common way people burn through their AWS free tier — or worse, rack up a real bill — isn't a bad architecture decision. It's signing in as the root user for everyday work, or attaching a policy so broad it doesn't matter what actually goes wrong. IAM (Identity and Access Management) is the AWS service that fixes both problems, and it's foundational enough that every DMI assignment from <a href="https://github.com/pravinmishraaws/devops-micro-internship-pravinmishra/tree/main/week-06-aws-cloud" target="_blank" rel="noopener">Week 6 (AWS Cloud)</a> onward assumes you understand it. This post covers the four IAM building blocks — users, groups, roles, policies — and then walks through creating your first IAM user the way AWS actually recommends.</p>
+
+  <h2>Root user vs. IAM user</h2>
+  <p>When you create an AWS account, you get exactly one <strong>root user</strong> — the email and password you signed up with. Root has unrestricted access to everything in the account, including billing, and it cannot be limited by a policy. That's precisely why you shouldn't use it day to day: if root credentials leak, there's no permission boundary standing between an attacker and your entire account.</p>
+  <p>An <strong>IAM user</strong> is a separate identity you create inside the account — for yourself, a teammate, or an application — that starts with <em>zero</em> permissions until you explicitly grant some. AWS's own <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html" target="_blank" rel="noopener">IAM security best practices</a> are direct about this: lock away root credentials, enable MFA on root, and do essentially everything else through IAM identities with least-privilege permissions instead.</p>
+
+  <h2>IAM groups — attach policies once, not per person</h2>
+  <p>A group is just a named collection of users. You attach a policy to the group, and every current and future member inherits it. The alternative — attaching the same policy to five individual users — means five places to update when permissions change, and five chances to miss one. If you're onboarding a new developer, adding them to the "Developers" group is one action instead of re-deriving what permissions they need from scratch.</p>
+
+  <h2>IAM policies — the actual rules</h2>
+  <p>A policy is a JSON document that defines what's allowed: which actions, on which resources, under which conditions. AWS ships <strong>managed policies</strong> for common cases (like <code>AmazonS3ReadOnlyAccess</code>), which are a reasonable starting point — but the best-practice direction is to move toward narrower, <strong>customer-managed policies</strong> scoped to exactly what a task needs, once you know what that is. A minimal example, granting read-only access to one specific S3 bucket rather than every bucket in the account:</p>
+  <pre>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::my-portfolio-site",
+        "arn:aws:s3:::my-portfolio-site/*"
+      ]
+    }
+  ]
+}</pre>
+  <p>That's <strong>least privilege</strong> in practice: not "can this user do their job," but "can this user do their job and nothing else." See <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html" target="_blank" rel="noopener">policies and permissions in IAM</a> for the full policy language.</p>
+
+  <h2>IAM roles — identity without a password</h2>
+  <p>A role has no password and no permanent access keys. Instead, it's <em>assumed</em> — by a person, an application, or an AWS service — and grants temporary credentials that expire. The classic example: an EC2 instance that needs to read from S3 gets an IAM role attached to it, and AWS delivers short-lived credentials directly to the instance. No access key sitting in a config file for someone to leak.</p>
+  <p>This matters beyond EC2. AWS's current guidance is that <strong>workloads should use roles for temporary credentials, not IAM users with long-term access keys</strong>, wherever the workload can support it — and for human users at organization scale, AWS recommends <a href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html" target="_blank" rel="noopener">IAM Identity Center</a> (federated, temporary access) over creating individual IAM users at all. If you continue into DMI's Kubernetes weeks, you'll see this exact pattern again — a pod on an EKS node assuming a role instead of holding static credentials — covered in more depth in <a href="eks-iam-cluster-node-pod-identity-access-entries.html">IAM for EKS: Cluster Role, Node Role, Pod Identity, and Cluster Access</a>.</p>
+
+  <h2>Why a personal learning account still starts with an IAM user</h2>
+  <p>IAM Identity Center is the right answer once there's an organization with multiple AWS accounts to federate into. For a single free-tier account — which is what <a href="https://github.com/pravinmishraaws/devops-micro-internship-pravinmishra/blob/main/week-06-aws-cloud/assignment-01-creating-an-aws-free-tier-account-and-budget-alerts.md" target="_blank" rel="noopener">DMI's Week 6, Assignment 1</a> has you set up — there's no organization to federate into yet. The practical, AWS-documented starting point is: create one IAM user for yourself, require MFA on it, and stop signing in as root once it exists. That's what the walkthrough below does.</p>
+
+  <h2>Hands-on: create your first IAM user with least-privilege access</h2>
+  <ol>
+    <li><strong>Sign in as root, once.</strong> You need root only for this first step — creating the IAM entities that replace it for everyday use.</li>
+    <li><strong>Open the IAM console</strong> and create a group — e.g. <code>Developers</code>.</li>
+    <li><strong>Attach a policy to the group</strong>, not to any individual user. Start with an AWS managed policy scoped to what you're actually doing (for a static-site assignment, that might be S3 access; for a compute assignment, EC2). Prefer a narrow customer-managed policy like the JSON example above once you know exactly what's needed.</li>
+    <li><strong>Create the IAM user</strong> — your name, not a shared "admin" account — and add it to the group. Skip generating access keys unless you specifically need programmatic (CLI/SDK) access; console-only users don't need them.</li>
+    <li><strong>Enable MFA</strong> on the new user. AWS's current guidance recommends phishing-resistant MFA (a passkey or security key) where you can use one — see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html" target="_blank" rel="noopener">MFA in IAM</a>.</li>
+    <li><strong>Sign out of root and back in as your IAM user.</strong> From here, root is only for the handful of actions that genuinely require it (like closing the account) — everything else happens as the IAM user.</li>
+  </ol>
+  <p>The mistake this avoids isn't hypothetical: it's how people accidentally leave the AWS free tier without noticing, because a broad policy or a leaked root credential let something run up charges no budget alert caught in time. Least privilege is the actual guardrail — the budget alert from Assignment 1 is the backstop, not the first line of defense.</p>
+
+  <h2>The four pieces, together</h2>
+  <ul>
+    <li><strong>Users</strong> — an identity for a person or application, zero permissions by default.</li>
+    <li><strong>Groups</strong> — attach a policy once, every member inherits it.</li>
+    <li><strong>Policies</strong> — the actual JSON rules; managed policies to start, customer-managed for least privilege.</li>
+    <li><strong>Roles</strong> — temporary, assumed credentials for services and (at scale) for humans via IAM Identity Center — no long-lived secret sitting around to leak.</li>
+  </ul>
+  <p>Getting this right early matters more than it looks like it should — every AWS assignment in DMI's <a href="../how-it-works.html">graded weekly loop</a>, and every production system you touch afterward, inherits whatever permission model you set up first.</p>
+
+  <p style="margin-top:2.5rem;"><strong>Want to practice this on real, graded assignments?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
+</article>
+
+<footer>
+  <a href="../index.html" class="footer-logo">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.5rem;"><a href="../placement.html" style="color:var(--accent);font-weight:600;">🎓 Graduated from DMI? Get placement support →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="../app.js"></script>
+<script src="../pixel-consent.js"></script>
+</body>
+</html>
