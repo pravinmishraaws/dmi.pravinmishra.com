@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>34% Off DMI Self-Paced — Limited Time — DMI</title>
+  <meta name="description" content="158 students, graded publicly every week. Real alumni at ADP, WithSecure and more. Claim 34% off the Self-Paced track — limited time." />
+  <link rel="canonical" href="https://dmi.pravinmishra.com/enroll.html" />
+  <meta name="robots" content="noindex, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="34% Off DMI Self-Paced — Limited Time" />
+  <meta property="og:description" content="158 students, graded publicly every week. Real alumni at ADP, WithSecure and more. Claim 34% off the Self-Paced track — limited time." />
+  <meta property="og:url" content="https://dmi.pravinmishra.com/enroll.html" />
+  <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="34% Off DMI Self-Paced — Limited Time" />
+  <meta name="twitter:description" content="158 students, graded publicly every week. Real alumni at ADP, WithSecure and more. Claim 34% off the Self-Paced track — limited time." />
+  <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Direct-offer variant of join.html — A/B counterpart, no lead form,
+       straight to the paid offer. See dmi-growth's private meta-ads audit
+       (not in this repo) for why: DMI's $14.99/qtr price point structurally
+       resembles a low-commitment subscription (KodeKloud's pattern: direct
+       to checkout + real urgency) more than a high-commitment one-time
+       purchase (TechWorld with Nana's pattern: lead-gen + nurture first,
+       which join.html already tests). Proof sections below are intentionally
+       identical to join.html's — same content, different close. */
+    .offer-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 1.5rem;
+      display: flex; align-items: center;
+    }
+    .offer-nav .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+
+    .offer-hero {
+      padding: 3.5rem 1.5rem 2.5rem;
+      text-align: center;
+      background: var(--bg-section);
+      border-bottom: 1px solid var(--border);
+    }
+    .offer-hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.75px;
+      max-width: 780px;
+      margin: 0 auto 1rem;
+    }
+    .offer-hero p.lede {
+      color: var(--text-muted);
+      font-size: 1.08rem;
+      max-width: 620px;
+      margin: 0 auto 2rem;
+    }
+    .offer-stats {
+      display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+      padding: 1.5rem 2rem; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      max-width: 640px; margin: 0 auto;
+    }
+    .offer-stats .stat .num { font-size: 1.6rem; }
+    .offer-cta-inline { margin-top: 2rem; }
+
+    /* Proof cards — identical to join.html's, reused as-is */
+    .proof-section { padding: 3.5rem 1.5rem; }
+    .alum-mini {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.5rem; text-align: center; box-shadow: var(--shadow);
+    }
+    .alum-mini .company { color: var(--accent); font-weight: 700; font-size: 1rem; }
+    .alum-mini .role { color: var(--text-muted); font-size: 0.85rem; margin: 0.15rem 0 0.6rem; }
+    .alum-mini .story { font-size: 0.88rem; color: var(--text-muted); font-style: italic; line-height: 1.55; }
+    .alum-mini .name { font-weight: 700; font-size: 0.9rem; margin-top: 0.75rem; }
+
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+    }
+    .shot-card {
+      display: block; text-decoration: none; color: inherit;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .shot-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--accent); }
+    .shot-card .shot-img-wrap { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-card2); border-bottom: 1px solid var(--border); }
+    .shot-card img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: top center; }
+    .shot-card .cap { padding: 0.75rem 0.9rem; }
+    .shot-card .cap .n { font-weight: 700; font-size: 0.85rem; }
+    .shot-card .cap .r { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+    /* Mini live leaderboard — identical fetch logic to join.html's, same
+       data/leaderboard.csv source, so it can never go stale */
+    .mini-lb-wrap {
+      max-width: 720px; margin: 0 auto;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .mini-lb-table { width: 100%; border-collapse: collapse; }
+    .mini-lb-table th {
+      text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--text-muted); padding: 0.7rem 1rem; border-bottom: 1px solid var(--border);
+    }
+    .mini-lb-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .mini-lb-table tr:last-child td { border-bottom: none; }
+    .mini-lb-rank {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 50%; font-weight: 700; font-size: 0.78rem;
+      background: var(--bg-card2); color: var(--text-muted);
+    }
+    .mini-lb-rank.top3 { background: var(--accent); color: #fff; }
+    .mini-lb-avatar {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--accent);
+      color: #fff; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.7rem; margin-right: 0.6rem; vertical-align: middle;
+    }
+    .mini-lb-total { font-weight: 800; color: var(--accent); }
+    .mini-lb-loading { padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+
+    /* Offer section — the KodeKloud-style close: real countdown, real
+       coupon code shown as text (not an unverified URL auto-apply param —
+       Payhip email campaigns already use plain code-at-checkout, matching
+       that proven pattern), one big CTA straight to University. No form. */
+    .offer-section {
+      background: var(--bg-section); border-top: 1px solid var(--border);
+      padding: 3.5rem 1.5rem 4.5rem;
+      text-align: center;
+    }
+    .offer-card {
+      max-width: 560px; margin: 0 auto;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 2.5rem 2rem; box-shadow: var(--shadow);
+    }
+    .offer-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .offer-card p.offer-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.75rem; }
+    .offer-countdown {
+      display: flex; justify-content: center; gap: 1.25rem; margin-bottom: 1.75rem;
+    }
+    .offer-countdown .cd-unit { text-align: center; min-width: 56px; }
+    .offer-countdown .cd-num {
+      font-size: 1.8rem; font-weight: 800; color: var(--accent);
+      background: var(--bg-card2); border-radius: 10px; padding: 0.5rem 0.4rem; display: block;
+    }
+    .offer-countdown .cd-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.35rem; display: block; }
+    .offer-countdown.expired { display: none; }
+    .offer-ended-msg { display: none; font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.75rem; }
+    .offer-ended-msg.show { display: block; }
+    .offer-code-badge {
+      display: inline-block; background: var(--bg-card2); border: 1px dashed var(--accent);
+      border-radius: 100px; padding: 0.5rem 1.25rem; font-weight: 700; letter-spacing: 0.03em;
+      color: var(--accent-hover); margin-bottom: 1.5rem; font-size: 0.95rem;
+    }
+    .offer-cta-btn {
+      display: inline-block; width: 100%; background: var(--accent); color: #fff;
+      border: none; border-radius: 100px; padding: 0.95rem; font-family: var(--font);
+      font-size: 1.05rem; font-weight: 700; text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .offer-cta-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .offer-fineprint { font-size: 0.75rem; color: var(--text-muted); margin-top: 1rem; }
+  </style>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
+</head>
+<body>
+
+<nav class="offer-nav">
+  <a href="index.html" class="nav-logo" target="_blank" rel="noopener">
+    <div class="logo-icon">DMI</div>
+    <div>
+      <div class="logo-text">DevOps Micro Internship</div>
+      <div class="logo-sub">with Agentic AI</div>
+    </div>
+  </a>
+</nav>
+
+<section class="offer-hero">
+  <div class="container">
+    <h1>Already Working in Tech? Get 34% Off DMI Self-Paced — Limited Time.</h1>
+    <p class="lede">No black box, no "trust us." 158 students are graded publicly, every single week — by AI, not a mentor picking favorites. See the leaderboard, the real alumni, and the real stories below — then claim the offer.</p>
+    <div class="offer-stats">
+      <div class="stat"><span class="num">158</span><span class="label">Students graded weekly</span></div>
+      <div class="stat"><span class="num">3</span><span class="label">Real companies below</span></div>
+      <div class="stat"><span class="num">100%</span><span class="label">Public, verifiable work</span></div>
+    </div>
+    <div class="offer-cta-inline">
+      <a href="#offer" class="btn-primary">See where alumni work, then claim 34% off ↓</a>
+    </div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);">Brand new to IT? <a href="https://university.pravinmishra.com/b/dmi-foundation-track?utm_source=dmi&utm_medium=cta-disqualifier" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:none;">Start with Foundation instead →</a></p>
+  </div>
+</section>
+
+<section class="proof-section">
+  <div class="container">
+    <div class="section-label">Live Right Now</div>
+    <h2 class="section-title">Graded Publicly. No Black Box.</h2>
+    <p class="section-sub">Not a screenshot — this fetches the real leaderboard data, live, right now. Check it yourself before you sign up.</p>
+    <div class="mini-lb-wrap">
+      <div class="mini-lb-loading" id="miniLbLoading">Loading live leaderboard…</div>
+      <table class="mini-lb-table" id="miniLbTable" style="display:none;">
+        <thead>
+          <tr><th>Rank</th><th>Student</th><th>Group</th><th style="text-align:right;">Score</th></tr>
+        </thead>
+        <tbody id="miniLbBody"></tbody>
+      </table>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;">
+      <a href="leaderboard.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:none;">See the full leaderboard — 158 students →</a>
+    </p>
+  </div>
+</section>
+
+<section class="proof-section">
+  <div class="container">
+    <div class="section-label">Real Alumni</div>
+    <h2 class="section-title">Where DMI Graduates Work Today</h2>
+    <p class="section-sub">Not a marketing claim — real names, real companies, real LinkedIn profiles.</p>
+    <div class="cards">
+      <div class="alum-mini">
+        <div class="company">ADP</div>
+        <div class="role">DevOps &amp; SRE Engineer</div>
+        <p class="story">"Terraform and Kubernetes clicked in Cohort 1 — now he runs DevOps &amp; SRE for one of the world's largest HR tech platforms."</p>
+        <div class="name">Sumit Tiwari · Cohort 1 · India</div>
+      </div>
+      <div class="alum-mini">
+        <div class="company">WithSecure</div>
+        <div class="role">Quality Assurance Engineer</div>
+        <p class="story">"Cohort 1's steady hand in Linux and CI/CD — now testing security-critical systems at a European cybersecurity leader."</p>
+        <div class="name">Sirisha Molugu · Cohort 1 · Finland</div>
+      </div>
+      <div class="alum-mini">
+        <div class="company">WayaLinks</div>
+        <div class="role">DevOps Engineer</div>
+        <p class="story">Cohort 1 graduate — now DevOps Engineer at WayaLinks.</p>
+        <div class="name">Aderinto Adedayo · Cohort 1 · Nigeria</div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;">
+      <a href="alumni.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:none;">See the full alumni page →</a>
+    </p>
+  </div>
+</section>
+
+<section class="proof-section" style="background:var(--bg-section);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">In Their Own Words</div>
+    <h2 class="section-title">Real Posts. Not Our Words — Theirs.</h2>
+    <p class="section-sub">Actual LinkedIn posts, not paraphrased quotes. Click any of them to read the full story.</p>
+    <div class="shot-grid">
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <div class="shot-img-wrap"><img src="images/stories/screenshots/ranbir-kaur.png" alt="Ranbir Kaur's LinkedIn post about DMI" loading="lazy" /></div>
+        <div class="cap"><div class="n">Ranbir Kaur</div><div class="r">AWS Community Builder · Cloud &amp; DevOps Engineer</div></div>
+      </a>
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <div class="shot-img-wrap"><img src="images/stories/screenshots/bhupendra-bhati.png" alt="Bhupendra Bhati's LinkedIn post about DMI" loading="lazy" /></div>
+        <div class="cap"><div class="n">Bhupendra Bhati</div><div class="r">AWS Community Builder · Cloud &amp; DevOps Engineer</div></div>
+      </a>
+      <a class="shot-card" href="stories.html" target="_blank" rel="noopener">
+        <div class="shot-img-wrap"><img src="images/stories/screenshots/anjana-muthunayake.png" alt="Anjana Muthunayake's LinkedIn post about DMI" loading="lazy" /></div>
+        <div class="cap"><div class="n">Anjana Muthunayake</div><div class="r">Lead Co-Mentor · AWS Community Builder</div></div>
+      </a>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;">
+      <a href="stories.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:none;">Read all 55 stories →</a>
+      &nbsp;·&nbsp;
+      <a href="leaderboard.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:none;">See the live leaderboard →</a>
+    </p>
+  </div>
+</section>
+
+<section class="offer-section" id="offer">
+  <div class="offer-card">
+    <h2>Claim 34% Off Self-Paced</h2>
+    <p class="offer-sub">Full recorded DMI system — lessons, assignments, solutions, debugging steps, and your own leaderboard badge page. Cancel anytime.</p>
+
+    <div class="offer-countdown" id="offerCountdown">
+      <div class="cd-unit"><span class="cd-num" id="cdDays">--</span><span class="cd-label">Days</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cdHours">--</span><span class="cd-label">Hours</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cdMins">--</span><span class="cd-label">Mins</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cdSecs">--</span><span class="cd-label">Secs</span></div>
+    </div>
+    <p class="offer-ended-msg" id="offerEndedMsg">This offer has ended — but Self-Paced is still open at full price.</p>
+
+    <div class="offer-code-badge">Use code <strong id="offerCodeText">COUPON_TBD</strong> at checkout</div>
+
+    <a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=cta-direct-offer" target="_blank" rel="noopener" class="offer-cta-btn" id="offerCtaBtn">Claim 34% Off Now →</a>
+    <p class="offer-fineprint">$14.99/quarter before discount. 30-day money-back, per the product page's own policy.</p>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo" target="_blank" rel="noopener">
+    <div class="logo-icon">DMI</div>
+    <span style="color:#fff;font-weight:700;font-size:1rem;">DevOps Micro Internship</span>
+  </a>
+  <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
+  <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
+  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
+  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+<script src="pixel-consent.js"></script>
+<script>
+  // ---------------------------------------------------------------------
+  // OFFER CONFIG — the only two lines that need editing to launch this page.
+  // COUPON_CODE: set to the real Payhip coupon code once created.
+  // OFFER_END: set to the coupon's real expiry, as a JS Date string Payhip's
+  // coupon expiry matches, e.g. '2026-08-29T23:59:59+05:30' (IST) or whatever
+  // timezone the coupon was set in — keep them in sync or the countdown will
+  // hit zero before/after the coupon actually stops working.
+  // ---------------------------------------------------------------------
+  var COUPON_CODE = 'COUPON_TBD'; // TODO(Pravin): replace with the real code once created in Payhip
+  var OFFER_END = null; // TODO(Pravin): replace with a real Date, e.g. new Date('2026-08-29T23:59:59+05:30')
+
+  document.getElementById('offerCodeText').textContent = COUPON_CODE;
+
+  // ---------------------------------------------------------------------
+  // Mini live leaderboard — identical to join.html's implementation.
+  // ---------------------------------------------------------------------
+  function lbEscHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function lbInitials(name) {
+    var parts = (name || '').trim().split(/\s+/);
+    return parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : (name || '?')[0].toUpperCase();
+  }
+
+  function loadMiniLeaderboard() {
+    fetch('data/leaderboard.csv?t=' + Date.now())
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        var lines = text.trim().split('\n');
+        var headers = lines[0].split(',').map(function (h) { return h.trim().replace(/^"|"$/g, '').toLowerCase(); });
+        var rows = lines.slice(1).map(function (line) {
+          var vals = line.split(',');
+          var obj = {};
+          headers.forEach(function (h, i) { obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim(); });
+          if (obj.group) {
+            var m = obj.group.match(/#(\d+)/) || obj.group.match(/(\d+)/);
+            if (m) obj.group = m[1];
+          }
+          if (obj.total) obj.total = obj.total.replace(/,/g, '');
+          return obj;
+        }).filter(function (r) { return (r.name || '').length > 0; });
+
+        rows.sort(function (a, b) { return (parseInt(b.total) || 0) - (parseInt(a.total) || 0); });
+        var top = rows.slice(0, 5);
+
+        var body = document.getElementById('miniLbBody');
+        body.innerHTML = top.map(function (s, i) {
+          var rank = i + 1;
+          var total = parseInt(s.total) || 0;
+          return '<tr>' +
+            '<td><span class="mini-lb-rank' + (rank <= 3 ? ' top3' : '') + '">' + rank + '</span></td>' +
+            '<td><span class="mini-lb-avatar">' + lbEscHtml(lbInitials(s.name)) + '</span>' + lbEscHtml(s.name) + '</td>' +
+            '<td>' + lbEscHtml(s.group || '—') + '</td>' +
+            '<td style="text-align:right;" class="mini-lb-total">' + total + '</td>' +
+            '</tr>';
+        }).join('');
+
+        document.getElementById('miniLbLoading').style.display = 'none';
+        document.getElementById('miniLbTable').style.display = 'table';
+      })
+      .catch(function () {
+        document.getElementById('miniLbLoading').textContent = "Couldn't load live data right now — see the full leaderboard below.";
+      });
+  }
+
+  // ---------------------------------------------------------------------
+  // Real countdown to OFFER_END. If OFFER_END isn't set yet (still the
+  // TODO placeholder) or has already passed, show the "offer ended"
+  // fallback instead of a fake/frozen timer — never display a countdown
+  // that isn't counting down to something real.
+  // ---------------------------------------------------------------------
+  function startCountdown() {
+    var countdownEl = document.getElementById('offerCountdown');
+    var endedEl = document.getElementById('offerEndedMsg');
+
+    if (!OFFER_END || isNaN(OFFER_END.getTime())) {
+      countdownEl.classList.add('expired');
+      endedEl.classList.add('show');
+      endedEl.textContent = 'Offer details coming soon — check back shortly.';
+      return;
+    }
+
+    function tick() {
+      var diff = OFFER_END.getTime() - Date.now();
+      if (diff <= 0) {
+        countdownEl.classList.add('expired');
+        endedEl.classList.add('show');
+        endedEl.textContent = 'This offer has ended — but Self-Paced is still open at full price.';
+        // Fall back to a plain, no-coupon link once the offer has genuinely expired.
+        var btn = document.getElementById('offerCtaBtn');
+        btn.href = 'https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=cta-direct-offer';
+        btn.textContent = 'Start Self-Paced →';
+        document.querySelector('.offer-code-badge').style.display = 'none';
+        clearInterval(timer);
+        return;
+      }
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cdDays').textContent = d;
+      document.getElementById('cdHours').textContent = String(h).padStart(2, '0');
+      document.getElementById('cdMins').textContent = String(m).padStart(2, '0');
+      document.getElementById('cdSecs').textContent = String(s).padStart(2, '0');
+    }
+
+    tick();
+    var timer = setInterval(tick, 1000);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    loadMiniLeaderboard();
+    startCountdown();
+  });
+</script>
+</body>
+</html>
