@@ -201,6 +201,7 @@
     <div class="join-cta-inline">
       <a href="#join-form" class="btn-primary">See where alumni work, then join the waitlist ↓</a>
     </div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);">Brand new to IT? <a href="https://university.pravinmishra.com/b/dmi-foundation-track?utm_source=dmi&utm_medium=cta-disqualifier" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:none;">Start with Foundation instead →</a></p>
   </div>
 </section>
 
@@ -296,8 +297,8 @@
         <input type="email" id="email" name="email" required autocomplete="email" />
       </div>
       <div class="form-field">
-        <label for="whatsapp">WhatsApp number (with country code)</label>
-        <input type="tel" id="whatsapp" name="whatsapp" required placeholder="+91 98765 43210" autocomplete="tel" />
+        <label for="whatsapp">WhatsApp number (with country code) — optional</label>
+        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 98765 43210" autocomplete="tel" />
       </div>
       <div class="form-field">
         <label for="describe">What best describes you right now?</label>
@@ -481,10 +482,14 @@
       var firstNameValue = document.getElementById('firstName').value.trim();
       var whatsappValue = document.getElementById('whatsapp').value.trim();
 
+      // WhatsApp made optional 2026-08-14 — asking for a phone number at the
+      // coldest touchpoint was real friction. Kept the field (not removed) so
+      // CAPI still gets the phone match key, which real EMQ testing showed
+      // improves match quality, whenever a visitor does provide it.
       Promise.all([
         sha256Hex(emailValue),
         sha256Hex(firstNameValue),
-        sha256HexPhone(whatsappValue)
+        whatsappValue ? sha256HexPhone(whatsappValue) : Promise.resolve('')
       ]).then(function (hashes) {
         var emailHash = hashes[0], firstNameHash = hashes[1], phoneHash = hashes[2];
         var payload = {
