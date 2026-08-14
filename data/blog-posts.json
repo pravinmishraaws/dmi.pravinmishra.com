@@ -97,5 +97,23 @@
     "category": "Platform Engineering",
     "date": "2026-08-10",
     "image": "../images/blog/karpenter-vs-cluster-autoscaler-eks-og.jpg"
+  },
+  {
+    "slug": "aws-iam-users-groups-roles-policies-explained",
+    "title": "AWS IAM Explained: Users, Groups, Roles, and Policies",
+    "excerpt": "Root user vs. IAM user, why policies belong on groups not people, what a role actually is, and a real console walkthrough: create your first IAM user with least-privilege access.",
+    "author": "Pravin Mishra",
+    "category": "DevOps",
+    "date": "2026-08-14",
+    "image": "../images/og-self-paced-banner.png"
+  },
+  {
+    "slug": "ec2-instance-types-naming-convention-explained",
+    "title": "EC2 Instance Types: What m6g.2xlarge Actually Means",
+    "excerpt": "Series, generation, options, size — the four parts of every EC2 instance type name, what the family and processor letters mean, and how to actually pick one instead of guessing.",
+    "author": "Pravin Mishra",
+    "category": "DevOps",
+    "date": "2026-08-14",
+    "image": "../images/og-self-paced-banner.png"
   }
 ]
