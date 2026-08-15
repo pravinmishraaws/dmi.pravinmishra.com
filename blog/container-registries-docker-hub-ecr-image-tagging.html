@@ -190,7 +190,7 @@ docker push 123456789012.dkr.ecr.eu-west-1.amazonaws.com/book-review-backend:${S
     <li><strong>Tagging.</strong> Commit SHA or semantic version — never a moving tag — for anything deployed to production.</li>
     <li><strong>Pull policy.</strong> <code>IfNotPresent</code> with immutable tags for faster, predictable startup; avoid relying on <code>:latest</code>'s implicit <code>Always</code> behavior.</li>
   </ul>
-  <p>None of this is really about Docker mechanics — it's about whether you can answer "what's actually running in production right now, and can I get back to what was running an hour ago" without guessing. That's exactly the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+  <p>None of this is really about Docker mechanics — it's about whether you can answer "what's actually running in production right now, and can I get back to what was running an hour ago" without guessing. That's exactly the kind of production judgment DMI's <a href="../how-it-works.html">daily grading loop</a> is built to develop.</p>
 
   <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
 </article>

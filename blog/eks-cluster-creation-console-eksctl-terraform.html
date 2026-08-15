@@ -231,7 +231,7 @@ addons:
     <li><strong>Encryption and access entries.</strong> Default AWS-owned KMS key is fine for a lab; a CMK is permanent once enabled. Design operator and CI/CD access entries before creation, not after.</li>
     <li><strong>Cleanup.</strong> Delete with eksctl and <code>--wait</code> — never by hand in the Console.</li>
   </ul>
-  <p>The Console, eksctl, and Terraform all end up at the same EKS cluster with the same Kubernetes API. What changes is whether your configuration is something you can review, version, and recreate — or something you have to remember. That discipline, not the tool itself, is the production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+  <p>The Console, eksctl, and Terraform all end up at the same EKS cluster with the same Kubernetes API. What changes is whether your configuration is something you can review, version, and recreate — or something you have to remember. That discipline, not the tool itself, is the production judgment DMI's <a href="../how-it-works.html">daily grading loop</a> is built to develop.</p>
 
   <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
 </article>

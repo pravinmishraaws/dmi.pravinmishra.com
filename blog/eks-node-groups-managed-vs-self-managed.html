@@ -176,7 +176,7 @@
     <li><strong>Node IAM role.</strong> Only <code>AmazonEKSWorkerNodePolicy</code> and <code>AmazonEC2ContainerRegistryPullOnly</code> by default. CNI permissions on <code>aws-node</code>, not the node role. SSM only if you need it. Nothing broader.</li>
     <li><strong>Pod density.</strong> Check max-pods per instance type and subnet IP capacity before creating the cluster — prefix delegation raises density, it doesn't create IP addresses.</li>
   </ul>
-  <p>None of this is a one-time checkbox — instance type, node topology, and IAM scope all shape how the cluster behaves under real load, long after the CLI command that created it is forgotten. That's the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop, one real decision at a time.</p>
+  <p>None of this is a one-time checkbox — instance type, node topology, and IAM scope all shape how the cluster behaves under real load, long after the CLI command that created it is forgotten. That's the kind of production judgment DMI's <a href="../how-it-works.html">daily grading loop</a> is built to develop, one real decision at a time.</p>
 
   <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
 </article>
