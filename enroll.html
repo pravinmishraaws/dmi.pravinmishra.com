@@ -188,7 +188,7 @@
     <p class="lede">No black box, no "trust us." 158 students are graded publicly, every single week — by AI, not a mentor picking favorites. See the leaderboard, the real alumni, and the real stories below — then claim the offer.</p>
     <div class="offer-stats">
       <div class="stat"><span class="num">158</span><span class="label">Students graded weekly</span></div>
-      <div class="stat"><span class="num">3</span><span class="label">Real companies below</span></div>
+      <div class="stat"><span class="num" id="alumCompanyCount">12</span><span class="label">Real companies hiring DMI grads</span></div>
       <div class="stat"><span class="num">100%</span><span class="label">Public, verifiable work</span></div>
     </div>
     <div class="offer-cta-inline">
@@ -380,6 +380,23 @@
       });
   }
 
+  // Real, live company count — was hardcoded "3" (only counted the sample
+  // cards on this page, not the real total in data/alumni.json — 12 unique
+  // companies as of 2026-08-15). Same fetch pattern as the mini leaderboard.
+  function loadAlumniCompanyCount() {
+    fetch('data/alumni.json?t=' + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var companies = {};
+        data.forEach(function (a) {
+          if (a.company && a.company.trim()) companies[a.company.trim()] = true;
+        });
+        var count = Object.keys(companies).length;
+        if (count > 0) document.getElementById('alumCompanyCount').textContent = count;
+      })
+      .catch(function () { /* leave the HTML fallback number in place */ });
+  }
+
   // ---------------------------------------------------------------------
   // Real countdown to OFFER_END. If OFFER_END isn't set yet (still the
   // TODO placeholder) or has already passed, show the "offer ended"
@@ -427,6 +444,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     loadMiniLeaderboard();
+    loadAlumniCompanyCount();
     startCountdown();
   });
 </script>
