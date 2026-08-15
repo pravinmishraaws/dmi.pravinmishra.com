@@ -21,25 +21,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* Third A/B variant, compact/one-viewport layout — same lead-capture
-       funnel and backend as join.html (identical form fields, same Pabbly
-       webhook, same CAPI/Pixel hashing), deliberately unchanged, so this
-       page isolates ONE variable: layout compactness, not funnel logic too.
-       join.html itself is left untouched per Pravin's explicit call.
-
-       Modeled on TechWorld with Nana's actual free-roadmap squeeze page
-       (devops-study-guide-gm): hero copy and the form sit side by side,
-       visible without scrolling, instead of join.html's stat-bar-then-CTA
-       hero. Two differences from TWN's page, deliberate not accidental:
-       (1) kept a compact proof strip below the fold rather than TWN's
-       near-zero on-page proof — DMI's differentiator is verifiable public
-       proof (vision-and-positioning.md), and cold Meta traffic doesn't
-       arrive with TWN's pre-existing 1.3M-subscriber trust reservoir, so
-       proof plausibly matters more here, not less; (2) TWN's form asks 4
-       fields (email/first/last/job-title) — this keeps join.html's real
-       field set (name/email/optional-WhatsApp/describe/goal) instead of
-       copying TWN's fields, since changing the funnel's data collection
-       isn't part of what this variant is testing. */
+    /* Simplified 2026-08-15 (Pravin's direct call, after comparing against
+       TWN's actual squeeze page): dropped the separate proof-strip section
+       (embedded leaderboard rows, company chips, quote) entirely. Trust
+       now comes from the three stat boxes themselves — each one IS the
+       proof and links straight to the real page (leaderboard/alumni/
+       stories) instead of previewing it inline. Form cut to 3 fields
+       (first name, email, describe) — WhatsApp and goal dropped. Note:
+       Email 1 in the private nurture-drip spec personalizes on both
+       [Describe] and [Goal] — leads from this page won't have a [Goal]
+       value, so that line will render blank for this source unless the
+       template is adjusted. Flagged, not silently handled. */
     .compact-nav {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
@@ -52,7 +44,6 @@
     .compact-hero {
       padding: 3rem 1.5rem;
       background: var(--bg-section);
-      border-bottom: 1px solid var(--border);
     }
     .compact-hero-grid {
       display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: start;
@@ -72,15 +63,29 @@
       font-size: 1.02rem;
       margin: 0 0 1.5rem;
     }
-    .compact-mini-stats {
-      display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 0.5rem;
-    }
-    .compact-mini-stats .stat { display: flex; align-items: baseline; gap: 0.4rem; }
-    .compact-mini-stats .num { font-size: 1.25rem; font-weight: 800; color: var(--accent); }
-    .compact-mini-stats .label { font-size: 0.82rem; color: var(--text-muted); }
 
-    /* Form — same fields/behavior as join.html, styled to sit directly
-       beside the hero copy instead of at the bottom of a long scroll. */
+    /* Four stat boxes — each one is its own proof point AND its own link
+       to the real page, replacing the separate proof-strip section. */
+    .stat-box-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 860px) {
+      .stat-box-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .stat-box-grid { grid-template-columns: 1fr; }
+    }
+    .stat-box {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.1rem; box-shadow: var(--shadow);
+    }
+    .stat-box .num { font-size: 1.6rem; font-weight: 800; color: var(--accent); display: block; }
+    .stat-box .label { font-size: 0.82rem; color: var(--text-muted); display: block; margin-bottom: 0.7rem; }
+    .stat-box a.stat-link { font-size: 0.8rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+
+    /* Form — same fields/behavior as join.html, cut to first name, email,
+       and one dropdown; sits directly beside the hero copy, no scrolling. */
     .compact-form-card {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
       padding: 1.75rem; box-shadow: var(--shadow);
@@ -126,38 +131,6 @@
       padding: 0.65rem 0.85rem; font-size: 0.8rem; color: #7a5b00; line-height: 1.5; margin-top: 0.7rem;
     }
     .success-box .sb-question { font-size: 0.86rem; font-weight: 700; text-align: center; margin-top: 0.9rem; color: var(--text); }
-
-    /* One compact proof strip — condenses what join.html spreads across
-       three full-width sections into a single section: a short live
-       leaderboard slice, alumni company chips, and one quote. */
-    .proof-strip { padding: 2.5rem 1.5rem; }
-    .proof-strip-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
-      max-width: 1080px; margin: 0 auto;
-    }
-    @media (max-width: 860px) {
-      .proof-strip-grid { grid-template-columns: 1fr; }
-    }
-    .proof-strip-card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 1.25rem; box-shadow: var(--shadow);
-    }
-    .proof-strip-card .ps-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
-      color: var(--accent); margin-bottom: 0.6rem;
-    }
-    .mini-lb-row { display: flex; align-items: center; justify-content: space-between; padding: 0.35rem 0; font-size: 0.85rem; }
-    .mini-lb-row .mlr-rank { color: var(--text-muted); width: 1.4rem; }
-    .mini-lb-row .mlr-total { font-weight: 700; color: var(--accent); }
-    .company-chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .company-chip {
-      background: var(--bg-card2); border: 1px solid var(--border); border-radius: 100px;
-      padding: 0.3rem 0.75rem; font-size: 0.8rem; font-weight: 600; color: var(--text);
-    }
-    .ps-quote { font-size: 0.85rem; font-style: italic; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.6rem; }
-    .ps-quote-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
-    .proof-strip-links { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; }
-    .proof-strip-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
   </style>
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
@@ -182,12 +155,38 @@
   <div class="compact-hero-grid">
     <div>
       <h1>Already Working in Tech? Here's How You Actually Move Into DevOps.</h1>
-      <p class="lede">No black box, no "trust us." 158 students are graded publicly, every single week — by AI, not a mentor picking favorites. See the proof below, then decide.</p>
-      <div class="compact-mini-stats">
-        <div class="stat"><span class="num">158</span><span class="label">Students graded weekly</span></div>
-        <div class="stat"><span class="num" id="alumCompanyCount">12</span><span class="label">Real companies hiring grads</span></div>
-        <div class="stat"><span class="num">100%</span><span class="label">Public, verifiable</span></div>
+      <p class="lede">No black box, no "trust us." 158 students are graded publicly, every single week — by AI, not a mentor picking favorites. See the proof, then decide.</p>
+
+      <div class="stat-box-grid">
+        <div class="stat-box">
+          <span class="num">158</span>
+          <span class="label">Students graded weekly</span>
+          <a class="stat-link" href="leaderboard.html" target="_blank" rel="noopener">See the leaderboard →</a>
+        </div>
+        <div class="stat-box">
+          <span class="num" id="alumCompanyCount">12</span>
+          <span class="label">Real companies hiring grads</span>
+          <a class="stat-link" href="alumni.html" target="_blank" rel="noopener">See all alumni →</a>
+        </div>
+        <div class="stat-box">
+          <span class="num">100%</span>
+          <span class="label">Public, verifiable work</span>
+          <a class="stat-link" href="stories.html" target="_blank" rel="noopener">Read the stories →</a>
+        </div>
+        <div class="stat-box">
+          <!-- Real, distinct assignment count as of 2026-08-15 — hardcoded,
+               not live-fetched like the other three boxes. This number only
+               moves when a curriculum week ships (not daily/per-signup like
+               the others), and a live GitHub API call adds rate-limit risk
+               to an ad-traffic page for a number that barely changes. Update
+               by hand when devops-micro-internship-pravinmishra gains or
+               loses a week's worth of assignment-*.md files. -->
+          <span class="num">77</span>
+          <span class="label">Real assignments on GitHub</span>
+          <a class="stat-link" href="https://github.com/pravinmishraaws/devops-micro-internship-pravinmishra" target="_blank" rel="noopener">See the curriculum →</a>
+        </div>
       </div>
+
       <p style="font-size:0.85rem;color:var(--text-muted);">Brand new to IT? <a href="https://university.pravinmishra.com/b/dmi-foundation-track?utm_source=dmi&utm_medium=cta-disqualifier" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:none;">Start with Foundation instead →</a></p>
     </div>
 
@@ -204,10 +203,6 @@
           <input type="email" id="email" name="email" required autocomplete="email" />
         </div>
         <div class="form-field">
-          <label for="whatsapp">WhatsApp number (with country code) — optional</label>
-          <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 98765 43210" autocomplete="tel" />
-        </div>
-        <div class="form-field">
           <label for="describe">What best describes you right now?</label>
           <select id="describe" name="describe" required>
             <option value="" disabled selected>Select one</option>
@@ -220,17 +215,6 @@
             <option>Non-IT</option>
             <option>Career break</option>
             <option>Other</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="goal">After learning DevOps, what's your primary goal?</label>
-          <select id="goal" name="goal" required>
-            <option value="" disabled selected>Select one</option>
-            <option>Switch to a DevOps role</option>
-            <option>Build a strong portfolio</option>
-            <option>Prepare for interviews</option>
-            <option>Implement DevOps in my current project</option>
-            <option>Not sure yet</option>
           </select>
         </div>
 
@@ -250,32 +234,6 @@
   </div>
 </section>
 
-<section class="proof-strip">
-  <div class="proof-strip-grid">
-    <div class="proof-strip-card">
-      <div class="ps-label">Live Right Now</div>
-      <div class="mini-lb-loading" id="miniLbLoading" style="padding:0.5rem 0;font-size:0.85rem;color:var(--text-muted);">Loading live leaderboard…</div>
-      <div id="miniLbRows"></div>
-    </div>
-    <div class="proof-strip-card">
-      <div class="ps-label">Real Alumni, Real Companies</div>
-      <div class="company-chip-row" id="companyChips"></div>
-    </div>
-    <div class="proof-strip-card">
-      <div class="ps-label">In Their Own Words</div>
-      <p class="ps-quote">"Terraform and Kubernetes clicked in Cohort 1 — now he runs DevOps &amp; SRE for one of the world's largest HR tech platforms."</p>
-      <div class="ps-quote-name">Sumit Tiwari · ADP · Cohort 1</div>
-    </div>
-  </div>
-  <p class="proof-strip-links">
-    <a href="leaderboard.html" target="_blank" rel="noopener">See the full leaderboard →</a>
-    &nbsp;·&nbsp;
-    <a href="alumni.html" target="_blank" rel="noopener">See all alumni →</a>
-    &nbsp;·&nbsp;
-    <a href="stories.html" target="_blank" rel="noopener">Read all 55 stories →</a>
-  </p>
-</section>
-
 <footer>
   <a href="index.html" class="footer-logo" target="_blank" rel="noopener">
     <div class="logo-icon">DMI</div>
@@ -283,8 +241,7 @@
   </a>
   <p>by <a href="https://pravinmishra.com" target="_blank">Pravin Mishra</a> &amp; <a href="https://thecloudadvisory.com" target="_blank">The CloudAdvisory</a></p>
   <p style="margin-top:0.5rem;">hello@pravinmishra.com · Helsinki, Finland</p>
-  <p style="margin-top:0.75rem;"><a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=footer" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">🎓 Enroll at the University →</a></p>
-  <p style="margin-top:0.5rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
+  <p style="margin-top:0.75rem;"><a href="https://discord.pravinmishra.com/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">💬 Join the DMI Community on Discord →</a></p>
   <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
 </footer>
 
@@ -293,11 +250,8 @@
 <script>
   // ---------------------------------------------------------------------
   // Pabbly webhook — identical to join.html's. Same "DMI Ads" workflow,
-  // same Catch Webhook trigger. leadSource is 'fb-compact' (not
-  // 'fb-landing') so this variant's leads are distinguishable downstream
-  // in Sendy without needing a separate drip — see the LeadSource-branch
-  // footer-line pattern already used for join.html's own leads
-  // (dmi-growth/.paid-lead-funnel-landing-page-spec.md §5.1, private).
+  // same Catch Webhook trigger. leadSource is 'fb-compact' so this
+  // variant's leads are distinguishable downstream in Sendy.
   // ---------------------------------------------------------------------
   var PABBLY_WEBHOOK_URL = 'https://connect.pabbly.com/webhook-listener/webhook/IjU3NjYwNTZkMDYzMjA0MzU1MjY0NTUzMiI_3D_pc/IjU3NjcwNTY4MDYzNjA0MzU1MjY1NTUzNjUxMzUi_pc';
 
@@ -323,48 +277,14 @@
     });
   }
 
-  function sha256HexPhone(rawPhone) {
-    return sha256Hex(rawPhone.replace(/\D/g, ''));
-  }
-
   function lbEscHtml(str) {
     if (!str) return '';
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  function loadMiniLeaderboardCompact() {
-    fetch('data/leaderboard.csv?t=' + Date.now())
-      .then(function (r) { return r.text(); })
-      .then(function (text) {
-        var lines = text.trim().split('\n');
-        var headers = lines[0].split(',').map(function (h) { return h.trim().replace(/^"|"$/g, '').toLowerCase(); });
-        var rows = lines.slice(1).map(function (line) {
-          var vals = line.split(',');
-          var obj = {};
-          headers.forEach(function (h, i) { obj[h] = (vals[i] || '').replace(/^"|"$/g, '').trim(); });
-          if (obj.total) obj.total = obj.total.replace(/,/g, '');
-          return obj;
-        }).filter(function (r) { return (r.name || '').length > 0; });
-
-        rows.sort(function (a, b) { return (parseInt(b.total) || 0) - (parseInt(a.total) || 0); });
-        var top = rows.slice(0, 3);
-
-        var rowsHtml = top.map(function (s, i) {
-          var total = parseInt(s.total) || 0;
-          return '<div class="mini-lb-row"><span class="mlr-rank">#' + (i + 1) + '</span>' +
-            '<span>' + lbEscHtml(s.name) + '</span>' +
-            '<span class="mlr-total">' + total + '</span></div>';
-        }).join('');
-
-        document.getElementById('miniLbLoading').style.display = 'none';
-        document.getElementById('miniLbRows').innerHTML = rowsHtml;
-      })
-      .catch(function () {
-        document.getElementById('miniLbLoading').textContent = "Couldn't load live data — see the full leaderboard below.";
-      });
-  }
-
-  function loadAlumniCompanyChips() {
+  // Real, live company count on the first stat box — same data/alumni.json
+  // fetch pattern used on join.html/enroll.html, so it can't go stale.
+  function loadAlumniCompanyCount() {
     fetch('data/alumni.json?t=' + Date.now())
       .then(function (r) { return r.json(); })
       .then(function (data) {
@@ -372,18 +292,14 @@
         data.forEach(function (a) {
           if (a.company && a.company.trim()) companies[a.company.trim()] = true;
         });
-        var names = Object.keys(companies);
-        document.getElementById('alumCompanyCount').textContent = names.length || '12';
-        document.getElementById('companyChips').innerHTML = names
-          .map(function (c) { return '<span class="company-chip">' + lbEscHtml(c) + '</span>'; })
-          .join('');
+        var count = Object.keys(companies).length;
+        if (count > 0) document.getElementById('alumCompanyCount').textContent = count;
       })
-      .catch(function () { /* leave HTML fallback in place */ });
+      .catch(function () { /* leave the HTML fallback number in place */ });
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    loadMiniLeaderboardCompact();
-    loadAlumniCompanyChips();
+    loadAlumniCompanyCount();
 
     var params = new URLSearchParams(window.location.search);
     var fbclid = params.get('fbclid') || '';
@@ -407,23 +323,18 @@
 
       var emailValue = document.getElementById('email').value.trim();
       var firstNameValue = document.getElementById('firstName').value.trim();
-      var whatsappValue = document.getElementById('whatsapp').value.trim();
 
       Promise.all([
         sha256Hex(emailValue),
-        sha256Hex(firstNameValue),
-        whatsappValue ? sha256HexPhone(whatsappValue) : Promise.resolve('')
+        sha256Hex(firstNameValue)
       ]).then(function (hashes) {
-        var emailHash = hashes[0], firstNameHash = hashes[1], phoneHash = hashes[2];
+        var emailHash = hashes[0], firstNameHash = hashes[1];
         var payload = {
           firstName: firstNameValue,
           email: emailValue,
           emailHash: emailHash,
           firstNameHash: firstNameHash,
-          phoneHash: phoneHash,
-          whatsapp: whatsappValue,
           describe: document.getElementById('describe').value,
-          goal: document.getElementById('goal').value,
           fbclid: document.getElementById('fbclid').value,
           fbc: document.getElementById('fbc').value,
           fbp: document.getElementById('fbp').value,
