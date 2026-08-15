@@ -180,7 +180,7 @@ kube_proxy_addon_version = "v1.30.3-eksbuild.5"</pre>
     <li><strong>Rollout order.</strong> Stage first, verified, then the identical version bumps to production. Never the reverse.</li>
   </ul>
   <p>One practical habit worth carrying into the lab itself: when you're not actively working on the cluster, delete it — <code>eksctl delete cluster --name book-review --region eu-west-1 --wait</code>. About 15 minutes to delete, 15 to recreate; there's no reason to pay for idle nodes while you're still learning.</p>
-  <p>None of this is really about Kubernetes version numbers — it's about whether an upgrade is a scheduled, boring, reviewable event or an unplanned one forced on you at the worst possible time. That's exactly the kind of production judgment DMI's <a href="../how-it-works.html">graded weekly loop</a> is built to develop.</p>
+  <p>None of this is really about Kubernetes version numbers — it's about whether an upgrade is a scheduled, boring, reviewable event or an unplanned one forced on you at the worst possible time. That's exactly the kind of production judgment DMI's <a href="../how-it-works.html">daily grading loop</a> is built to develop.</p>
 
   <p style="margin-top:2.5rem;"><strong>Want the fundamentals these decisions build on?</strong> <a href="https://university.pravinmishra.com/?utm_source=dmi&utm_medium=blog" target="_blank" rel="noopener">Start with DMI Self-Paced →</a></p>
 </article>
