@@ -195,7 +195,7 @@
     <p class="lede">No black box, no "trust us." 158 students are graded publicly, every single week — by AI, not a mentor picking favorites. See the leaderboard, the real alumni, and the real stories below — then decide.</p>
     <div class="join-stats">
       <div class="stat"><span class="num">158</span><span class="label">Students graded weekly</span></div>
-      <div class="stat"><span class="num">3</span><span class="label">Real companies below</span></div>
+      <div class="stat"><span class="num" id="alumCompanyCount">12</span><span class="label">Real companies hiring DMI grads</span></div>
       <div class="stat"><span class="num">100%</span><span class="label">Public, verifiable work</span></div>
     </div>
     <div class="join-cta-inline">
@@ -456,8 +456,29 @@
       });
   }
 
+  // Real, live company count — was hardcoded "3" (only counted the sample
+  // cards shown on this page itself, not the real total on alumni.html,
+  // which understated real proof by 4x as of 2026-08-15). Fetches the same
+  // data/alumni.json alumni.html itself reads, so it can't go stale like a
+  // hardcoded number would. HTML fallback stays a real number (12, as of
+  // today), not a guess, in case this fetch ever fails.
+  function loadAlumniCompanyCount() {
+    fetch('data/alumni.json?t=' + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var companies = {};
+        data.forEach(function (a) {
+          if (a.company && a.company.trim()) companies[a.company.trim()] = true;
+        });
+        var count = Object.keys(companies).length;
+        if (count > 0) document.getElementById('alumCompanyCount').textContent = count;
+      })
+      .catch(function () { /* leave the HTML fallback number in place */ });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     loadMiniLeaderboard();
+    loadAlumniCompanyCount();
     var params = new URLSearchParams(window.location.search);
     var fbclid = params.get('fbclid') || '';
 
