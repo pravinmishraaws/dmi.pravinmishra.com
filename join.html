@@ -483,10 +483,26 @@
     var fbclid = params.get('fbclid') || '';
 
     document.getElementById('fbclid').value = fbclid;
-    document.getElementById('fbc').value = getCookie('_fbc');
-    document.getElementById('fbp').value = getCookie('_fbp');
     document.getElementById('eventId').value = uuid();
     document.getElementById('pageUrl').value = window.location.href;
+
+    var pageLoadedAt = Date.now();
+
+    // _fbc / _fbp are written by fbevents.js, which loads asynchronously — reading them
+    // here would race the pixel and lose on a first-time visit, which is every single ad
+    // click. Verified 2026-08-16 on the live apply.html: cookies present, hidden fields
+    // empty, so the CAPI Lead went out with no click id and no browser id. Resolve at
+    // submit instead (below), by which point the pixel has long since written them.
+    function resolveFbc() {
+      var cookie = getCookie('_fbc');
+      if (cookie) return cookie;
+      // Pixel hasn't written one yet (blocked, slow, or still loading) but we know the
+      // click id from the URL, so synthesise it. Meta's format is
+      // fb.<subdomainIndex>.<creationUnixMs>.<fbclid>; subdomainIndex is 1 here, matching
+      // what the pixel itself writes on dmi.pravinmishra.com. Timestamp is page load
+      // rather than submit, since that's when the click actually happened.
+      return fbclid ? 'fb.1.' + pageLoadedAt + '.' + fbclid : '';
+    }
 
     var form = document.getElementById('joinForm');
     var btn = document.getElementById('joinSubmitBtn');
@@ -513,6 +529,13 @@
         whatsappValue ? sha256HexPhone(whatsappValue) : Promise.resolve('')
       ]).then(function (hashes) {
         var emailHash = hashes[0], firstNameHash = hashes[1], phoneHash = hashes[2];
+
+        // Read the Meta cookies now, not at page load — see resolveFbc() above.
+        var fbcValue = resolveFbc();
+        var fbpValue = getCookie('_fbp');
+        document.getElementById('fbc').value = fbcValue;
+        document.getElementById('fbp').value = fbpValue;
+
         var payload = {
           firstName: firstNameValue,
           email: emailValue,
@@ -527,8 +550,8 @@
           describe: document.getElementById('describe').value,
           goal: document.getElementById('goal').value,
           fbclid: document.getElementById('fbclid').value,
-          fbc: document.getElementById('fbc').value,
-          fbp: document.getElementById('fbp').value,
+          fbc: fbcValue,
+          fbp: fbpValue,
           eventId: document.getElementById('eventId').value,
           leadSource: document.getElementById('leadSource').value,
           pageUrl: document.getElementById('pageUrl').value,
