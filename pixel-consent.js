@@ -1,8 +1,28 @@
-// Cookie consent banner + conditional Meta Pixel loader.
-// Pixel does not fire until the visitor accepts — default is privacy-preserving (no tracking until opt-in).
+// Meta Pixel loader.
+//
+// The pixel loads on every page view — there is no consent banner. Deliberate call
+// (Pravin, 2026-08-16): paid traffic is India-only, and India's DPDP Act doesn't
+// require prior opt-in for analytics cookies.
+//
+// This replaced an opt-in-everywhere banner that was actively breaking the ads. Every
+// ad click is a first-time visitor; they landed, saw a cookie banner, ignored it, and
+// the pixel never initialised. On 2026-08-16 that produced 0 landing page views and 0
+// attribution against 8 real ad clicks, leaving the ad set's "maximize conversions"
+// goal with no signal to optimise on.
+//
+// BEFORE RUNNING ADS IN THE EU/EEA/UK: this needs a consent gate again — GDPR requires
+// opt-in before any tracking script loads. The banner markup and its styles are still
+// in styles.css under "COOKIE CONSENT BANNER", so restoring it is mostly re-adding the
+// branch here. Note the site is publicly reachable from the EU today (organic traffic,
+// blog), so this is a known, accepted exposure rather than an unnoticed one.
 (function () {
   var CONSENT_KEY = 'dmi_analytics_consent';
   var PIXEL_ID = '591598162417830';
+
+  // Anyone who explicitly declined under the old banner stays opted out — their choice
+  // shouldn't be silently reversed by this change. Nothing sets this value any more, so
+  // it only ever matches visitors who clicked Decline before 2026-08-16.
+  if (localStorage.getItem(CONSENT_KEY) === 'declined') return;
 
   function loadMetaPixel() {
     if (window.fbq) return;
@@ -39,35 +59,5 @@
     }, true);
   }
 
-  var consent = localStorage.getItem(CONSENT_KEY);
-  if (consent === 'granted') {
-    loadMetaPixel();
-    return;
-  }
-  if (consent === 'declined') {
-    return;
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    var banner = document.createElement('div');
-    banner.id = 'dmi-consent-banner';
-    banner.innerHTML =
-      '<div class="dmi-consent-inner">' +
-      '<p>We use analytics cookies to understand how visitors use this site.</p>' +
-      '<div class="dmi-consent-actions">' +
-      '<button type="button" id="dmi-consent-decline">Decline</button>' +
-      '<button type="button" id="dmi-consent-accept">Accept</button>' +
-      '</div></div>';
-    document.body.appendChild(banner);
-
-    document.getElementById('dmi-consent-accept').addEventListener('click', function () {
-      localStorage.setItem(CONSENT_KEY, 'granted');
-      loadMetaPixel();
-      banner.remove();
-    });
-    document.getElementById('dmi-consent-decline').addEventListener('click', function () {
-      localStorage.setItem(CONSENT_KEY, 'declined');
-      banner.remove();
-    });
-  });
+  loadMetaPixel();
 })();
