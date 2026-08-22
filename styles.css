@@ -283,6 +283,11 @@ nav {
 
 .stat { text-align: center; }
 
+/* Stats that link to the page proving them. */
+a.stat { text-decoration: none; color: inherit; transition: transform 0.2s; }
+a.stat:hover { transform: translateY(-2px); }
+a.stat:hover .num { color: var(--accent-hover); }
+
 .stat .num {
   font-size: 1.75rem;
   font-weight: 800;
