@@ -9,7 +9,8 @@ with --check and fails the PR if any page has drifted.
   python3 tools/build-nav.py --check    # exit 1 if any page is out of date
 
 apply.html / enroll.html / join.html are deliberately excluded: they are
-distraction-free conversion landing pages with no nav and a cut-down footer.
+distraction-free conversion landing pages that carry no nav and no footer at
+all, so a visitor has no way out of the funnel except the form.
 """
 
 import re
@@ -18,7 +19,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# Landing pages that intentionally do not share the site chrome.
+# Landing pages that intentionally carry no site chrome at all - no nav, no
+# footer. Do not stamp anything into these.
 EXCLUDE = {"apply.html", "enroll.html", "join.html"}
 
 # Which nav entries get class="active" on which page.
@@ -37,13 +39,9 @@ ACTIVE = {
 }
 
 UNIVERSITY_DEFAULT = "https://university.pravinmishra.com/?utm_source=dmi&amp;utm_medium={medium}"
-# self-paced-leaderboard.html deliberately points at the self-paced product page
-# rather than the storefront root. Kept as-is; see PR discussion.
-UNIVERSITY_OVERRIDE = {
-    "self-paced-leaderboard.html":
-        "https://university.pravinmishra.com/b/dmi-self-paced-engineer-track"
-        "?utm_source=dmi&amp;utm_medium=nav",
-}
+# Every page points at the storefront root. self-paced-leaderboard.html used to
+# point at the self-paced product page instead; normalised 2026-08-22.
+UNIVERSITY_OVERRIDE: dict[str, str] = {}
 
 NAV_RE = re.compile(r"<nav id=\"navbar\">.*?</nav>", re.DOTALL)
 FOOTER_RE = re.compile(r"<footer>.*?</footer>", re.DOTALL)
