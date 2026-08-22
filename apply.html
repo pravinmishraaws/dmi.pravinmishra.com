@@ -159,7 +159,7 @@
 
       <div class="stat-box-grid">
         <div class="stat-box">
-          <span class="num">158</span>
+          <span class="num" id="gradedCount">188</span>
           <span class="label">Students graded daily</span>
           <a class="stat-link" href="leaderboard.html" target="_blank" rel="noopener">See the leaderboard →</a>
         </div>
@@ -272,6 +272,23 @@
 
   // Real, live company count on the first stat box — same data/alumni.json
   // fetch pattern used on join.html/enroll.html, so it can't go stale.
+  // Students graded nightly = live cohort + self-paced, counted from the same
+  // two CSVs the leaderboard pages render. Hardcoding this is what put a stale
+  // "271" on the homepage; the number in the HTML is only a no-JS fallback.
+  function loadGradedCount() {
+    var rows = function (csv) {
+      return csv.trim().split('\n').slice(1).filter(function (l) { return l.trim(); }).length;
+    };
+    Promise.all([
+      fetch('data/leaderboard.csv').then(function (r) { return r.text(); }),
+      fetch('data/self-paced-leaderboard.csv').then(function (r) { return r.text(); })
+    ]).then(function (csvs) {
+      var n = rows(csvs[0]) + rows(csvs[1]);
+      var el = document.getElementById('gradedCount');
+      if (el && n > 0) el.textContent = n;
+    }).catch(function () { /* leave the HTML fallback number in place */ });
+  }
+
   function loadAlumniCompanyCount() {
     fetch('data/alumni.json?t=' + Date.now())
       .then(function (r) { return r.json(); })
@@ -288,6 +305,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     loadAlumniCompanyCount();
+    loadGradedCount();
 
     var params = new URLSearchParams(window.location.search);
     var fbclid = params.get('fbclid') || '';
