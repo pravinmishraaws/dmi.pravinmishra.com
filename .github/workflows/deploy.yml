@@ -30,6 +30,8 @@ jobs:
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude "*.md" \
+            --exclude "partials/*" \
+            --exclude "tools/*" \
             --delete
 
       - name: Invalidate CloudFront
