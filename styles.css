@@ -964,10 +964,24 @@ footer a:hover { text-decoration: underline; }
 .story-byline .story-name { color: var(--accent); font-weight: 600; text-decoration: none; }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+/* The horizontal bar needs roughly 1070px to lay out at full size. Tighten it
+   through the middle range so it survives small laptops, then collapse to the
+   hamburger below that -- without this tier there was a dead band between the
+   768px breakpoint and the width the bar actually fits in, where the Apply
+   button ran off the right edge and the page scrolled sideways. */
+@media (max-width: 1120px) {
   nav { padding: 0 1.25rem; }
   .nav-inner { gap: 0.75rem; }
+  .nav-links { gap: 0; }
+  .nav-links a { padding: 0.5rem 0.6rem; font-size: 0.9rem; }
+  .nav-actions { gap: 0.5rem; }
+  .nav-university { font-size: 0.85rem; padding: 0.5rem 0.15rem; }
+  .nav-cta { padding: 0.5rem 0.95rem; font-size: 0.85rem; }
+  .nav-logo .logo-text { font-size: 0.92rem; }
+  .nav-logo .logo-sub { font-size: 0.68rem; }
+}
 
+@media (max-width: 940px) {
   .nav-links {
     display: none;
     position: absolute;
@@ -984,13 +998,12 @@ footer a:hover { text-decoration: underline; }
   }
 
   .nav-links.open { display: flex; }
-  .nav-links a { padding: 0.75rem 1rem; }
+  .nav-links a { padding: 0.75rem 1rem; font-size: 0.95rem; }
   .nav-toggle { display: flex; }
 
-  /* The Apply button stays in the bar on mobile; University moves into the menu. */
+  /* The Apply button stays in the bar; University moves into the menu. */
   .nav-university { display: none; }
   .nav-mobile-only { display: block; }
-  .nav-cta { padding: 0.5rem 0.95rem; font-size: 0.85rem; }
 
   /* Mega-menu becomes a static, always-expanded indented block in the stacked menu */
   .nav-links li.has-dropdown { position: static; }
@@ -1008,7 +1021,9 @@ footer a:hover { text-decoration: underline; }
   }
   .mega-head { padding: 0.6rem 1rem 0; }
   .mega-col a { padding: 0.6rem 1rem; font-size: 0.95rem; }
+}
 
+@media (max-width: 768px) {
   .champion-body { flex-direction: column; text-align: center; }
   .champion-marks { justify-content: center; }
   .hero-stats { gap: 2rem; }
@@ -1140,7 +1155,15 @@ footer a:hover { text-decoration: underline; }
 #dmi-consent-accept:hover { background: var(--accent-hover); }
 
 @media (max-width: 420px) {
-  .nav-logo .logo-text { font-size: 0.88rem; }
+  nav { padding: 0 0.9rem; }
+  .nav-logo .logo-text { font-size: 0.82rem; }
   .nav-logo .logo-sub { display: none; }
   .nav-logo .logo-icon { width: 34px; height: 34px; font-size: 12px; }
+  .nav-cta { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+}
+
+/* Below ~380px there is only room for the mark, the Apply button and the
+   hamburger -- keeping the wordmark pushed Apply off the right edge. */
+@media (max-width: 380px) {
+  .nav-logo > div { display: none; }
 }
