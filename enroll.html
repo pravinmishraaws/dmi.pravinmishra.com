@@ -187,7 +187,7 @@
     <h1>Already Working in Tech? Get 34% Off DMI Self-Paced — Limited Time.</h1>
     <p class="lede">No black box, no "trust us." 158 students are graded publicly, every single day — by AI, not a mentor picking favorites. See the leaderboard, the real alumni, and the real stories below — then claim the offer.</p>
     <div class="offer-stats">
-      <div class="stat"><span class="num">158</span><span class="label">Students graded daily</span></div>
+      <div class="stat"><span class="num" id="gradedCount">188</span><span class="label">Students graded daily</span></div>
       <div class="stat"><span class="num" id="alumCompanyCount">12</span><span class="label">Real companies hiring DMI grads</span></div>
       <div class="stat"><span class="num">100%</span><span class="label">Public, verifiable work</span></div>
     </div>
@@ -372,6 +372,23 @@
   // Real, live company count — was hardcoded "3" (only counted the sample
   // cards on this page, not the real total in data/alumni.json — 12 unique
   // companies as of 2026-08-15). Same fetch pattern as the mini leaderboard.
+  // Students graded nightly = live cohort + self-paced, counted from the same
+  // two CSVs the leaderboard pages render. Hardcoding this is what put a stale
+  // "271" on the homepage; the number in the HTML is only a no-JS fallback.
+  function loadGradedCount() {
+    var rows = function (csv) {
+      return csv.trim().split('\n').slice(1).filter(function (l) { return l.trim(); }).length;
+    };
+    Promise.all([
+      fetch('data/leaderboard.csv').then(function (r) { return r.text(); }),
+      fetch('data/self-paced-leaderboard.csv').then(function (r) { return r.text(); })
+    ]).then(function (csvs) {
+      var n = rows(csvs[0]) + rows(csvs[1]);
+      var el = document.getElementById('gradedCount');
+      if (el && n > 0) el.textContent = n;
+    }).catch(function () { /* leave the HTML fallback number in place */ });
+  }
+
   function loadAlumniCompanyCount() {
     fetch('data/alumni.json?t=' + Date.now())
       .then(function (r) { return r.json(); })
@@ -434,6 +451,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     loadMiniLeaderboard();
     loadAlumniCompanyCount();
+    loadGradedCount();
     startCountdown();
   });
 </script>
