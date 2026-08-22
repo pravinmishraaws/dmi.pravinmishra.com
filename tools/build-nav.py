@@ -28,7 +28,6 @@ ACTIVE = {
     "how-it-works.html": ["how"],
     "leaderboard.html": ["proof", "leaderboard"],
     "self-paced-leaderboard.html": ["proof", "self-paced"],
-    "foundation-leaderboard.html": ["proof", "foundation"],
     "champion.html": ["proof", "champion"],
     "graduates.html": ["proof", "graduates"],
     "alumni.html": ["proof", "alumni"],
