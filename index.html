@@ -324,10 +324,10 @@
       Don't just learn DevOps.<br>
       <span style="color:var(--accent)">Prove it.</span>
     </h1>
-    <p>DMI is the internship-style DevOps program where your real GitHub work is
-    reviewed every day, graded automatically, and published to a public profile —
-    evidence any hiring manager can check. 14 weeks: Linux, Git, AWS, Azure,
-    Terraform, CI/CD, Docker, Kubernetes — with Agentic AI throughout.</p>
+    <p>Most DevOps courses hand you a certificate you have to be believed about.
+    DMI grades your real GitHub work every night — the same checks for everyone,
+    on a published rubric — and puts the result on a public page a hiring manager
+    can open without asking you for anything. 14 weeks, with Agentic AI throughout.</p>
     <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
       <a href="https://university.pravinmishra.com/b/dmi-self-paced-engineer-track?utm_source=dmi&utm_medium=hero"
          target="_blank" rel="noopener" class="btn-primary">Start today — Self-Paced Track →</a>
@@ -339,11 +339,62 @@
       <a href="alumni.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">where our alumni work</a> ·
       <a href="how-it-works.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">how grading works</a>
     </p>
+    <!-- Every number here is counted at page load from the same data/ files the
+         leaderboard and alumni pages render, so it cannot drift out of date.
+         The hardcoded values are the no-JS fallback. -->
     <div class="hero-stats">
-      <div class="stat"><span class="num">5k+</span><span class="label">Learners Trained</span></div>
-      <div class="stat"><span class="num">2</span><span class="label">Cohorts Completed</span></div>
-      <div class="stat"><span class="num">271</span><span class="label">Cohort 2 Students</span></div>
-      <a href="leaderboard.html" class="stat" style="text-decoration:none;"><span class="num">148+</span><span class="label">Public Graded Profiles</span></a>
+      <a href="leaderboard.html" class="stat"><span class="num" data-stat="graded">188</span><span class="label">Public graded profiles</span></a>
+      <a href="graduates.html" class="stat"><span class="num" data-stat="graduates">69</span><span class="label">Graduates, 2 cohorts</span></a>
+      <a href="alumni.html" class="stat"><span class="num" data-stat="companies">12</span><span class="label">Companies hiring alumni</span></a>
+      <a href="stories.html" class="stat"><span class="num" data-stat="stories">55</span><span class="label">Student stories</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW GRADING WORKS -->
+<section style="padding: 4rem 2rem 5rem; background: var(--bg);">
+  <div class="container">
+    <div class="section-label">How grading works</div>
+    <h2 class="section-title">Graded by a program, <span style="color:var(--accent)">not by whoever had time</span></h2>
+    <p class="section-sub">Every night a program clones every student&rsquo;s repository, applies the same
+    checks to everyone, and publishes the result to a page anyone can open. No mentor queue, no
+    &ldquo;it depends who marked you.&rdquo;</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <h3>What it checks exactly</h3>
+        <p>Provable things, with one right answer. Does the file exist at the path the course template
+        expects? Is it still the untouched template — or a copy of the answer key? Does your blog post
+        actually link back to your own badge page? Same input, same result, every time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📏</div>
+        <h3>What it approximates</h3>
+        <p>A few checks stand in for judgement, and we say so rather than dressing them up. &ldquo;At
+        least 50 words of real writing&rdquo; is counted after stripping code blocks, so a big paste
+        can&rsquo;t pass as prose. Any leftover placeholder text scores zero, with no partial credit.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧑‍🏫</div>
+        <h3>What it deliberately doesn&rsquo;t</h3>
+        <p>It does not decide whether your answer is <em>correct</em>, whether your reasoning is sound,
+        or whether you understood it. That stays with your mentors in the live sessions. A passing score
+        proves your work is original, complete and your own — not that it&rsquo;s right.</p>
+      </div>
+    </div>
+
+    <div style="max-width:760px;margin:2.5rem auto 0;padding:1.5rem 1.75rem;background:var(--bg-section);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;">
+      <p style="font-size:1.05rem;font-weight:700;margin-bottom:0.6rem;">It tells you the build passed. It doesn&rsquo;t tell you the code is good.</p>
+      <p style="color:var(--text-muted);font-size:0.95rem;">That&rsquo;s the honest boundary, and it&rsquo;s why the score is worth
+      something. Every mark is on permanent record, so &ldquo;why did my score change?&rdquo; is a lookup
+      rather than an argument — and your feedback page lists exactly what to fix, in your own words back
+      to you, the morning after you push.</p>
+      <p style="margin-top:1rem;">
+        <a href="how-it-works.html" style="color:var(--accent);font-weight:600;text-decoration:none;">See the full grading rules →</a>
+        &nbsp;·&nbsp;
+        <a href="leaderboard.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Open a real graded profile →</a>
+      </p>
     </div>
   </div>
 </section>
@@ -543,6 +594,42 @@
   <p style="margin-top:1rem; font-size:0.82rem;">&copy; 2026 DevOps Micro Internship. All rights reserved.</p>
 </footer>
 
+<script>
+  // Hero stats are counted from the same data files the leaderboard, graduates,
+  // alumni and stories pages render, so a number here can never drift out of
+  // date the way the old hardcoded ones did. Any fetch that fails just leaves
+  // the fallback in the HTML alone.
+  (function () {
+    var set = function (key, n) {
+      var el = document.querySelector('[data-stat="' + key + '"]');
+      if (el && n > 0) el.textContent = String(n);
+    };
+    var rows = function (csv) {
+      return csv.trim().split('\n').slice(1).filter(function (l) { return l.trim(); }).length;
+    };
+    var getJSON = function (u) { return fetch(u).then(function (r) { return r.json(); }); };
+    var getCSV = function (u) { return fetch(u).then(function (r) { return r.text(); }); };
+
+    Promise.all([getCSV('data/leaderboard.csv'), getCSV('data/self-paced-leaderboard.csv')])
+      .then(function (r) { set('graded', rows(r[0]) + rows(r[1])); })
+      .catch(function () {});
+
+    Promise.all([getJSON('data/cohort1.json'), getJSON('data/cohort2.json')])
+      .then(function (r) { set('graduates', r[0].length + r[1].length); })
+      .catch(function () {});
+
+    getJSON('data/alumni.json').then(function (a) {
+      var seen = {}, n = 0;
+      a.forEach(function (x) {
+        var co = (x.company || '').trim();
+        if (co && !seen[co.toLowerCase()]) { seen[co.toLowerCase()] = 1; n++; }
+      });
+      set('companies', n);
+    }).catch(function () {});
+
+    getJSON('data/stories.json').then(function (s) { set('stories', s.length); }).catch(function () {});
+  })();
+</script>
 <script src="app.js"></script>
   <script src="pixel-consent.js"></script>
 </body>
