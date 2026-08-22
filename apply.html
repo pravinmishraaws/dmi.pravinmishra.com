@@ -4,17 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stop Collecting Certificates. Start Publishing Proof — DMI</title>
-  <meta name="description" content="158 students, graded publicly every day. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
+  <meta name="description" content="150+ students, graded publicly every day. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
   <link rel="canonical" href="https://dmi.pravinmishra.com/apply.html" />
   <meta name="robots" content="noindex, follow" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Stop Collecting Certificates. Start Publishing Proof — DMI" />
-  <meta property="og:description" content="158 students, graded publicly every day. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
+  <meta property="og:description" content="150+ students, graded publicly every day. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
   <meta property="og:url" content="https://dmi.pravinmishra.com/apply.html" />
   <meta property="og:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Stop Collecting Certificates. Start Publishing Proof — DMI" />
-  <meta name="twitter:description" content="158 students, graded publicly every day. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
+  <meta name="twitter:description" content="150+ students, graded publicly every day. Real alumni at ADP, WithSecure and more. Join the waitlist — see the proof first." />
   <meta name="twitter:image" content="https://dmi.pravinmishra.com/images/og-self-paced-banner.png" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
@@ -159,7 +159,7 @@
 
       <div class="stat-box-grid">
         <div class="stat-box">
-          <span class="num" id="gradedCount">188</span>
+          <span class="num" data-graded="total">188</span>
           <span class="label">Students graded daily</span>
           <a class="stat-link" href="leaderboard.html" target="_blank" rel="noopener">See the leaderboard →</a>
         </div>
@@ -272,22 +272,6 @@
 
   // Real, live company count on the first stat box — same data/alumni.json
   // fetch pattern used on join.html/enroll.html, so it can't go stale.
-  // Students graded nightly = live cohort + self-paced, counted from the same
-  // two CSVs the leaderboard pages render. Hardcoding this is what put a stale
-  // "271" on the homepage; the number in the HTML is only a no-JS fallback.
-  function loadGradedCount() {
-    var rows = function (csv) {
-      return csv.trim().split('\n').slice(1).filter(function (l) { return l.trim(); }).length;
-    };
-    Promise.all([
-      fetch('data/leaderboard.csv').then(function (r) { return r.text(); }),
-      fetch('data/self-paced-leaderboard.csv').then(function (r) { return r.text(); })
-    ]).then(function (csvs) {
-      var n = rows(csvs[0]) + rows(csvs[1]);
-      var el = document.getElementById('gradedCount');
-      if (el && n > 0) el.textContent = n;
-    }).catch(function () { /* leave the HTML fallback number in place */ });
-  }
 
   function loadAlumniCompanyCount() {
     fetch('data/alumni.json?t=' + Date.now())
@@ -305,7 +289,6 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     loadAlumniCompanyCount();
-    loadGradedCount();
 
     var params = new URLSearchParams(window.location.search);
     var fbclid = params.get('fbclid') || '';
