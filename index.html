@@ -343,7 +343,7 @@
          leaderboard and alumni pages render, so it cannot drift out of date.
          The hardcoded values are the no-JS fallback. -->
     <div class="hero-stats">
-      <a href="leaderboard.html" class="stat"><span class="num" data-stat="graded">188</span><span class="label">Public graded profiles</span></a>
+      <a href="leaderboard.html" class="stat"><span class="num" data-graded="total">188</span><span class="label">Public graded profiles</span></a>
       <a href="graduates.html" class="stat"><span class="num" data-stat="graduates">69</span><span class="label">Graduates, 2 cohorts</span></a>
       <a href="alumni.html" class="stat"><span class="num" data-stat="companies">12</span><span class="label">Companies hiring alumni</span></a>
       <a href="stories.html" class="stat"><span class="num" data-stat="stories">55</span><span class="label">Student stories</span></a>
@@ -595,24 +595,17 @@
 </footer>
 
 <script>
-  // Hero stats are counted from the same data files the leaderboard, graduates,
-  // alumni and stories pages render, so a number here can never drift out of
-  // date the way the old hardcoded ones did. Any fetch that fails just leaves
-  // the fallback in the HTML alone.
+  // Hero stats are counted from the same data files the graduates, alumni and
+  // stories pages render, so a number here can never drift out of date the way
+  // the old hardcoded ones did. Any fetch that fails just leaves the fallback in
+  // the HTML alone. The graded count is filled by app.js, which owns that number
+  // for every page on the site.
   (function () {
     var set = function (key, n) {
       var el = document.querySelector('[data-stat="' + key + '"]');
       if (el && n > 0) el.textContent = String(n);
     };
-    var rows = function (csv) {
-      return csv.trim().split('\n').slice(1).filter(function (l) { return l.trim(); }).length;
-    };
     var getJSON = function (u) { return fetch(u).then(function (r) { return r.json(); }); };
-    var getCSV = function (u) { return fetch(u).then(function (r) { return r.text(); }); };
-
-    Promise.all([getCSV('data/leaderboard.csv'), getCSV('data/self-paced-leaderboard.csv')])
-      .then(function (r) { set('graded', rows(r[0]) + rows(r[1])); })
-      .catch(function () {});
 
     Promise.all([getJSON('data/cohort1.json'), getJSON('data/cohort2.json')])
       .then(function (r) { set('graduates', r[0].length + r[1].length); })
