@@ -153,6 +153,52 @@
       color: var(--text-muted);
     }
     .honest-item strong { color: var(--text); }
+
+    .rubric { max-width: 700px; margin: 2.5rem auto 0; display: grid; gap: 1rem; }
+    .rubric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.4rem;
+    }
+    .rubric-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .rubric-card h3 .pts {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+    .rubric-card ul { margin: 0; padding-left: 1.1rem; }
+    .rubric-card li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 0.35rem;
+    }
+    .rubric-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .rubric-card code {
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.85em;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .rubric-card .after { margin-top: 0.6rem; }
   </style>
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
@@ -267,12 +313,73 @@
           <tr><td>Live-session attendance (per slot: Morning · Mid · Evening)</td><td class="pts">10 each</td></tr>
         </tbody>
       </table>
-      <p style="font-size:0.82rem;color:var(--text-muted);margin-top:0.75rem;">Live-session attendance applies to the live cohort and counts from Week 4 onward.</p>
+      <p style="font-size:0.82rem;color:var(--text-muted);margin-top:0.75rem;">Live-session attendance applies to the live cohort and counts from Week 2 onward.</p>
     </div>
     <div class="honest-list">
       <div class="honest-item"><strong>Real work only.</strong> Placeholder text scores 0. Copied or untouched files score 0. Answers under 50 real words score 0.</div>
       <div class="honest-item"><strong>No pre-filling ahead.</strong> Grading is capped at the cohort's current week — you can't stack up points by pasting future weeks early.</div>
       <div class="honest-item"><strong>Every run is kept.</strong> Score history is stored permanently, so any result can be looked up — not argued about.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2B — THE RUBRIC -->
+<section id="rubric" style="padding: 4rem 2rem; background: var(--bg-section); border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">The Rubric</div>
+    <h2 class="section-title">The exact rules, <span style="color:var(--accent)">in full</span></h2>
+    <p class="section-sub">The same rules run against every student, every week — nothing here is decided case by case</p>
+
+    <div class="rubric">
+
+      <div class="rubric-card">
+        <h3><span>One assignment file</span><span class="pts">20 pts · pass or fail</span></h3>
+        <p>A file fails automatically if any of these is true:</p>
+        <ul>
+          <li>It isn't at the exact path the template expects — same week folder name, same <code>assignment-*.md</code> filename. There is no fallback matching, so keep your fork synced with the template.</li>
+          <li>It is byte-for-byte identical to a file in the template repo — an untouched stub, or a copied answer key.</li>
+          <li>It still contains template placeholder text: <code>Add your answer here</code>, <code>Add your screenshot here.</code>, <code>Add your URL here</code>, or <code>Add your post content here</code>.</li>
+          <li>It has fewer than <strong>50 words</strong> of your own writing, counted after stripping code blocks, HTML comments, headings and table formatting.</li>
+        </ul>
+        <p class="after">Otherwise it passes and is worth 20 points. There is no partial credit inside a file.</p>
+      </div>
+
+      <div class="rubric-card">
+        <h3><span>Weekly LinkedIn post</span><span class="pts">10 pts</span></h3>
+        <p>Read from the Weekly Progress table in your fork's root <code>README.md</code> — your own table, never inferred from anywhere else. The URL must begin with <code>https://www.linkedin.com/posts/</code>. A profile link or a shortened URL scores 0.</p>
+      </div>
+
+      <div class="rubric-card">
+        <h3><span>Weekly blog post</span><span class="pts">30 pts</span></h3>
+        <p>Same table. All three must hold:</p>
+        <ul>
+          <li>The URL loads.</li>
+          <li>The page has at least <strong>200 words</strong>.</li>
+          <li>The page contains a real link to <em>your own</em> badge page — <code>dmi.pravinmishra.com/s/&lt;your-username&gt;.html</code>.</li>
+        </ul>
+        <p class="after">A genuine, well-written post that links some other DMI page, or only mentions DMI in text, scores 0. The requirement is that every weekly post sends real traffic to your own graded work.</p>
+      </div>
+
+      <div class="rubric-card">
+        <h3><span>Live-session attendance</span><span class="pts">10 pts per slot</span></h3>
+        <p>Morning, Mid and Evening slots on Saturday, taken from the team's attendance record — not derived from your GitHub activity. Applies to the live cohort, and counts from Week 2 onward — weeks 00 and 01 carry no attendance component at all.</p>
+      </div>
+
+      <div class="rubric-card">
+        <h3><span>How a week adds up</span></h3>
+        <p>Week total = assignment points + LinkedIn + blog + attendance. Each week's maximum depends on how many assignment files that week has, so totals aren't directly comparable week to week. Your grand total is the sum across every graded week.</p>
+      </div>
+
+      <div class="rubric-card">
+        <h3><span>Once earned, it stays earned</span></h3>
+        <p>A week whose assignments have fully passed, and a blog post that has been verified, are locked — they are never re-checked. LinkedIn and attendance are recomputed on every run, so a corrected or backfilled attendance record always takes effect. If a rule changes later, credit you already earned under the older rule is not taken back.</p>
+      </div>
+
+      <div class="rubric-card">
+        <h3><span>What these checks cover</span></h3>
+        <p>The agent enforces that the work is real, original and on schedule: present at the right path, written by you, not a placeholder, and substantial enough to be a genuine answer. It does not judge whether your answer is technically correct.</p>
+      </div>
+
     </div>
   </div>
 </section>
