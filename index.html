@@ -157,6 +157,163 @@
     }
     .btn-outline-white:hover { background: rgba(255,255,255,0.15); }
 
+    .proof-card {
+      max-width: 480px;
+      margin: 2.5rem auto 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem 1.4rem;
+      text-align: left;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    .proof-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+    }
+
+    .proof-body { display: flex; align-items: center; gap: 0.9rem; }
+
+    .proof-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem; flex-shrink: 0;
+    }
+
+    .proof-meta { flex: 1; min-width: 0; }
+    .proof-name { font-weight: 700; font-size: 1rem; }
+    .proof-group { font-size: 0.82rem; color: var(--text-muted); }
+
+    .proof-score { text-align: right; flex-shrink: 0; }
+    .proof-score .num { display: block; font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
+    .proof-score .lbl { font-size: 0.72rem; color: var(--text-muted); }
+
+    .proof-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+    }
+    .proof-link:hover { text-decoration: underline; }
+
+    .proof-note {
+      margin-top: 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .ntile {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.15rem 1.25rem;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    a.ntile { transition: border-color 0.2s, transform 0.2s; }
+    a.ntile:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .nnum {
+      display: block;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+    }
+
+    /* "Every day" is a word, not a figure — size it down so it sits on the
+       same baseline as the numerals instead of overpowering the row. */
+    .nnum-word { font-size: 1.35rem; }
+
+    .nlbl {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    @media (max-width: 860px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .numbers-grid { grid-template-columns: 1fr; } }
+
+    .publishes {
+      max-width: 760px;
+      margin: 3rem auto 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.6rem 1.9rem;
+    }
+
+    .publishes h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; }
+    .publishes ul { list-style: none; padding: 0; margin: 0; }
+
+    .publishes li {
+      position: relative;
+      padding-left: 1.6rem;
+      margin-bottom: 0.7rem;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .publishes li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .publishes li strong { color: var(--text); font-weight: 700; }
+
+    .publishes > p {
+      margin-top: 1.2rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .rules-strip {
+      max-width: 760px;
+      margin: 2rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.6rem;
+    }
+
+    .rules-strip div {
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .rules-strip strong { color: var(--text); font-weight: 700; }
+
     .timeline {
       position: relative;
       max-width: 800px;
@@ -339,14 +496,61 @@
       <a href="alumni.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">where our alumni work</a> ·
       <a href="how-it-works.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">how grading works</a>
     </p>
-    <!-- Every number here is counted at page load from the same data/ files the
-         leaderboard and alumni pages render, so it cannot drift out of date.
-         The hardcoded values are the no-JS fallback. -->
-    <div class="hero-stats">
-      <a href="leaderboard.html" class="stat"><span class="num" data-graded="total">188</span><span class="label">Public graded profiles</span></a>
-      <a href="graduates.html" class="stat"><span class="num" data-stat="graduates">69</span><span class="label">Graduates, 2 cohorts</span></a>
-      <a href="alumni.html" class="stat"><span class="num" data-stat="companies">12</span><span class="label">Companies hiring alumni</span></a>
-      <a href="stories.html" class="stat"><span class="num" data-stat="stories">55</span><span class="label">Student stories</span></a>
+
+    <!-- A real student's graded page, picked at random from the live leaderboard
+         on every load. Starts hidden and is revealed only once the fetch has
+         succeeded, so a failed fetch shows nothing rather than a stale name or
+         a score that has since moved. Never hardcode a fallback student here —
+         totals change nightly. -->
+    <div id="proofCard" hidden>
+      <div class="proof-card">
+        <div class="proof-label">A real student's page, right now</div>
+        <div class="proof-body">
+          <div class="proof-avatar" id="proofAvatar"></div>
+          <div class="proof-meta">
+            <div class="proof-name" id="proofName"></div>
+            <div class="proof-group" id="proofGroup"></div>
+          </div>
+          <div class="proof-score">
+            <span class="num" id="proofScore"></span>
+            <span class="lbl">points</span>
+          </div>
+        </div>
+        <a class="proof-link" id="proofLink" href="leaderboard.html">Open this student's graded page →</a>
+        <p class="proof-note">Nobody wrote this page by hand. It is generated from that student's
+        own commits, and you are seeing exactly what a hiring manager sees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BY THE NUMBERS -->
+<!-- Three rows, and the grouping is deliberate: reach, then the machine, then
+     outcomes. Everything except the first two tiles and "77" is counted at page
+     load from the same data/ files the graduates, alumni and stories pages
+     render, so these can't drift the way a hand-kept number does. The values in
+     the HTML are the no-JS fallback; a failed fetch leaves them alone.
+
+     70,000+ and 5,000+ are Pravin's own figures, carried over from the
+     CloudAdvisory one-pager — they are the only two here nothing on this site
+     can verify, so change them only when he does.
+
+     "77" is counted from the course template repo:
+       find week-*/ -name 'assignment-*.md' | wc -l -->
+<section style="padding: 3.5rem 2rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="numbers-grid">
+      <div class="ntile"><span class="nnum">70,000+</span><span class="nlbl">Learners taught globally by our lead trainer</span></div>
+      <div class="ntile"><span class="nnum">5,000+</span><span class="nlbl">Learners trained through DMI specifically</span></div>
+      <div class="ntile"><span class="nnum" data-stat="countries">15</span><span class="nlbl">Countries our graduates come from</span></div>
+
+      <a class="ntile" href="leaderboard.html"><span class="nnum" data-graded="total">188</span><span class="nlbl">Publicly graded student profiles &rarr;</span></a>
+      <a class="ntile" href="#curriculum"><span class="nnum">77</span><span class="nlbl">Graded assignments per student, across 14 weeks</span></a>
+      <a class="ntile" href="how-it-works.html"><span class="nnum nnum-word">Every day</span><span class="nlbl">Every assignment repository re-graded, unattended &rarr;</span></a>
+
+      <a class="ntile" href="graduates.html"><span class="nnum" data-stat="graduates">69</span><span class="nlbl">Graduates, across 2 cohorts &rarr;</span></a>
+      <a class="ntile" href="alumni.html"><span class="nnum" data-stat="companies">12</span><span class="nlbl">Companies employing DMI alumni &rarr;</span></a>
+      <a class="ntile" href="stories.html"><span class="nnum" data-stat="stories">55</span><span class="nlbl">Published student outcome stories &rarr;</span></a>
     </div>
   </div>
 </section>
@@ -395,6 +599,46 @@
         &nbsp;·&nbsp;
         <a href="leaderboard.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Open a real graded profile →</a>
       </p>
+    </div>
+
+    <!-- The four rules that make a passing score mean anything. Full versions
+         live in how-it-works.html#rubric — keep the two in step. -->
+    <div class="rules-strip">
+      <div><strong>Placeholder text scores 0.</strong> No partial credit for a half-filled file.</div>
+      <div><strong>An untouched or copied file scores 0.</strong> Byte-identical to the template fails.</div>
+      <div><strong>Under 50 real words scores 0.</strong> Counted after code blocks are stripped out.</div>
+      <div><strong>You can't work ahead for points.</strong> Grading is capped at the current week.</div>
+    </div>
+
+    <!-- Sourced from the review agent's own state.db, not an estimate. Regenerate with:
+           SELECT COUNT(DISTINCT username) FROM week_results WHERE passed_files > 0;
+         against review-agent/data/state.db, scoped to track='cohort'. Update the
+         numbers AND the as-of date together, or leave both alone. Once Cohort 3
+         reaches week 13 this should become a real completion rate — no student
+         has a full 14-week record yet, so we don't claim one. -->
+    <p style="max-width:760px;margin:1.75rem auto 0;text-align:center;font-size:0.95rem;color:var(--text-muted);">
+      <strong style="color:var(--text);">134 of 158 students in Cohort 3 have pushed real graded work.</strong>
+      As of 23 August 2026, with the cohort at week 07 of 14. We publish this because
+      almost nobody in this industry publishes any completion figure at all — and we'd
+      rather show you a live one than a flattering one.
+    </p>
+
+    <!-- Deliberately makes no claim about any other program. We state what we
+         publish and let the reader do the comparing — nothing here can go stale
+         when someone else changes their site, and there is nothing for anyone
+         to correct. An earlier draft named competitors in a table; that was cut
+         on purpose. Don't reintroduce it. -->
+    <div class="publishes">
+      <h3>What we publish about our own grading</h3>
+      <ul>
+        <li><strong>The complete rubric</strong> — every rule, every point value, before you enrol.</li>
+        <li><strong>Who does the grading</strong> — a program, on a fixed schedule, and we say exactly where it stops.</li>
+        <li><strong>How long it takes</strong> — overnight, every night.</li>
+        <li><strong>Every score, permanently</strong> — on a public page, with the history behind it.</li>
+        <li><strong>How many of our students are actually doing the work</strong> — the number above, kept current, flattering or not.</li>
+      </ul>
+      <p>We are not aware of another program in this category that publishes all five.
+      You don't have to take our word for that — go and look.</p>
     </div>
   </div>
 </section>
@@ -473,7 +717,7 @@
           Cloud, DevOps, Data & AI Consultant based in Helsinki, Finland. Helping companies modernise their systems, build scalable cloud architectures, and train thousands of professionals globally. Founder of <strong>The CloudAdvisory</strong> and author of 3 published books.
         </p>
         <div class="mentor-stats">
-          <div class="mentor-stat"><span class="val">5k+</span><span class="lbl">Learners</span></div>
+          <div class="mentor-stat"><span class="val">70K+</span><span class="lbl">Learners</span></div>
           <div class="mentor-stat"><span class="val">26K+</span><span class="lbl">LinkedIn</span></div>
           <div class="mentor-stat"><span class="val">14K+</span><span class="lbl">YouTube</span></div>
           <div class="mentor-stat"><span class="val">3</span><span class="lbl">Books</span></div>
@@ -621,6 +865,77 @@
     }).catch(function () {});
 
     getJSON('data/stories.json').then(function (s) { set('stories', s.length); }).catch(function () {});
+
+    // Countries our graduates come from. Union of both cohorts plus alumni,
+    // because a graduate who has since been placed appears in alumni.json with
+    // a country the cohort file may not carry. Counted, never hand-kept — the
+    // CloudAdvisory one-pager's "11" is cohort 1 alone and undercounts.
+    Promise.all([getJSON('data/cohort1.json'), getJSON('data/cohort2.json'), getJSON('data/alumni.json')])
+      .then(function (lists) {
+        var seen = {}, n = 0;
+        lists.forEach(function (list) {
+          list.forEach(function (x) {
+            var c = (x.country || '').trim().toLowerCase();
+            if (c && !seen[c]) { seen[c] = 1; n++; }
+          });
+        });
+        set('countries', n);
+      })
+      .catch(function () {});
+  })();
+
+  // Hero proof card. Reads the same leaderboard.csv the leaderboard page renders
+  // and shows one real student, picked at random from the top of the table on
+  // every load, linked to the badge page the review agent generated for them.
+  // Deliberately reveals the card only after a successful parse: a stale name or
+  // a score that has since moved would undercut the one claim the page makes.
+  (function () {
+    var card = document.getElementById('proofCard');
+    if (!card) return;
+
+    // Minimal CSV split — the leaderboard's Name/Group/Github/Total fields are
+    // plain and unquoted. If that ever stops being true, use a real parser.
+    function parse(text) {
+      var lines = text.trim().split('\n');
+      var cols = lines[0].split(',').map(function (c) { return c.trim(); });
+      return lines.slice(1).filter(function (l) { return l.trim(); }).map(function (line) {
+        var cells = line.split(',');
+        var row = {};
+        cols.forEach(function (c, i) { row[c] = (cells[i] || '').trim(); });
+        return row;
+      });
+    }
+
+    function initials(name) {
+      return name.split(/\s+/).filter(Boolean).slice(0, 2)
+        .map(function (w) { return w[0]; }).join('').toUpperCase();
+    }
+
+    fetch('data/leaderboard.csv')
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        var rows = parse(text).filter(function (r) {
+          return r.Name && r.Github && Number(r.Total) > 0;
+        });
+        if (!rows.length) return;
+
+        rows.sort(function (a, b) { return Number(b.Total) - Number(a.Total); });
+        var pool = rows.slice(0, Math.min(25, rows.length));
+        var pick = pool[Math.floor(Math.random() * pool.length)];
+
+        document.getElementById('proofAvatar').textContent = initials(pick.Name);
+        document.getElementById('proofName').textContent = pick.Name;
+        document.getElementById('proofGroup').textContent =
+          [pick.Group, 'Live Cohort'].filter(Boolean).join(' · ');
+        document.getElementById('proofScore').textContent = pick.Total;
+
+        var link = document.getElementById('proofLink');
+        link.href = 's/' + pick.Github + '.html';
+        link.textContent = 'Open ' + pick.Name.split(/\s+/)[0] + "'s graded page →";
+
+        card.hidden = false;
+      })
+      .catch(function () { /* leave the card hidden */ });
   })();
 </script>
 <script src="app.js"></script>
