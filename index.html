@@ -157,6 +157,108 @@
     }
     .btn-outline-white:hover { background: rgba(255,255,255,0.15); }
 
+    .proof-card {
+      max-width: 480px;
+      margin: 2.5rem auto 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem 1.4rem;
+      text-align: left;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    .proof-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+    }
+
+    .proof-body { display: flex; align-items: center; gap: 0.9rem; }
+
+    .proof-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem; flex-shrink: 0;
+    }
+
+    .proof-meta { flex: 1; min-width: 0; }
+    .proof-name { font-weight: 700; font-size: 1rem; }
+    .proof-group { font-size: 0.82rem; color: var(--text-muted); }
+
+    .proof-score { text-align: right; flex-shrink: 0; }
+    .proof-score .num { display: block; font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
+    .proof-score .lbl { font-size: 0.72rem; color: var(--text-muted); }
+
+    .proof-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+    }
+    .proof-link:hover { text-decoration: underline; }
+
+    .proof-note {
+      margin-top: 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .grade-compare-wrap { max-width: 860px; margin: 3rem auto 0; overflow-x: auto; }
+
+    .grade-compare {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .grade-compare th, .grade-compare td {
+      text-align: left;
+      padding: 0.7rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .grade-compare thead th {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 800;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .grade-compare tbody th { font-weight: 700; white-space: nowrap; }
+    .grade-compare td { color: var(--text-muted); }
+    .grade-compare tr.is-dmi { background: var(--accent-light); }
+    .grade-compare tr.is-dmi th, .grade-compare tr.is-dmi td { color: var(--text); font-weight: 600; }
+
+    .rules-strip {
+      max-width: 760px;
+      margin: 2rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.6rem;
+    }
+
+    .rules-strip div {
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .rules-strip strong { color: var(--text); font-weight: 700; }
+
     .timeline {
       position: relative;
       max-width: 800px;
@@ -343,10 +445,35 @@
          leaderboard and alumni pages render, so it cannot drift out of date.
          The hardcoded values are the no-JS fallback. -->
     <div class="hero-stats">
+      <a href="#curriculum" class="stat"><span class="num">77</span><span class="label">Graded assignments</span></a>
       <a href="leaderboard.html" class="stat"><span class="num" data-graded="total">188</span><span class="label">Public graded profiles</span></a>
       <a href="graduates.html" class="stat"><span class="num" data-stat="graduates">69</span><span class="label">Graduates, 2 cohorts</span></a>
-      <a href="alumni.html" class="stat"><span class="num" data-stat="companies">12</span><span class="label">Companies hiring alumni</span></a>
       <a href="stories.html" class="stat"><span class="num" data-stat="stories">55</span><span class="label">Student stories</span></a>
+    </div>
+
+    <!-- A real student's graded page, picked at random from the live leaderboard
+         on every load. Starts hidden and is revealed only once the fetch has
+         succeeded, so a failed fetch shows nothing rather than a stale name or
+         a score that has since moved. Never hardcode a fallback student here —
+         totals change nightly. -->
+    <div id="proofCard" hidden>
+      <div class="proof-card">
+        <div class="proof-label">A real student's page, right now</div>
+        <div class="proof-body">
+          <div class="proof-avatar" id="proofAvatar"></div>
+          <div class="proof-meta">
+            <div class="proof-name" id="proofName"></div>
+            <div class="proof-group" id="proofGroup"></div>
+          </div>
+          <div class="proof-score">
+            <span class="num" id="proofScore"></span>
+            <span class="lbl">points</span>
+          </div>
+        </div>
+        <a class="proof-link" id="proofLink" href="leaderboard.html">Open this student's graded page →</a>
+        <p class="proof-note">Nobody wrote this page by hand. It is generated from that student's
+        own commits, and you are seeing exactly what a hiring manager sees.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -395,6 +522,87 @@
         &nbsp;·&nbsp;
         <a href="leaderboard.html" style="color:var(--accent);font-weight:600;text-decoration:none;">Open a real graded profile →</a>
       </p>
+    </div>
+
+    <!-- The four rules that make a passing score mean anything. Full versions
+         live in how-it-works.html#rubric — keep the two in step. -->
+    <div class="rules-strip">
+      <div><strong>Placeholder text scores 0.</strong> No partial credit for a half-filled file.</div>
+      <div><strong>An untouched or copied file scores 0.</strong> Byte-identical to the template fails.</div>
+      <div><strong>Under 50 real words scores 0.</strong> Counted after code blocks are stripped out.</div>
+      <div><strong>You can't work ahead for points.</strong> Grading is capped at the current week.</div>
+    </div>
+
+    <!-- Sourced from the review agent's own state.db, not an estimate. Regenerate with:
+           SELECT COUNT(DISTINCT username) FROM week_results WHERE passed_files > 0;
+         against review-agent/data/state.db, scoped to track='cohort'. Update the
+         numbers AND the as-of date together, or leave both alone. Once Cohort 3
+         reaches week 13 this should become a real completion rate — no student
+         has a full 14-week record yet, so we don't claim one. -->
+    <p style="max-width:760px;margin:1.75rem auto 0;text-align:center;font-size:0.95rem;color:var(--text-muted);">
+      <strong style="color:var(--text);">134 of 158 students in Cohort 3 have pushed real graded work.</strong>
+      As of 23 August 2026, with the cohort at week 07 of 14. We publish this because
+      almost nobody in this industry publishes any completion figure at all — and we'd
+      rather show you a live one than a flattering one.
+    </p>
+
+    <!-- Every cell is taken from the named program's own public pages and docs.
+         If you change a row, re-check the source first — the credibility of this
+         table is the entire reason it's on the page. -->
+    <div class="grade-compare-wrap">
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:0.35rem;">How that compares</h3>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:1.25rem;">
+        Every other well-known program in this category asks you to take the grading on trust.
+        Compiled from each program's own public pages, August 2026.
+      </p>
+      <table class="grade-compare">
+        <thead>
+          <tr>
+            <th scope="col">Program</th>
+            <th scope="col">Who grades your work</th>
+            <th scope="col">How long it takes</th>
+            <th scope="col">Rubric published?</th>
+            <th scope="col">What you're left holding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">ExamPro / Cloud Resume Challenge</th>
+            <td>Not published</td>
+            <td>Not published</td>
+            <td>Yes — six scored categories</td>
+            <td>Your repo and a badge</td>
+          </tr>
+          <tr>
+            <th scope="row">TechWorld with Nana</th>
+            <td>Support engineers, pass/fail</td>
+            <td>Not published</td>
+            <td>No</td>
+            <td>A Credly completion badge</td>
+          </tr>
+          <tr>
+            <th scope="row">DataTalks.Club</th>
+            <td>Three randomly assigned peers</td>
+            <td>2–4 weeks, issued in batches</td>
+            <td>Yes — 0/2/4 per criterion</td>
+            <td>Your repo and a certificate</td>
+          </tr>
+          <tr>
+            <th scope="row">SadServers</th>
+            <td>A script, instantly</td>
+            <td>Instant</td>
+            <td>Pass/fail per scenario</td>
+            <td>A badge — the VM session itself is gone</td>
+          </tr>
+          <tr class="is-dmi">
+            <th scope="row">DMI</th>
+            <td>A program, same checks for everyone</td>
+            <td>Overnight, every night</td>
+            <td>Yes — in full, every rule</td>
+            <td>Your repo plus a public graded page, with every mark on permanent record</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -621,6 +829,60 @@
     }).catch(function () {});
 
     getJSON('data/stories.json').then(function (s) { set('stories', s.length); }).catch(function () {});
+  })();
+
+  // Hero proof card. Reads the same leaderboard.csv the leaderboard page renders
+  // and shows one real student, picked at random from the top of the table on
+  // every load, linked to the badge page the review agent generated for them.
+  // Deliberately reveals the card only after a successful parse: a stale name or
+  // a score that has since moved would undercut the one claim the page makes.
+  (function () {
+    var card = document.getElementById('proofCard');
+    if (!card) return;
+
+    // Minimal CSV split — the leaderboard's Name/Group/Github/Total fields are
+    // plain and unquoted. If that ever stops being true, use a real parser.
+    function parse(text) {
+      var lines = text.trim().split('\n');
+      var cols = lines[0].split(',').map(function (c) { return c.trim(); });
+      return lines.slice(1).filter(function (l) { return l.trim(); }).map(function (line) {
+        var cells = line.split(',');
+        var row = {};
+        cols.forEach(function (c, i) { row[c] = (cells[i] || '').trim(); });
+        return row;
+      });
+    }
+
+    function initials(name) {
+      return name.split(/\s+/).filter(Boolean).slice(0, 2)
+        .map(function (w) { return w[0]; }).join('').toUpperCase();
+    }
+
+    fetch('data/leaderboard.csv')
+      .then(function (r) { return r.text(); })
+      .then(function (text) {
+        var rows = parse(text).filter(function (r) {
+          return r.Name && r.Github && Number(r.Total) > 0;
+        });
+        if (!rows.length) return;
+
+        rows.sort(function (a, b) { return Number(b.Total) - Number(a.Total); });
+        var pool = rows.slice(0, Math.min(25, rows.length));
+        var pick = pool[Math.floor(Math.random() * pool.length)];
+
+        document.getElementById('proofAvatar').textContent = initials(pick.Name);
+        document.getElementById('proofName').textContent = pick.Name;
+        document.getElementById('proofGroup').textContent =
+          [pick.Group, 'Live Cohort'].filter(Boolean).join(' · ');
+        document.getElementById('proofScore').textContent = pick.Total;
+
+        var link = document.getElementById('proofLink');
+        link.href = 's/' + pick.Github + '.html';
+        link.textContent = 'Open ' + pick.Name.split(/\s+/)[0] + "'s graded page →";
+
+        card.hidden = false;
+      })
+      .catch(function () { /* leave the card hidden */ });
   })();
 </script>
 <script src="app.js"></script>
