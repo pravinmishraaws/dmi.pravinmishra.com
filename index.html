@@ -211,6 +211,51 @@
       line-height: 1.5;
     }
 
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .ntile {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.15rem 1.25rem;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    a.ntile { transition: border-color 0.2s, transform 0.2s; }
+    a.ntile:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .nnum {
+      display: block;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+    }
+
+    /* "Every day" is a word, not a figure — size it down so it sits on the
+       same baseline as the numerals instead of overpowering the row. */
+    .nnum-word { font-size: 1.35rem; }
+
+    .nlbl {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    @media (max-width: 860px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .numbers-grid { grid-template-columns: 1fr; } }
+
     .publishes {
       max-width: 760px;
       margin: 3rem auto 0;
@@ -451,15 +496,6 @@
       <a href="alumni.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">where our alumni work</a> ·
       <a href="how-it-works.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">how grading works</a>
     </p>
-    <!-- Every number here is counted at page load from the same data/ files the
-         leaderboard and alumni pages render, so it cannot drift out of date.
-         The hardcoded values are the no-JS fallback. -->
-    <div class="hero-stats">
-      <a href="#curriculum" class="stat"><span class="num">77</span><span class="label">Graded assignments</span></a>
-      <a href="leaderboard.html" class="stat"><span class="num" data-graded="total">188</span><span class="label">Public graded profiles</span></a>
-      <a href="graduates.html" class="stat"><span class="num" data-stat="graduates">69</span><span class="label">Graduates, 2 cohorts</span></a>
-      <a href="stories.html" class="stat"><span class="num" data-stat="stories">55</span><span class="label">Student stories</span></a>
-    </div>
 
     <!-- A real student's graded page, picked at random from the live leaderboard
          on every load. Starts hidden and is revealed only once the fetch has
@@ -484,6 +520,37 @@
         <p class="proof-note">Nobody wrote this page by hand. It is generated from that student's
         own commits, and you are seeing exactly what a hiring manager sees.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- BY THE NUMBERS -->
+<!-- Three rows, and the grouping is deliberate: reach, then the machine, then
+     outcomes. Everything except the first two tiles and "77" is counted at page
+     load from the same data/ files the graduates, alumni and stories pages
+     render, so these can't drift the way a hand-kept number does. The values in
+     the HTML are the no-JS fallback; a failed fetch leaves them alone.
+
+     70,000+ and 5,000+ are Pravin's own figures, carried over from the
+     CloudAdvisory one-pager — they are the only two here nothing on this site
+     can verify, so change them only when he does.
+
+     "77" is counted from the course template repo:
+       find week-*/ -name 'assignment-*.md' | wc -l -->
+<section style="padding: 3.5rem 2rem; background: var(--bg-section); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="numbers-grid">
+      <div class="ntile"><span class="nnum">70,000+</span><span class="nlbl">Learners taught globally by our lead trainer</span></div>
+      <div class="ntile"><span class="nnum">5,000+</span><span class="nlbl">Learners trained through DMI specifically</span></div>
+      <div class="ntile"><span class="nnum" data-stat="countries">15</span><span class="nlbl">Countries our graduates come from</span></div>
+
+      <a class="ntile" href="leaderboard.html"><span class="nnum" data-graded="total">188</span><span class="nlbl">Publicly graded student profiles &rarr;</span></a>
+      <a class="ntile" href="#curriculum"><span class="nnum">77</span><span class="nlbl">Graded assignments per student, across 14 weeks</span></a>
+      <a class="ntile" href="how-it-works.html"><span class="nnum nnum-word">Every day</span><span class="nlbl">Every assignment repository re-graded, unattended &rarr;</span></a>
+
+      <a class="ntile" href="graduates.html"><span class="nnum" data-stat="graduates">69</span><span class="nlbl">Graduates, across 2 cohorts &rarr;</span></a>
+      <a class="ntile" href="alumni.html"><span class="nnum" data-stat="companies">12</span><span class="nlbl">Companies employing DMI alumni &rarr;</span></a>
+      <a class="ntile" href="stories.html"><span class="nnum" data-stat="stories">55</span><span class="nlbl">Published student outcome stories &rarr;</span></a>
     </div>
   </div>
 </section>
@@ -650,7 +717,7 @@
           Cloud, DevOps, Data & AI Consultant based in Helsinki, Finland. Helping companies modernise their systems, build scalable cloud architectures, and train thousands of professionals globally. Founder of <strong>The CloudAdvisory</strong> and author of 3 published books.
         </p>
         <div class="mentor-stats">
-          <div class="mentor-stat"><span class="val">5k+</span><span class="lbl">Learners</span></div>
+          <div class="mentor-stat"><span class="val">70K+</span><span class="lbl">Learners</span></div>
           <div class="mentor-stat"><span class="val">26K+</span><span class="lbl">LinkedIn</span></div>
           <div class="mentor-stat"><span class="val">14K+</span><span class="lbl">YouTube</span></div>
           <div class="mentor-stat"><span class="val">3</span><span class="lbl">Books</span></div>
@@ -798,6 +865,23 @@
     }).catch(function () {});
 
     getJSON('data/stories.json').then(function (s) { set('stories', s.length); }).catch(function () {});
+
+    // Countries our graduates come from. Union of both cohorts plus alumni,
+    // because a graduate who has since been placed appears in alumni.json with
+    // a country the cohort file may not carry. Counted, never hand-kept — the
+    // CloudAdvisory one-pager's "11" is cohort 1 alone and undercounts.
+    Promise.all([getJSON('data/cohort1.json'), getJSON('data/cohort2.json'), getJSON('data/alumni.json')])
+      .then(function (lists) {
+        var seen = {}, n = 0;
+        lists.forEach(function (list) {
+          list.forEach(function (x) {
+            var c = (x.country || '').trim().toLowerCase();
+            if (c && !seen[c]) { seen[c] = 1; n++; }
+          });
+        });
+        set('countries', n);
+      })
+      .catch(function () {});
   })();
 
   // Hero proof card. Reads the same leaderboard.csv the leaderboard page renders
