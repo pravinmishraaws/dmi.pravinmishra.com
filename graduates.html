@@ -118,6 +118,13 @@
     }
     .stats-bar .stat .num { font-size: 1.5rem; }
 
+    .stats-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: -2rem 0 2.5rem;
+    }
+
     .country-flags {
       display: flex;
       justify-content: center;
@@ -219,11 +226,15 @@
 
     <!-- Stats bar -->
     <div class="stats-bar" id="statsBar">
+      <div class="stat"><span class="num" id="statApplied">—</span><span class="label">Applications Received</span></div>
+      <div class="stat"><span class="num" id="statSelected">—</span><span class="label">Students Selected</span></div>
       <div class="stat"><span class="num" id="statTotal">—</span><span class="label">Graduates</span></div>
+      <div class="stat"><span class="num" id="statCompletion">—</span><span class="label">Completion Rate</span></div>
       <div class="stat"><span class="num" id="statCountries">—</span><span class="label">Countries Represented</span></div>
       <div class="stat"><span class="num">✓</span><span class="label">Certified by DMI</span></div>
       <div class="stat" id="statTopWrap" style="display:none;"><span class="num" id="statTop" style="font-size:1rem;">—</span><span class="label">Top Scorer</span></div>
     </div>
+    <p class="stats-note">Completion rate = graduates ÷ students selected into the cohort.</p>
 
     <!-- Graduate placement callout -->
     <div style="max-width:640px;margin:0 auto 2rem;background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.4rem;text-align:center;">
@@ -307,8 +318,21 @@
   let currentPage = 1;
   const PAGE_SIZE = 48;
 
+  // Selection funnel per cohort — historical figures, not derived from the
+  // graduate JSON. C1 was the free cohort (1,680 applied for 100 seats);
+  // C2 was €3.99 and hard-capped at 271 of 988 registrations.
+  const COHORT_FUNNEL = {
+    1: { applied: 1680, selected: 100 },
+    2: { applied: 988,  selected: 271 }
+  };
+
   function updateStats(data) {
     const countries = new Set(data.map(g => g.country).filter(Boolean));
+    const funnel = COHORT_FUNNEL[activeCohort];
+    document.getElementById('statApplied').textContent = funnel ? funnel.applied.toLocaleString() : '—';
+    document.getElementById('statSelected').textContent = funnel ? funnel.selected.toLocaleString() : '—';
+    document.getElementById('statCompletion').textContent =
+      funnel && funnel.selected ? Math.round((data.length / funnel.selected) * 100) + '%' : '—';
     document.getElementById('statTotal').textContent = data.length;
     document.getElementById('statCountries').textContent = countries.size || '—';
     const top = data.filter(g => g.total).sort((a,b) => b.total - a.total)[0];
