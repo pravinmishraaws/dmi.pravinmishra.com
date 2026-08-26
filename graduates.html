@@ -118,6 +118,66 @@
     }
     .stats-bar .stat .num { font-size: 1.5rem; }
 
+    .tab-live {
+      display: inline-block;
+      margin-left: 0.4rem;
+      padding: 1px 7px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      background: rgba(232,160,32,0.16);
+      color: var(--accent);
+      vertical-align: middle;
+    }
+    .cohort-tab.active .tab-live { background: rgba(255,255,255,0.25); color: #fff; }
+
+    .cohort-ongoing {
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem 1.75rem;
+    }
+    .cohort-ongoing-badge {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(232,160,32,0.14);
+      color: var(--accent);
+    }
+    .cohort-ongoing h3 { font-size: 1.25rem; margin: 0 0 0.6rem; }
+    .cohort-ongoing p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0 auto 1.5rem;
+      max-width: 460px;
+      line-height: 1.6;
+    }
+    .cohort-ongoing-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #0d0d0d;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 11px 22px;
+      border-radius: 100px;
+      text-decoration: none;
+    }
+    .cohort-ongoing-cta:hover { background: var(--accent-hover); }
+
+    .stats-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: -2rem 0 2.5rem;
+    }
+
     .country-flags {
       display: flex;
       justify-content: center;
@@ -215,18 +275,24 @@
     <div class="cohort-tabs">
       <button class="cohort-tab active" data-cohort="1">Cohort 1</button>
       <button class="cohort-tab" data-cohort="2">Cohort 2</button>
+      <button class="cohort-tab" data-cohort="3">Cohort 3 <span class="tab-live">Ongoing</span></button>
     </div>
 
     <!-- Stats bar -->
     <div class="stats-bar" id="statsBar">
-      <div class="stat"><span class="num" id="statTotal">—</span><span class="label">Graduates</span></div>
-      <div class="stat"><span class="num" id="statCountries">—</span><span class="label">Countries Represented</span></div>
-      <div class="stat"><span class="num">✓</span><span class="label">Certified by DMI</span></div>
+      <div class="stat"><span class="num" id="statApplied">—</span><span class="label">Applications Received</span></div>
+      <div class="stat"><span class="num" id="statSelected">—</span><span class="label">Students Selected</span></div>
+      <div class="stat" id="statTotalWrap"><span class="num" id="statTotal">—</span><span class="label">Graduates</span></div>
+      <div class="stat" id="statCompletionWrap"><span class="num" id="statCompletion">—</span><span class="label">Completion Rate</span></div>
+      <div class="stat" id="statCountriesWrap"><span class="num" id="statCountries">—</span><span class="label">Countries Represented</span></div>
+      <div class="stat" id="statCertifiedWrap"><span class="num">✓</span><span class="label">Certified by DMI</span></div>
+      <div class="stat" id="statOngoingWrap" style="display:none;"><span class="num" style="font-size:1.05rem;">In progress</span><span class="label">Currently Running</span></div>
       <div class="stat" id="statTopWrap" style="display:none;"><span class="num" id="statTop" style="font-size:1rem;">—</span><span class="label">Top Scorer</span></div>
     </div>
+    <p class="stats-note" id="statsNote">Completion rate = graduates ÷ students selected into the cohort.</p>
 
     <!-- Graduate placement callout -->
-    <div style="max-width:640px;margin:0 auto 2rem;background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.4rem;text-align:center;">
+    <div id="placementCallout" style="max-width:640px;margin:0 auto 2rem;background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.4rem;text-align:center;">
       <p style="font-size:0.92rem;color:var(--text);margin:0;">
         <strong>Graduated?</strong> Apply for mentor-vetted placement support —
         <a href="placement.html" style="color:var(--accent);font-weight:700;">see how it works →</a>
@@ -237,7 +303,7 @@
     <div class="country-flags" id="countryChips"></div>
 
     <!-- Search -->
-    <div style="display:flex;justify-content:center;margin-bottom:1.5rem;">
+    <div id="gradSearchWrap" style="display:flex;justify-content:center;margin-bottom:1.5rem;">
       <input id="gradSearch" type="text" placeholder="Search by name…"
         style="background:var(--bg-card2);border:1px solid var(--border);border-radius:100px;padding:10px 20px;color:var(--text);font-size:0.95rem;width:100%;max-width:380px;outline:none;transition:border-color 0.2s;"
         onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
@@ -252,6 +318,14 @@
         <div class="lb-spinner" style="margin:0 auto 1rem;"></div>
         Loading graduates…
       </div>
+    </div>
+
+    <!-- Ongoing cohort panel (shown instead of the grid while a cohort is still running) -->
+    <div id="cohortOngoing" class="cohort-ongoing" style="display:none;">
+      <span class="cohort-ongoing-badge">● Cohort 3 in progress</span>
+      <h3>This cohort hasn't graduated yet</h3>
+      <p id="cohortOngoingBody"></p>
+      <a class="cohort-ongoing-cta" href="leaderboard.html">📊 Follow them on the live leaderboard →</a>
     </div>
 
     <!-- Pagination -->
@@ -299,7 +373,7 @@
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  let allGrads = { 1: [], 2: [] };
+  let allGrads = { 1: [], 2: [], 3: [] };
   let activeCohort = 1;
   let gradSearch = '';
   let activeCountry = 'all';
@@ -307,10 +381,47 @@
   let currentPage = 1;
   const PAGE_SIZE = 48;
 
+  // Selection funnel per cohort — historical figures, not derivable from the
+  // graduate JSON, so they live here. C2 was capped at 271 deliberately, ahead
+  // of demand. C3 is still running: `ongoing` swaps the graduate wall for a
+  // pointer at the live leaderboard.
+  const COHORT_FUNNEL = {
+    1: { applied: 1680, selected: 100 },
+    2: { applied: 988,  selected: 271 },
+    // Cohort 3's roster has no country field (students.csv is username/name/
+    // group only), so `countries` is unset and that tile stays hidden. Set it
+    // to a number here once the figure is known and the tile appears.
+    3: { applied: 1421, selected: 182, ongoing: true, countries: null }
+  };
+
+  function isOngoing() {
+    const f = COHORT_FUNNEL[activeCohort];
+    return !!(f && f.ongoing && (allGrads[activeCohort] || []).length === 0);
+  }
+
   function updateStats(data) {
     const countries = new Set(data.map(g => g.country).filter(Boolean));
+    const funnel = COHORT_FUNNEL[activeCohort];
+    const ongoing = isOngoing();
+
+    document.getElementById('statApplied').textContent = funnel ? funnel.applied.toLocaleString() : '—';
+    document.getElementById('statSelected').textContent = funnel ? funnel.selected.toLocaleString() : '—';
+    document.getElementById('statCompletion').textContent =
+      funnel && funnel.selected ? Math.round((data.length / funnel.selected) * 100) + '%' : '—';
     document.getElementById('statTotal').textContent = data.length;
-    document.getElementById('statCountries').textContent = countries.size || '—';
+    // A running cohort has no graduate JSON to count countries from, so it
+    // falls back to a figure stated in COHORT_FUNNEL, if there is one.
+    const countryCount = ongoing ? (funnel && funnel.countries) : countries.size;
+    document.getElementById('statCountries').textContent = countryCount || '—';
+
+    // A cohort that hasn't finished has no graduates, countries or completion
+    // rate yet — showing zeroes would read as a failed cohort, so hide them.
+    ['statTotalWrap','statCompletionWrap','statCertifiedWrap'].forEach(id => {
+      document.getElementById(id).style.display = ongoing ? 'none' : '';
+    });
+    document.getElementById('statCountriesWrap').style.display = countryCount ? '' : 'none';
+    document.getElementById('statOngoingWrap').style.display = ongoing ? '' : 'none';
+    document.getElementById('statsNote').style.display = ongoing ? 'none' : '';
     const top = data.filter(g => g.total).sort((a,b) => b.total - a.total)[0];
     const topWrap = document.getElementById('statTopWrap');
     if (top) {
@@ -339,6 +450,18 @@
 
   function renderGrads() {
     let data = allGrads[activeCohort] || [];
+
+    const ongoing = isOngoing();
+    ['placementCallout','countryChips','gradSearchWrap','gradCount','graduatesGrid','gradPagination']
+      .forEach(id => { document.getElementById(id).style.display = ongoing ? 'none' : ''; });
+    document.getElementById('cohortOngoing').style.display = ongoing ? '' : 'none';
+    if (ongoing) {
+      const f = COHORT_FUNNEL[activeCohort];
+      document.getElementById('cohortOngoingBody').textContent =
+        `${f.selected.toLocaleString()} students were selected from ${f.applied.toLocaleString()} applications. ` +
+        `They're working through the 14-week program right now — graduates will appear here once they finish.`;
+      return;
+    }
 
     if (activeGroup !== 'all') data = data.filter(g => String(g.group) === activeGroup);
     if (activeCountry !== 'all') data = data.filter(g => g.country === activeCountry);
@@ -400,10 +523,12 @@
 
   Promise.all([
     fetch('data/cohort1.json').then(r => r.json()).catch(() => []),
-    fetch('data/cohort2.json').then(r => r.json()).catch(() => [])
-  ]).then(([c1, c2]) => {
+    fetch('data/cohort2.json').then(r => r.json()).catch(() => []),
+    fetch('data/cohort3.json').then(r => r.ok ? r.json() : []).catch(() => [])
+  ]).then(([c1, c2, c3]) => {
     allGrads[1] = c1;
     allGrads[2] = c2;
+    allGrads[3] = Array.isArray(c3) ? c3 : [];
     updateStats(c1);
     buildCountryChips(c1);
     renderGrads();
