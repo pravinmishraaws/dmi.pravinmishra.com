@@ -388,7 +388,10 @@
   const COHORT_FUNNEL = {
     1: { applied: 1680, selected: 100 },
     2: { applied: 988,  selected: 271 },
-    3: { applied: 1421, selected: 182, ongoing: true }
+    // Cohort 3's roster has no country field (students.csv is username/name/
+    // group only), so `countries` is unset and that tile stays hidden. Set it
+    // to a number here once the figure is known and the tile appears.
+    3: { applied: 1421, selected: 182, ongoing: true, countries: null }
   };
 
   function isOngoing() {
@@ -406,13 +409,17 @@
     document.getElementById('statCompletion').textContent =
       funnel && funnel.selected ? Math.round((data.length / funnel.selected) * 100) + '%' : '—';
     document.getElementById('statTotal').textContent = data.length;
-    document.getElementById('statCountries').textContent = countries.size || '—';
+    // A running cohort has no graduate JSON to count countries from, so it
+    // falls back to a figure stated in COHORT_FUNNEL, if there is one.
+    const countryCount = ongoing ? (funnel && funnel.countries) : countries.size;
+    document.getElementById('statCountries').textContent = countryCount || '—';
 
     // A cohort that hasn't finished has no graduates, countries or completion
     // rate yet — showing zeroes would read as a failed cohort, so hide them.
-    ['statTotalWrap','statCompletionWrap','statCountriesWrap','statCertifiedWrap'].forEach(id => {
+    ['statTotalWrap','statCompletionWrap','statCertifiedWrap'].forEach(id => {
       document.getElementById(id).style.display = ongoing ? 'none' : '';
     });
+    document.getElementById('statCountriesWrap').style.display = countryCount ? '' : 'none';
     document.getElementById('statOngoingWrap').style.display = ongoing ? '' : 'none';
     document.getElementById('statsNote').style.display = ongoing ? 'none' : '';
     const top = data.filter(g => g.total).sort((a,b) => b.total - a.total)[0];
