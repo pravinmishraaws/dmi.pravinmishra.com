@@ -301,7 +301,7 @@
     return 'rank-badge rank-other';
   }
 
-  // ── Share buttons (top 10 only) ─────────────────────────────────────────
+  // ── Share buttons (every student) ───────────────────────────────────────
   // Plain share-intent links — no API keys, no backend, just a prefilled
   // compose window. LinkedIn/Facebook ignore text params (they scrape
   // og:title/description from the URL instead), so only X/WhatsApp carry text.
@@ -332,9 +332,13 @@
   }
 
   function rankShareRow(rank, username) {
-    if (rank > 10 || !username) return '';
+    if (!username) return '';
     const pageUrl = `https://dmi.pravinmishra.com/s/${username}.html`;
-    const message = `I'm ranked #${rank} on the DevOps Micro Internship leaderboard! 🏆`;
+    // Only the top 10 brag about the number — below that a rank is not
+    // something a student wants to broadcast, so share the progress instead.
+    const message = rank <= 10
+      ? `I'm ranked #${rank} on the DevOps Micro Internship leaderboard! 🏆`
+      : `I'm building my DevOps skills on the DevOps Micro Internship — here's my progress! 🚀`;
     return `<div class="share-mini-label">Share your progress:</div><div class="share-mini-row">${shareButtonsHtml(pageUrl, message, 'leaderboard-share')}</div>`;
   }
 
