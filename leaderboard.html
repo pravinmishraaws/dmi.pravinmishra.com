@@ -352,7 +352,7 @@
   };
 
   function rowLink(href, kind, icon, label, aria) {
-    return `<a href="${href}" target="_blank" rel="noopener" class="row-link link-${kind}" aria-label="${aria}">`
+    return `<a href="${href}" target="_blank" rel="noopener" class="row-link link-${kind}" title="${aria}" aria-label="${aria}">`
       + `<span class="row-link-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${ROW_ICONS[icon]}"/></svg></span>`
       + `<span>${label}</span></a>`;
   }
@@ -431,10 +431,10 @@
       // not their bare profile — that's the actual DevOps portfolio to view.
       const portfolioUrl = s.portfolio || s['dmi github portfolio'] || (s.github ? `https://github.com/${s.github}/devops-micro-internship-pravinmishra` : '');
       const portfolioCell = portfolioUrl
-        ? rowLink(escHtml(portfolioUrl), 'portfolio', 'github', 'Portfolio', `Open ${escHtml(s.name)}'s DMI GitHub portfolio`)
+        ? rowLink(escHtml(portfolioUrl), 'portfolio', 'github', 'Portfolio &rarr;', `Open ${escHtml(s.name)}'s DMI GitHub portfolio`)
         : '—';
       const badgeCell = s.github
-        ? rowLink(`s/${escHtml(s.github)}.html`, 'badge', 'badge', 'Badge', `Open ${escHtml(s.name)}'s badge page`)
+        ? rowLink(`s/${escHtml(s.github)}.html`, 'badge', 'badge', 'Badge &rarr;', `Open ${escHtml(s.name)}'s badge page`)
         : '—';
       // Names link to the student's public badge page — the agent generates
       // one per rostered student, so linking unconditionally is safe.
