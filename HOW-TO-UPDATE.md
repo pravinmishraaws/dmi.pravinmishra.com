@@ -179,10 +179,38 @@ Or find it in the **CloudFront console** → your distribution → copy the ID (
 | Champion | `data/champion.json` | `aws s3 cp data/champion.json s3://dmi.pravinmishra.com/data/champion.json` |
 | Cohort 1 graduates | `data/cohort1.json` | `aws s3 cp data/cohort1.json s3://dmi.pravinmishra.com/data/cohort1.json` |
 | Cohort 2 graduates | `data/cohort2.json` | `aws s3 cp data/cohort2.json s3://dmi.pravinmishra.com/data/cohort2.json` |
+| Student photos | `data/student-photos.json` + `images/students/` | `aws s3 cp data/student-photos.json s3://dmi.pravinmishra.com/data/student-photos.json` |
 | Any HTML page | e.g. `graduates.html` | `aws s3 cp graduates.html s3://dmi.pravinmishra.com/graduates.html` |
 | Everything | all files | `aws s3 sync . s3://dmi.pravinmishra.com --exclude ".claude/*" --exclude "*.md"` |
 
 After every upload, always run the CloudFront invalidation or changes won't be visible.
+
+### Adding a student photo
+
+Leaderboard avatars show a student's initials until a photo is mapped for them.
+
+1. Save the image into `images/students/`, named after the student's **GitHub
+   username** — e.g. `images/students/kachiraju.jpg`. Square crops best; ~200x200
+   is plenty (it renders as a 40px circle).
+2. Add one line to `data/student-photos.json`:
+
+   ```json
+   "kachiraju": "images/students/kachiraju.jpg"
+   ```
+
+   Keys are GitHub usernames, matched case-insensitively. Keys starting with `_`
+   are ignored (that's how the notes at the top of the file are stored).
+3. Upload both the image and the JSON, then invalidate CloudFront.
+
+It applies to both the cohort and self-paced leaderboards at once — one map
+serves both.
+
+**Do not put photos in `data/leaderboard.csv`.** review-agent regenerates that
+file every night and auto-publishes it, so a photo column there is overwritten
+within a day. `data/student-photos.json` is never written by the agent.
+
+A student with no entry shows their initials, and a broken or missing path
+falls back to initials too — neither shows a broken image icon.
 
 ---
 

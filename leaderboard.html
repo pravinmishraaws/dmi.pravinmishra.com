@@ -335,6 +335,39 @@
            (parseInt(s.blog) || 0);
   }
 
+  // ── Student photos ──────────────────────────────────────────────────────
+  // Kept in its own file rather than in the leaderboard CSV: review-agent
+  // regenerates that CSV nightly and auto-publishes it, so a photo column
+  // there would be wiped within a day. Keyed on GitHub username because the
+  // roster's display names don't match the older photo files' naming.
+  const PHOTOS_URL = 'data/student-photos.json';
+  let studentPhotos = {};
+
+  const photosReady = fetch(PHOTOS_URL + '?t=' + Date.now())
+    .then(r => (r.ok ? r.json() : {}))
+    .then(d => {
+      studentPhotos = Object.fromEntries(
+        Object.entries(d || {})
+          .filter(([k]) => !k.startsWith('_'))
+          .map(([k, v]) => [k.toLowerCase(), v])
+      );
+    })
+    .catch(() => { studentPhotos = {}; });
+
+  function initialsOf(name) {
+    const parts = (name || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return ((name || '?')[0] || '?').toUpperCase();
+  }
+
+  function avatarHtml(name, username, fallbackPhoto) {
+    const src = studentPhotos[(username || '').toLowerCase()] || fallbackPhoto || '';
+    const img = src
+      ? `<img src="${escHtml(src)}" alt="" loading="lazy" onerror="this.remove()">`
+      : '';
+    return `<div class="lb-avatar">${initialsOf(name)}${img}</div>`;
+  }
+
   function rankClass(rank) {
     if (rank === 1) return 'rank-badge rank-1';
     if (rank === 2) return 'rank-badge rank-2';
@@ -418,13 +451,7 @@
     tbody.innerHTML = data.map((s, i) => {
       const total = calcTotal(s);
       const rank = i + 1;
-      const nameParts = (s.name || '').trim().split(/\s+/);
-      const initials = nameParts.length >= 2
-        ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
-        : (s.name || '?')[0].toUpperCase();
-      const avatarCell = s.photo
-        ? `<img src="${escHtml(s.photo)}" alt="${escHtml(s.name)}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`
-        : `<div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:#fff;flex-shrink:0;">${initials}</div>`;
+      const avatarCell = avatarHtml(s.name, s.github, s.photo);
       // s.github is a bare GitHub username (review-agent's CSV); portfolio /
       // 'dmi github portfolio' are legacy columns that already held a full URL.
       // The auto-built fallback must point at the student's assignment repo,
@@ -470,6 +497,7 @@
       document.getElementById('lbContent').style.display = 'block';
       document.getElementById('lbTimestamp').textContent = 'Last updated: ' + new Date().toLocaleString();
       render();
+      photosReady.then(render);
     })
     .catch(() => {
       document.getElementById('lbLoading').innerHTML =

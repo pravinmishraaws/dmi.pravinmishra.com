@@ -1,0 +1,20 @@
+{
+  "_readme": [
+    "Student photos for the leaderboards, keyed by GitHub username (lowercase).",
+    "Keys are matched case-insensitively; keys starting with _ are ignored.",
+    "Value is a site-relative path, e.g. images/students/kachiraju.jpg.",
+    "Anyone missing here falls back to their initials, and a broken path also",
+    "falls back to initials rather than showing a broken image.",
+    "",
+    "This file is deliberately separate from data/leaderboard.csv: review-agent",
+    "regenerates that CSV every night and auto-publishes it, so a photo column",
+    "added there would be overwritten within a day. Nothing writes this file",
+    "except a human.",
+    "",
+    "To add one: drop the image in images/students/, then add a line below.",
+    "Square images work best; they are cropped to a 40px circle.",
+    "",
+    "Example:",
+    "  \"kachiraju\": \"images/students/kachiraju.jpg\""
+  ]
+}
