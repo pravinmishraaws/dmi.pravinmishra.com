@@ -359,6 +359,39 @@
     }).filter(r => (r.name || '').length > 0);
   }
 
+  // ── Student photos ──────────────────────────────────────────────────────
+  // Kept in its own file rather than in the leaderboard CSV: review-agent
+  // regenerates that CSV nightly and auto-publishes it, so a photo column
+  // there would be wiped within a day. Keyed on GitHub username because the
+  // roster's display names don't match the older photo files' naming.
+  const PHOTOS_URL = 'data/student-photos.json';
+  let studentPhotos = {};
+
+  const photosReady = fetch(PHOTOS_URL + '?t=' + Date.now())
+    .then(r => (r.ok ? r.json() : {}))
+    .then(d => {
+      studentPhotos = Object.fromEntries(
+        Object.entries(d || {})
+          .filter(([k]) => !k.startsWith('_'))
+          .map(([k, v]) => [k.toLowerCase(), v])
+      );
+    })
+    .catch(() => { studentPhotos = {}; });
+
+  function initialsOf(name) {
+    const parts = (name || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return ((name || '?')[0] || '?').toUpperCase();
+  }
+
+  function avatarHtml(name, username, fallbackPhoto) {
+    const src = studentPhotos[(username || '').toLowerCase()] || fallbackPhoto || '';
+    const img = src
+      ? `<img src="${escHtml(src)}" alt="" loading="lazy" onerror="this.remove()">`
+      : '';
+    return `<div class="lb-avatar">${initialsOf(name)}${img}</div>`;
+  }
+
   function rankClass(rank) {
     if (rank === 1) return 'rank-badge rank-1';
     if (rank === 2) return 'rank-badge rank-2';
@@ -452,7 +485,7 @@
       return `
         <tr>
           <td><div class="${rankClass(rank)}">${rank}</div></td>
-          <td><div style="width:40px;height:40px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;color:#fff;flex-shrink:0;">${initials(s.name)}</div></td>
+          <td>${avatarHtml(s.name, username, s.photo)}</td>
           <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" target="_blank" rel="noopener" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
           <td>
             <div class="weeks-pill">
@@ -504,6 +537,7 @@
       document.getElementById('lbContent').style.display = 'block';
       document.getElementById('lbTimestamp').textContent = 'Last updated: ' + new Date().toLocaleString();
       renderActive();
+      photosReady.then(renderActive);
     })
     .catch(() => {
       document.getElementById('lbLoading').innerHTML =
