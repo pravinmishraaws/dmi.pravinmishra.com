@@ -124,15 +124,34 @@
     }
     .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
-    .share-mini-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; margin-top: 6px; }
-    .share-mini-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 3px; }
+    .share-mini-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; margin-top: 7px; }
+    .share-mini-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
     .share-mini-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 22px; height: 22px; border: 1px solid var(--accent-border); color: var(--accent);
-      border-radius: 50%; text-decoration: none; transition: background 0.2s;
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 9px 4px 4px; background: #fff; border: 1px solid #e5e7eb;
+      border-radius: 8px; text-decoration: none; color: #333;
+      font-size: 0.7rem; font-weight: 700; line-height: 1; white-space: nowrap;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
-    .share-mini-btn:hover { background: var(--accent-light); }
-    .share-mini-btn svg { width: 11px; height: 11px; fill: currentColor; }
+    .share-mini-btn:hover {
+      border-color: var(--brand); box-shadow: 0 3px 9px rgba(0, 0, 0, 0.09);
+      transform: translateY(-1px);
+    }
+    .share-mini-icon {
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      width: 20px; height: 20px; border-radius: 50%; background: var(--brand); color: #fff;
+    }
+    .share-mini-icon svg { width: 10px; height: 10px; fill: currentColor; }
+    .share-mini-btn.share-linkedin { --brand: #0A66C2; }
+    .share-mini-btn.share-x { --brand: #000000; }
+    .share-mini-btn.share-facebook { --brand: #1877F2; }
+    .share-mini-btn.share-whatsapp { --brand: #25D366; }
+    /* Narrow screens can't fit four boxes on one line, and letting them wrap
+       one-per-line pushed each table row to 253px (a 40,500px page across 158
+       students). A 2x2 grid keeps the boxes readable at 155px/row. */
+    @media (max-width: 820px) {
+      .share-mini-row { display: grid; grid-template-columns: 1fr 1fr; max-width: 210px; }
+    }
   </style>
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
@@ -351,7 +370,7 @@
     return Object.keys(SHARE_LABELS).map(platform => {
       const trackedUrl = `${pageUrl}${sep}utm_source=dmi&utm_medium=share&utm_campaign=${campaign}-${platform}`;
       const label = SHARE_LABELS[platform];
-      return `<a href="${shareHref(platform, trackedUrl, message)}" target="_blank" rel="noopener" class="share-mini-btn share-${platform}" title="Share on ${label}" aria-label="Share on ${label}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${SHARE_ICONS[platform]}"/></svg></a>`;
+      return `<a href="${shareHref(platform, trackedUrl, message)}" target="_blank" rel="noopener" class="share-mini-btn share-${platform}" title="Share on ${label}" aria-label="Share on ${label}"><span class="share-mini-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${SHARE_ICONS[platform]}"/></svg></span><span class="share-mini-name">${label}</span></a>`;
     }).join('');
   }
 
