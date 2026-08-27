@@ -555,10 +555,36 @@ section { padding: 5rem 2rem; }
   font-size: 0.9rem;
 }
 
-.rank-1 { background: #FFD700; color: #5a3e00; }
-.rank-2 { background: #d0d0d0; color: #444; }
-.rank-3 { background: #e8a87c; color: #5a2e00; }
-.rank-other { background: var(--bg-card2); color: var(--text-muted); }
+/* Top three read as medals — metallic fill, a white ring to lift them off the
+   row, and a size bump. Everything below is a plain numeral: 150+ identical
+   filled discs was noise competing with the three that matter. */
+.rank-1, .rank-2, .rank-3 {
+  width: 38px;
+  height: 38px;
+  font-size: 0.95rem;
+  box-shadow: 0 0 0 2px #fff, 0 2px 7px rgba(0, 0, 0, 0.22);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.rank-1 {
+  background: linear-gradient(150deg, #FFE9A3 0%, #F5C518 48%, #D18F00 100%);
+  color: #4a3200;
+}
+.rank-2 {
+  background: linear-gradient(150deg, #F6F8FA 0%, #C9CFD6 48%, #98A1AA 100%);
+  color: #3d434a;
+}
+.rank-3 {
+  background: linear-gradient(150deg, #F3C79E 0%, #CE8946 48%, #9E5B1F 100%);
+  color: #4a2607;
+}
+
+.rank-other {
+  background: transparent;
+  border: 1px solid #e8e8e8;
+  color: var(--text-muted);
+  font-weight: 600;
+}
 
 .student-name { font-weight: 600; color: var(--text); }
 
