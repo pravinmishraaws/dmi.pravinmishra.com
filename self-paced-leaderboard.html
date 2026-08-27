@@ -376,7 +376,7 @@
   };
 
   function rowLink(href, kind, icon, label, aria) {
-    return `<a href="${href}" target="_blank" rel="noopener" class="row-link link-${kind}" aria-label="${aria}">`
+    return `<a href="${href}" target="_blank" rel="noopener" class="row-link link-${kind}" title="${aria}" aria-label="${aria}">`
       + `<span class="row-link-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${ROW_ICONS[icon]}"/></svg></span>`
       + `<span>${label}</span></a>`;
   }
@@ -460,9 +460,9 @@
               <span class="bar"><span style="width:${pct}%;"></span></span>
             </div>
           </td>
-          <td>${portfolioUrl ? rowLink(escHtml(portfolioUrl), 'portfolio', 'github', 'Portfolio', `Open ${escHtml(s.name)}'s DMI GitHub portfolio`) : '—'}</td>
+          <td>${portfolioUrl ? rowLink(escHtml(portfolioUrl), 'portfolio', 'github', 'Portfolio &rarr;', `Open ${escHtml(s.name)}'s DMI GitHub portfolio`) : '—'}</td>
           <td>${total > 0 ? `<span class="total-marks">${total}</span>` : '—'}</td>
-          <td>${badgeUrl ? rowLink(escHtml(badgeUrl), 'badge', 'badge', 'Badge', `Open ${escHtml(s.name)}'s badge page`) : '—'}</td>
+          <td>${badgeUrl ? rowLink(escHtml(badgeUrl), 'badge', 'badge', 'Badge &rarr;', `Open ${escHtml(s.name)}'s badge page`) : '—'}</td>
         </tr>
       `;
     }).join('');
