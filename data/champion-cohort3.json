@@ -1,6 +1,6 @@
 {
   "cohort": "Cohort 3",
-  "current_week": 5,
+  "current_week": 7,
   "weeks": [
     {
       "week": 1,
@@ -40,6 +40,22 @@
         { "group": "Group 1", "name": "Aziz Olaide Kafayat", "score": 170, "comment": "", "linkedin": "https://www.linkedin.com/in/aziz-kafayat/", "photo": "" },
         { "group": "Group 2", "name": "Tayssir Oueslati", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/taysir-ouaslati-9b6527a3/", "photo": "" },
         { "group": "Group 3", "name": "George Adimowei Epebifie", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/wisgeorge1/", "photo": "" }
+      ]
+    },
+    {
+      "week": 6,
+      "champions": [
+        { "group": "Group 1", "name": "Micheal Omotosho", "score": 170, "comment": "", "linkedin": "https://www.linkedin.com/in/micheal-omotosho-577230199/", "photo": "" },
+        { "group": "Group 2", "name": "Kingsley Erhatiemwonmon", "score": 190, "comment": "", "linkedin": "https://www.linkedin.com/in/kingsley-erhatiemwonmon/", "photo": "" },
+        { "group": "Group 3", "name": "Shanmuki Reddy", "score": 210, "comment": "", "linkedin": "https://www.linkedin.com/in/shanmuki-reddy/", "photo": "" }
+      ]
+    },
+    {
+      "week": 7,
+      "champions": [
+        { "group": "Group 1", "name": "Henrietta Ogochukwu Okechukwu", "score": 180, "comment": "", "linkedin": "https://www.linkedin.com/in/henrietta-ogochukwu-onyeabor/", "photo": "" },
+        { "group": "Group 2", "name": "Oluwatobiloba Reuben Adeje", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/oluwatobiloba-adeje-2572b42a6/", "photo": "" },
+        { "group": "Group 3", "name": "Anthonia Akwuohia", "score": 180, "comment": "", "linkedin": "https://www.linkedin.com/in/anthonia-akwuohia-5b00681b0/", "photo": "" }
       ]
     }
   ]
