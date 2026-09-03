@@ -20,6 +20,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
+    /* DMI Campus affiliation. Gold-tinted rather than a loud solid fill —
+       it labels a student, it isn't a rank or a score. */
+    .college-tag {
+      display: inline-block;
+      background: rgba(232, 160, 32, 0.12);
+      border: 1px solid rgba(232, 160, 32, 0.35);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .grad-college {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 2px;
+    }
     .weeks-pill {
       display: inline-flex;
       align-items: center;
@@ -258,10 +278,18 @@
 
     <!-- ── Active leaderboard ─────────────────────────────────────────── -->
     <div id="panelActive">
-      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+      <div style="display:flex;justify-content:center;gap:0.75rem;margin-bottom:2rem;flex-wrap:wrap;">
         <input id="lbSearch" type="text" placeholder="Search by name…"
           style="background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:10px 20px;color:var(--text);font-size:0.95rem;width:100%;max-width:340px;outline:none;transition:border-color 0.2s;"
           onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+        <!-- Populated from the CSV's own College values, so a new DMI Campus
+             partner appears here the run after review-agent first sees them —
+             no edit to this page. Hidden entirely while everyone is
+             Independent, which is the state before the first campus intake. -->
+        <select id="lbCollege" aria-label="Filter by college" style="display:none;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:10px 20px;color:var(--text);font-size:0.95rem;outline:none;cursor:pointer;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+          <option value="">All colleges</option>
+        </select>
       </div>
 
       <div id="lbLoading" class="lb-loading">
@@ -277,6 +305,7 @@
                 <th>Rank</th>
                 <th></th>
                 <th>Student</th>
+                <th>College</th>
                 <th>Weeks Completed</th>
                 <th>DMI GitHub Portfolio</th>
                 <th>Total</th>
@@ -329,7 +358,13 @@
 
   let allStudents = [];
   let searchQuery = '';
+  let collegeFilter = '';
   let allGrads = [];
+
+  // DMI Campus students sit on this same track and the same ranking — their
+  // college is a label, not a separate leaderboard. Must match
+  // review_agent/config.py's INDEPENDENT_LABEL.
+  const INDEPENDENT = 'Independent';
 
   function escHtml(str) {
     if (!str) return '';
@@ -451,16 +486,43 @@
     return `<div class="share-mini-label">Share your progress:</div><div class="share-mini-row">${shareButtonsHtml(pageUrl, message, 'leaderboard-share')}</div>`;
   }
 
-  function renderActive() {
-    let data = [...allStudents];
-    if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
+  function collegeCell(college) {
+    const name = (college || '').trim();
+    // Independent is the overwhelming majority and the default for every row
+    // written before the form asked — rendering it as a muted dash keeps the
+    // column from shouting a non-fact at every independent student.
+    if (!name || name === INDEPENDENT) return '<span style="color:var(--text-muted);">—</span>';
+    return `<span class="college-tag">${escHtml(name)}</span>`;
+  }
 
+  function populateCollegeFilter() {
+    const colleges = [...new Set(allStudents.map(s => (s.college || '').trim()))]
+      .filter(c => c && c !== INDEPENDENT)
+      .sort();
+    const select = document.getElementById('lbCollege');
+    if (colleges.length === 0) return;  // no campus intake yet — leave it hidden
+    select.insertAdjacentHTML('beforeend',
+      colleges.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('')
+      + `<option value="${INDEPENDENT}">${INDEPENDENT}</option>`);
+    select.style.display = '';
+  }
+
+  function renderActive() {
+    // Rank is assigned across everyone BEFORE any filter is applied, so a
+    // filtered view shows a student's real standing on the whole leaderboard.
+    // Re-ranking within a filter would tell a college its student is "#1" when
+    // they are third overall — the opposite of what one shared ranking is for.
     // Weeks completed first, total as tiebreaker — pacing matters more than raw points.
-    data.sort((a, b) => {
+    const ranked = [...allStudents].sort((a, b) => {
       const w = (parseInt(b.sectionscompleted) || 0) - (parseInt(a.sectionscompleted) || 0);
       if (w !== 0) return w;
       return (parseInt(b.total) || 0) - (parseInt(a.total) || 0);
     });
+    ranked.forEach((s, i) => { s._rank = i + 1; });
+
+    let data = ranked;
+    if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
+    if (collegeFilter) data = data.filter(s => (s.college || INDEPENDENT) === collegeFilter);
 
     const tbody = document.getElementById('lbBody');
     const empty = document.getElementById('lbEmpty');
@@ -472,8 +534,8 @@
     }
     empty.style.display = 'none';
 
-    tbody.innerHTML = data.map((s, i) => {
-      const rank = i + 1;
+    tbody.innerHTML = data.map((s) => {
+      const rank = s._rank;
       const weeks = parseInt(s.sectionscompleted) || 0;
       const total = parseInt(s.total) || 0;
       const pct = Math.round((weeks / TOTAL_WEEKS) * 100);
@@ -487,6 +549,7 @@
           <td><div class="${rankClass(rank)}">${rank}</div></td>
           <td>${avatarHtml(s.name, username, s.photo)}</td>
           <td>${username ? `<a href="s/${encodeURIComponent(username)}.html" target="_blank" rel="noopener" class="student-name lb-name">${escHtml(s.name)}</a>` : `<div class="student-name">${escHtml(s.name)}</div>`}${rankShareRow(rank, username)}</td>
+          <td>${collegeCell(s.college)}</td>
           <td>
             <div class="weeks-pill">
               <span>${weeks} / ${TOTAL_WEEKS}</span>
@@ -518,6 +581,7 @@
         </div>
         <div class="grad-name">${escHtml(g.name)}</div>
         <div class="grad-role">${escHtml(g.role || 'Cloud & DevOps Engineer')}</div>
+        ${g.college && g.college !== INDEPENDENT ? `<div class="grad-college">${escHtml(g.college)}</div>` : ''}
         ${g.country ? `<div class="grad-country">${escHtml(g.country)}</div>` : ''}
         <span class="grad-badge">🎓 ${g.sections_completed || TOTAL_WEEKS}/${TOTAL_WEEKS} Weeks</span>
         <div class="grad-links">
@@ -536,6 +600,7 @@
       document.getElementById('lbLoading').style.display = 'none';
       document.getElementById('lbContent').style.display = 'block';
       document.getElementById('lbTimestamp').textContent = 'Last updated: ' + new Date().toLocaleString();
+      populateCollegeFilter();
       renderActive();
       photosReady.then(renderActive);
     })
@@ -552,6 +617,11 @@
 
   document.getElementById('lbSearch').addEventListener('input', e => {
     searchQuery = e.target.value.toLowerCase().trim();
+    renderActive();
+  });
+
+  document.getElementById('lbCollege').addEventListener('change', e => {
+    collegeFilter = e.target.value;
     renderActive();
   });
 
