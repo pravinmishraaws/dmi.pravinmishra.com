@@ -402,6 +402,18 @@
     return `<div class="lb-avatar">${initialsOf(name)}${img}</div>`;
   }
 
+  // Single-path badge glyph (viewBox 0 0 24 24, fill=currentColor), matching
+  // the other leaderboards. .row-link reserves a 22px icon circle in its left
+  // padding, so an anchor without .row-link-icon renders lopsided and blank.
+  const BADGE_ICON = 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z';
+
+  function badgeLink(href, name) {
+    const aria = `Open ${escHtml(name)}'s badge page`;
+    return `<a href="${escHtml(href)}" target="_blank" rel="noopener" class="row-link link-badge" title="${aria}" aria-label="${aria}">`
+      + `<span class="row-link-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${BADGE_ICON}"/></svg></span>`
+      + `<span>Badge &rarr;</span></a>`;
+  }
+
   // Wording the student sees. The CSV carries machine keys so the rule can
   // change in review_agent/config.py without touching this page; anything
   // unmapped falls back to the key itself rather than disappearing.
@@ -440,9 +452,7 @@
           <td><span class="elig-pill ${eligible ? 'elig-yes' : 'elig-no'}">${eligible ? '&#10003; Eligible' : 'Not yet'}</span></td>
           <td>${eligible ? '<span style="color:var(--text-muted);">—</span>' : outstandingHtml(s.outstanding)}</td>
           <td>${total > 0 ? `<span class="total-marks">${total}</span>` : '—'}</td>
-          <td>${badgeUrl
-            ? `<a href="${escHtml(badgeUrl)}" target="_blank" rel="noopener" class="row-link link-badge">Badge &rarr;</a>`
-            : '—'}</td>
+          <td>${badgeUrl ? badgeLink(badgeUrl, s.name) : '—'}</td>
         </tr>`;
     }).join('');
   }
