@@ -146,7 +146,13 @@
 <!-- Nav/footer below are generated from partials/nav.html and
      partials/footer.html in the dmi.pravinmishra.com repo. If you change
      them there, re-run that repo's tools/build-nav.py and paste the
-     rendered s/ output here, or the two will drift. -->
+     rendered s/ output here.
+
+     This is now enforced: tools/check-nav-sync.py compares these two blocks
+     against the site's partials and CI fails on drift (that repo's own
+     checker only warns about s/, so it can never block this repo's
+     auto-merged daily PRs). Run it locally with
+     `python3 tools/check-nav-sync.py`. -->
 <nav id="navbar">
   <div class="nav-inner">
     <a href="../index.html" class="nav-logo">
@@ -375,7 +381,7 @@
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
     </ul></div>
   </details>
-  <p class="review-updated">Last checked: 2026-09-03 · updated after every review run</p>
+  <p class="review-updated">Last checked: 2026-09-04 · updated after every review run</p>
 </section>
 
 <div class="cert-cta">
