@@ -146,7 +146,13 @@
 <!-- Nav/footer below are generated from partials/nav.html and
      partials/footer.html in the dmi.pravinmishra.com repo. If you change
      them there, re-run that repo's tools/build-nav.py and paste the
-     rendered s/ output here, or the two will drift. -->
+     rendered s/ output here.
+
+     This is now enforced: tools/check-nav-sync.py compares these two blocks
+     against the site's partials and CI fails on drift (that repo's own
+     checker only warns about s/, so it can never block this repo's
+     auto-merged daily PRs). Run it locally with
+     `python3 tools/check-nav-sync.py`. -->
 <nav id="navbar">
   <div class="nav-inner">
     <a href="../index.html" class="nav-logo">
@@ -266,10 +272,10 @@
     </summary>
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Assignments</strong> — 1/1 assignment files passing</span><span class="check-pts">20 pts</span></div>
     <div class="check-row"><span class="check-mark">✅</span><span><strong>LinkedIn post</strong> — URL verified</span><span class="check-pts">10 pts</span></div>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — the blog URL couldn&#x27;t be reached — check the link works</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — add a real link to your own badge page — https://dmi.pravinmishra.com/s/Treasurematrix.html — in the post (a link to another DMI page, or just a text mention, doesn&#x27;t count)</span><span class="check-pts">0 pts</span></div>
     <div class="week-todo"><strong>Worth adding:</strong>
     <ul>
-      <li>Blog post — the blog URL couldn&#x27;t be reached — check the link works</li>
+      <li>Blog post — add a real link to your own badge page — https://dmi.pravinmishra.com/s/Treasurematrix.html — in the post (a link to another DMI page, or just a text mention, doesn&#x27;t count)</li>
     </ul></div>
     <p class="week-praise">Great week — all 1 assignment file passed and LinkedIn post verified. 💪</p>
   </details>
@@ -289,7 +295,7 @@
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
     </ul></div>
   </details>
-  <p class="review-updated">Last checked: 2026-09-03 · updated after every review run</p>
+  <p class="review-updated">Last checked: 2026-09-04 · updated after every review run</p>
 </section>
 
 <div class="cert-cta">
