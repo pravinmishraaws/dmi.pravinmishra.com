@@ -1218,3 +1218,58 @@ footer a:hover { text-decoration: underline; }
 @media (max-width: 380px) {
   .nav-logo > div { display: none; }
 }
+
+/* ---- Campus partner logo strip (campus.html) ---- */
+/* White ground on purpose: the next section is already --bg-section, and two
+   grey bands back to back read as one. */
+.partner-strip {
+  padding: 2.5rem 2rem 3rem;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.partner-strip .partner-label {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+.partner-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+}
+.partner-logos .partner {
+  flex: 1 1 240px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.9rem;
+  padding: 1.5rem 1.25rem;
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+/* Logos differ wildly in aspect ratio (square crest vs. wide banner), so a
+   fixed box + contain keeps them optically the same weight. */
+.partner-logos .partner img {
+  height: 76px;
+  width: 100%;
+  object-fit: contain;
+}
+.partner-logos .partner span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text-muted);
+}
+@media (max-width: 560px) {
+  .partner-logos .partner { flex-basis: 100%; max-width: none; }
+}
