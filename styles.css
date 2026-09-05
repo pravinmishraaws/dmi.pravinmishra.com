@@ -1351,3 +1351,11 @@ footer a:hover { text-decoration: underline; }
 .delivery-team.team-3 .profile-avatar { width: 104px; height: 104px; }
 .delivery-team.team-3 .profile-text { min-width: 0; }
 .delivery-team.team-3 .profile-links { justify-content: center; }
+
+/* Eight figures wrap to two rows; tighter gap and a fixed column width keep
+   the two rows aligned rather than ragged. */
+.glance-stats { gap: 1.75rem 2.25rem; margin-top: 1.25rem; padding-top: 2rem; }
+.glance-stats .stat { flex: 0 1 200px; }
+.glance-stats .stat .num { font-size: 1.6rem; }
+.glance-stats .stat .label { display: block; line-height: 1.5; }
+.glance-stats a.stat .label { text-decoration: underline; text-underline-offset: 2px; }
