@@ -1328,3 +1328,26 @@ footer a:hover { text-decoration: underline; }
 /* Compact stat row for the programme's output figures. */
 .output-stats { border-top: none; padding-top: 0; margin-top: 2rem; gap: 2.25rem; }
 .output-stats .stat .num { font-size: 1.55rem; }
+
+/* Four partner logos need a tighter track than three did. */
+@media (min-width: 561px) {
+  .partner-logos .partner { flex-basis: 200px; max-width: 260px; }
+}
+
+/* Three people in the delivery row: stack each card so the horizontal
+   avatar+text layout doesn't squeeze the text column below readable width. */
+.delivery-team.team-3 { gap: 1.25rem; }
+.delivery-team.team-3 .profile-inner {
+  flex: 1 1 260px;
+  max-width: 320px;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+  padding: 1.75rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.delivery-team.team-3 .profile-avatar { width: 104px; height: 104px; }
+.delivery-team.team-3 .profile-text { min-width: 0; }
+.delivery-team.team-3 .profile-links { justify-content: center; }
