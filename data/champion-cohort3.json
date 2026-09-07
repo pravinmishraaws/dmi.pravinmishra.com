@@ -1,6 +1,6 @@
 {
   "cohort": "Cohort 3",
-  "current_week": 7,
+  "current_week": 8,
   "weeks": [
     {
       "week": 1,
@@ -56,6 +56,14 @@
         { "group": "Group 1", "name": "Henrietta Ogochukwu Okechukwu", "score": 180, "comment": "", "linkedin": "https://www.linkedin.com/in/henrietta-ogochukwu-onyeabor/", "photo": "" },
         { "group": "Group 2", "name": "Oluwatobiloba Reuben Adeje", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/oluwatobiloba-adeje-2572b42a6/", "photo": "" },
         { "group": "Group 3", "name": "Anthonia Akwuohia", "score": 180, "comment": "", "linkedin": "https://www.linkedin.com/in/anthonia-akwuohia-5b00681b0/", "photo": "" }
+      ]
+    },
+    {
+      "week": 8,
+      "champions": [
+        { "group": "Group 1", "name": "Timothy Olubiyi", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/timothy-olubiyi-05b9ba123/", "photo": "" },
+        { "group": "Group 2", "name": "Saima Usman", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/saima-usman/", "photo": "" },
+        { "group": "Group 3", "name": "Bharadwaja Kachiraju", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/bharadwaja-kachiraju-78a45598/", "photo": "" }
       ]
     }
   ]
