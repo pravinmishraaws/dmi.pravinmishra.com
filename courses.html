@@ -69,7 +69,33 @@
           </div>
         </div>
       </li>
-      <li><a class="active" data-nav="courses" href="courses.html">Courses</a></li>
+      <li class="has-dropdown">
+        <a class="active" data-nav="courses" href="courses.html">Courses</a>
+        <div class="mega-menu mega-menu-desc">
+          <div class="mega-col">
+            <p class="mega-head">DMI Programs</p>
+            <ul>
+              <li><a data-nav="foundation-track" href="courses.html#dmi"><span>Foundation Track</span><small>Start here &mdash; the prerequisite</small></a></li>
+              <li><a data-nav="self-paced-track" href="courses.html#dmi"><span>Self-Paced Engineer</span><small>Full access, at your own pace</small></a></li>
+              <li><a data-nav="live-track" href="courses.html#dmi"><span>Live Micro Internship</span><small>Mentor-led, invite only</small></a></li>
+            </ul>
+          </div>
+          <div class="mega-col">
+            <p class="mega-head">Learn Anywhere</p>
+            <ul>
+              <li><a data-nav="udemy" href="courses.html#udemy"><span>Udemy Courses</span><small>10 self-paced courses</small></a></li>
+              <li><a data-nav="youtube" href="courses.html#youtube"><span>Free on YouTube</span><small>618 videos, no signup</small></a></li>
+            </ul>
+          </div>
+          <div class="mega-col">
+            <p class="mega-head">Plan Your Path</p>
+            <ul>
+              <li><a data-nav="roadmap" href="roadmap.html"><span>Roadmaps</span><small>Find the right starting point</small></a></li>
+              <li><a data-nav="how" href="how-it-works.html"><span>How it works</span><small>Grading, scoring, leaderboard</small></a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
       <li><a data-nav="enterprise" href="enterprise.html">DMI Enterprise</a></li>
       <li><a data-nav="campus" href="campus.html">DMI Campuses</a></li>
       <li><a data-nav="blog" href="blog/index.html">Blog</a></li>
@@ -86,27 +112,26 @@
   </div>
 </nav>
 
-<section class="hero" style="padding-bottom:1.5rem;">
-  <h1 style="font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:0.9rem;">
-    Courses &amp; Programs
-  </h1>
-  <p style="color:var(--text-muted);font-size:1.05rem;max-width:640px;margin:0 auto;">
-    Three ways to learn from Pravin Mishra: the <strong style="color:var(--text);">DevOps Micro
-    Internship</strong> &mdash; mentored, graded, with a public leaderboard &mdash; a
-    <strong style="color:var(--text);">Udemy course</strong> you take entirely on your own, or
-    <strong style="color:var(--text);">free on YouTube</strong>.
-  </p>
+<!-- Compact header: one line, then straight into the cards. The old hero
+     pushed the first card below the fold on a laptop. -->
+<section style="padding:2.5rem 2rem 0;">
+  <div class="container">
+    <h1 style="text-align:center;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.75px;margin-bottom:0.5rem;">
+      Courses &amp; Programs
+    </h1>
+    <p style="text-align:center;color:var(--text-muted);font-size:0.98rem;max-width:600px;margin:0 auto 0.75rem;">
+      Mentored programs, self-paced Udemy courses, and 618 free videos.
+      <a href="roadmap.html" style="color:var(--accent);font-weight:600;">Not sure where to start? &#8594;</a>
+    </p>
+  </div>
 </section>
 
-<!-- DMI TRACKS — the programs Pravin actually runs, listed first -->
-<section style="padding:2rem 2rem 0;">
+<!-- DMI TRACKS -->
+<section id="dmi" style="padding:1.25rem 2rem 0;">
   <div class="container">
-    <div class="section-label">DevOps Micro Internship</div>
-    <h2 class="section-title" style="font-size:clamp(1.5rem,2.6vw,2rem);">Our own programs</h2>
-    <p class="section-sub" style="margin-bottom:0;max-width:620px;">
-      Weekly assignments that get graded automatically, a public leaderboard, a shareable badge
-      page, and a GitHub portfolio you finish with. Enrolment and current pricing live at the
-      University.
+    <div class="section-label" style="margin-bottom:0.35rem;">DevOps Micro Internship</div>
+    <p style="text-align:center;color:var(--text-muted);font-size:0.9rem;margin-bottom:0;">
+      Graded weekly, public leaderboard, GitHub portfolio. Enrolment and pricing at the University.
     </p>
 
     <div class="track-grid">
@@ -148,17 +173,13 @@
         <a class="track-btn secondary" href="https://university.pravinmishra.com/b/dmi-live-internship-track?utm_source=dmi&amp;utm_medium=cta-courses-live" target="_blank" rel="noopener">Apply for the live track &#8594;</a>
       </div>
     </div>
-
-    <p style="text-align:center;margin-top:1.75rem;font-size:0.9rem;color:var(--text-muted);">
-      Not sure which fits? <a href="how-it-works.html" style="color:var(--accent);font-weight:600;">See how DMI works &#8594;</a>
-    </p>
   </div>
 </section>
 
 <div class="section-divider"><span>Also on Udemy</span></div>
 
 <!-- UDEMY CATALOGUE -->
-<section style="padding:2.5rem 2rem 1rem;">
+<section id="udemy" style="padding:2.5rem 2rem 1rem;">
   <div class="container">
     <h2 class="section-title" style="font-size:clamp(1.5rem,2.6vw,2rem);">Udemy courses</h2>
     <p class="section-sub" style="margin-bottom:0;max-width:620px;">
@@ -193,7 +214,7 @@
 
 <!-- YOUTUBE — the free tier, deliberately last: lowest commitment, so it sits
      below the paid options rather than undercutting them. -->
-<section style="padding:2.5rem 2rem 4rem;">
+<section id="youtube" style="padding:2.5rem 2rem 4rem;">
   <div class="container" style="max-width:760px;">
     <div class="yt-band">
       <div class="yt-icon" aria-hidden="true">
