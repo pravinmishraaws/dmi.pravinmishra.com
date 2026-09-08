@@ -1093,13 +1093,28 @@ footer a:hover { text-decoration: underline; }
   .nav-links a { padding: 0.75rem 1rem; font-size: 0.95rem; }
   .nav-toggle { display: flex; }
 
+  /* The panel lives inside a sticky <nav>, so anything past the bottom of the
+     screen used to be unreachable — the page scrolls, the panel does not.
+     Cap it to the space under the bar and let it scroll itself. dvh first so
+     mobile browser chrome collapsing does not clip the last item. */
+  .nav-links {
+    max-height: calc(100vh - 64px);
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
   /* The Apply button stays in the bar; University moves into the menu. */
   .nav-university { display: none; }
   .nav-mobile-only { display: block; }
 
-  /* Mega-menu becomes a static, always-expanded indented block in the stacked menu */
+  /* Mega-menus collapse into tap-to-open accordions here. Left expanded, the
+     two of them contribute 15 links plus their descriptions, which buried
+     Enterprise, Campuses and Blog below the fold of a phone screen. */
   .nav-links li.has-dropdown { position: static; }
-  .nav-links .mega-menu {
+  .nav-links .mega-menu { display: none; }
+  .nav-links li.has-dropdown.open > .mega-menu {
     display: flex;
     flex-direction: column;
     position: static;
@@ -1116,6 +1131,15 @@ footer a:hover { text-decoration: underline; }
   .mega-menu-desc { gap: 0; padding: 0; }
   .mega-menu-desc .mega-col { min-width: 0; }
   .mega-menu-desc .mega-col a small { font-size: 0.82rem; }
+
+  /* Hover-to-open is meaningless on touch and fought the accordion: a tap
+     registers as a hover and the panel reopened straight after being closed. */
+  .nav-links li.has-dropdown:hover > .mega-menu,
+  .nav-links li.has-dropdown:focus-within > .mega-menu { display: none; }
+  .nav-links li.has-dropdown.open > .mega-menu { display: flex; }
+
+  .nav-links li.has-dropdown > a::after { transition: transform 0.2s; }
+  .nav-links li.has-dropdown.open > a::after { transform: rotate(180deg); }
 }
 
 @media (max-width: 768px) {
