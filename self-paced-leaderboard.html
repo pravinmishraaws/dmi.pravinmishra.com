@@ -194,6 +194,50 @@
     .row-link-icon svg { width: 12px; height: 12px; fill: currentColor; }
     .row-link.link-portfolio { --brand: #24292f; }
     .row-link.link-badge { --brand: var(--accent); }
+
+    /* ── Colleges tab ────────────────────────────────────────────────────
+       Ranks colleges on AVERAGES, never sums: intake sizes here range from a
+       single student to a whole batch, and a sum would only ever rank by how
+       many students a college sent. */
+    .college-row > td { cursor: pointer; }
+    .college-row:hover > td { background: var(--bg-card2); }
+    .college-title { font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 9px; }
+    .college-caret {
+      color: var(--text-muted); font-size: 0.7rem; display: inline-block;
+      transition: transform 0.2s;
+    }
+    .college-row.open .college-caret { transform: rotate(90deg); }
+    .college-num { font-weight: 700; color: var(--text); }
+    .college-sub { color: var(--text-muted); font-size: 0.8rem; }
+    .college-students-cell { padding: 0 !important; background: var(--bg-card2); }
+    .college-students { padding: 0.4rem 1rem 0.9rem; }
+    .cs-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 9px 2px; border-bottom: 1px solid var(--border);
+    }
+    .cs-row:last-child { border-bottom: none; }
+    .cs-pos {
+      flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-light); border: 1px solid var(--accent-border);
+      color: var(--accent); font-weight: 700; font-size: 0.8rem;
+    }
+    .cs-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.9rem; }
+    .cs-name a { color: var(--text); text-decoration: none; }
+    .cs-name a:hover { color: var(--accent); }
+    /* The whole point of the tab: a student sees their college standing AND
+       their real position on the one shared leaderboard, side by side. */
+    .cs-overall {
+      flex-shrink: 0; font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+      border: 1px solid var(--border); border-radius: 100px; padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .cs-total { flex-shrink: 0; font-weight: 700; color: var(--accent); font-size: 0.9rem; min-width: 52px; text-align: right; }
+    @media (max-width: 620px) {
+      .cs-row { flex-wrap: wrap; gap: 8px; }
+      .cs-name { flex-basis: calc(100% - 42px); }
+      .cs-row .weeks-pill { order: 3; }
+    }
   </style>
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-isTDnvtQx3_9IGhfBm8QR.js"></script>
@@ -274,6 +318,9 @@
     <!-- Tabs -->
     <div class="cohort-tabs">
       <button class="cohort-tab active" data-tab="active">Active</button>
+      <!-- Stays hidden while every student is Independent, i.e. before the
+           first DMI Campus intake. Shown by populateCollegeViews(). -->
+      <button class="cohort-tab" id="tabColleges" data-tab="colleges" style="display:none;">Colleges</button>
       <button class="cohort-tab" data-tab="graduates">Graduates</button>
     </div>
 
@@ -319,6 +366,31 @@
         <div id="lbEmpty" class="lb-empty" style="display:none;">No students found.</div>
         <p style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-top:1.5rem;" id="lbTimestamp"></p>
       </div>
+    </div>
+
+    <!-- ── Colleges ───────────────────────────────────────────────────── -->
+    <div id="panelColleges" style="display:none;">
+      <p style="text-align:center;color:var(--text-muted);font-size:0.875rem;margin-bottom:1.5rem;">
+        Colleges are ranked on the <strong style="color:var(--text);">average</strong> of their students &mdash;
+        weeks completed first, points as the tiebreaker &mdash; so a small batch isn't beaten by a big one.
+        Open a college to see its students, and where each of them stands on the full leaderboard.
+      </p>
+      <div class="lb-table-wrap">
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>College</th>
+              <th>Students</th>
+              <th>Avg Weeks</th>
+              <th>Avg Points</th>
+              <th>Best Overall Rank</th>
+            </tr>
+          </thead>
+          <tbody id="collegeBody"></tbody>
+        </table>
+      </div>
+      <p id="collegeSummary" style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-top:1.5rem;"></p>
     </div>
 
     <!-- ── Graduates ──────────────────────────────────────────────────── -->
@@ -506,22 +578,127 @@
       colleges.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('')
       + `<option value="${INDEPENDENT}">${INDEPENDENT}</option>`);
     select.style.display = '';
+    document.getElementById('tabColleges').style.display = '';
   }
 
-  function renderActive() {
-    // Rank is assigned across everyone BEFORE any filter is applied, so a
-    // filtered view shows a student's real standing on the whole leaderboard.
-    // Re-ranking within a filter would tell a college its student is "#1" when
-    // they are third overall — the opposite of what one shared ranking is for.
-    // Weeks completed first, total as tiebreaker — pacing matters more than raw points.
+  // Rank is assigned across everyone BEFORE any filter or grouping is applied,
+  // so a filtered view — and the Colleges tab — shows a student's real standing
+  // on the whole leaderboard. Re-ranking within a filter would tell a college
+  // its student is "#1" when they are third overall, the opposite of what one
+  // shared ranking is for.
+  // Weeks completed first, total as tiebreaker — pacing matters more than raw points.
+  function rankedStudents() {
     const ranked = [...allStudents].sort((a, b) => {
       const w = (parseInt(b.sectionscompleted) || 0) - (parseInt(a.sectionscompleted) || 0);
       if (w !== 0) return w;
       return (parseInt(b.total) || 0) - (parseInt(a.total) || 0);
     });
     ranked.forEach((s, i) => { s._rank = i + 1; });
+    return ranked;
+  }
 
-    let data = ranked;
+  // ── Colleges tab ────────────────────────────────────────────────────────
+  // Independent is excluded on purpose: it isn't a college, it's the default
+  // label for everyone who came in without one, and at ~75% of the roster it
+  // would sit in the standings as a phantom institution.
+  function collegeStandings(ranked) {
+    const byCollege = new Map();
+    ranked.forEach(s => {
+      const name = (s.college || '').trim();
+      if (!name || name === INDEPENDENT) return;
+      if (!byCollege.has(name)) byCollege.set(name, []);
+      byCollege.get(name).push(s);
+    });
+
+    return [...byCollege.entries()].map(([name, students]) => {
+      const weeks = students.reduce((a, s) => a + (parseInt(s.sectionscompleted) || 0), 0);
+      const total = students.reduce((a, s) => a + (parseInt(s.total) || 0), 0);
+      return {
+        name,
+        students,
+        avgWeeks: weeks / students.length,
+        avgTotal: total / students.length,
+        bestRank: Math.min(...students.map(s => s._rank)),
+      };
+    }).sort((a, b) => (b.avgWeeks - a.avgWeeks) || (b.avgTotal - a.avgTotal));
+  }
+
+  function collegeStudentsHtml(students) {
+    return students.map((s, i) => {
+      const weeks = parseInt(s.sectionscompleted) || 0;
+      const total = parseInt(s.total) || 0;
+      const pct = Math.round((weeks / TOTAL_WEEKS) * 100);
+      const username = s.githubusername || '';
+      const name = username
+        ? `<a href="s/${encodeURIComponent(username)}.html" target="_blank" rel="noopener">${escHtml(s.name)}</a>`
+        : escHtml(s.name);
+      return `
+        <div class="cs-row">
+          <div class="cs-pos" title="Rank within ${escHtml(s.college)}">${i + 1}</div>
+          <div class="cs-name">${name}</div>
+          <div class="weeks-pill">
+            <span>${weeks} / ${TOTAL_WEEKS}</span>
+            <span class="bar"><span style="width:${pct}%;"></span></span>
+          </div>
+          <div class="cs-overall" title="Position on the full Self-Paced leaderboard">Overall #${s._rank}</div>
+          <div class="cs-total">${total > 0 ? total : '—'}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderColleges() {
+    const standings = collegeStandings(rankedStudents());
+    const tbody = document.getElementById('collegeBody');
+
+    if (standings.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:2rem 0;">No colleges on the leaderboard yet.</td></tr>`;
+      document.getElementById('collegeSummary').textContent = '';
+      return;
+    }
+
+    tbody.innerHTML = standings.map((c, i) => {
+      const rank = i + 1;
+      const n = c.students.length;
+      return `
+        <tr class="college-row" data-college="${escHtml(c.name)}" tabindex="0" role="button"
+            aria-expanded="false" aria-label="Show students from ${escHtml(c.name)}">
+          <td><div class="${rankClass(rank)}">${rank}</div></td>
+          <td>
+            <div class="college-title"><span class="college-caret">&#9654;</span><span class="college-tag">${escHtml(c.name)}</span></div>
+          </td>
+          <td><span class="college-num">${n}</span> <span class="college-sub">student${n === 1 ? '' : 's'}</span></td>
+          <td><span class="college-num">${c.avgWeeks.toFixed(1)}</span> <span class="college-sub">/ ${TOTAL_WEEKS}</span></td>
+          <td><span class="total-marks">${Math.round(c.avgTotal)}</span></td>
+          <td><span class="college-sub">#${c.bestRank}</span></td>
+        </tr>
+        <tr class="college-detail" data-for="${escHtml(c.name)}" style="display:none;">
+          <td class="college-students-cell" colspan="6">
+            <div class="college-students">${collegeStudentsHtml(c.students)}</div>
+          </td>
+        </tr>`;
+    }).join('');
+
+    const totalStudents = standings.reduce((a, c) => a + c.students.length, 0);
+    document.getElementById('collegeSummary').textContent =
+      `${standings.length} college${standings.length === 1 ? '' : 's'} · ${totalStudents} student${totalStudents === 1 ? '' : 's'} · everyone is ranked on the same leaderboard.`;
+
+    tbody.querySelectorAll('.college-row').forEach(row => {
+      const toggle = () => {
+        const detail = tbody.querySelector(`.college-detail[data-for="${CSS.escape(row.dataset.college)}"]`);
+        const open = detail.style.display !== 'none';
+        detail.style.display = open ? 'none' : 'table-row';
+        row.classList.toggle('open', !open);
+        row.setAttribute('aria-expanded', String(!open));
+      };
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+  }
+
+  function renderActive() {
+    let data = rankedStudents();
     if (searchQuery) data = data.filter(s => s.name.toLowerCase().includes(searchQuery));
     if (collegeFilter) data = data.filter(s => (s.college || INDEPENDENT) === collegeFilter);
 
@@ -603,6 +780,7 @@
       document.getElementById('lbTimestamp').textContent = 'Last updated: ' + new Date().toLocaleString();
       populateCollegeFilter();
       renderActive();
+      renderColleges();
       photosReady.then(renderActive);
     })
     .catch(() => {
@@ -633,6 +811,7 @@
       tab.classList.add('active');
       const target = tab.dataset.tab;
       document.getElementById('panelActive').style.display = target === 'active' ? 'block' : 'none';
+      document.getElementById('panelColleges').style.display = target === 'colleges' ? 'block' : 'none';
       document.getElementById('panelGraduates').style.display = target === 'graduates' ? 'block' : 'none';
     });
   });
