@@ -286,5 +286,53 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/adegboyega-bamidele-ogunsemoyin-085b2316a/",
     "photo": "images/AdegboyegaBamideleOgunsemoyin.jpg"
+  },
+  {
+    "name": "Pradeep Kumar Neelaboyina",
+    "country": "Germany",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/pradeep-neelaboyina/",
+    "photo": "images/graduates/pradeep-n.png"
+  },
+  {
+    "name": "Ezeh Lilian Ezichi",
+    "country": "Nigeria",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/lilian-ezeh-7881ab1b5/",
+    "photo": "images/graduates/ezeh-lilian.png"
+  },
+  {
+    "name": "Sonny Enchill",
+    "country": "Nigeria",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/sonnyenchill/",
+    "photo": "images/graduates/sonny-enchill.png"
+  },
+  {
+    "name": "Jennifer Ifesinachi Udeh",
+    "country": "Nigeria",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/jennifer-ifesinachi-udeh/",
+    "photo": "images/graduates/jennifer-udeh.png"
+  },
+  {
+    "name": "Rofiat Ahmed Sholagberu",
+    "country": "Nigeria",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/rofiat-ahmed-sholagberu-80a69a108",
+    "photo": "images/graduates/rofiat.png"
+  },
+  {
+    "name": "Chime Michael Tochukwu",
+    "country": "Nigeria",
+    "group": "3",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/chime-michael-tochukwu",
+    "photo": "images/graduates/chime-michael.png"
   }
 ]
