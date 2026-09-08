@@ -119,8 +119,14 @@ nav {
 /* Only shown inside the stacked mobile menu. */
 .nav-mobile-only { display: none; }
 
-/* "Proof" mega-menu — three labelled columns (Leaderboards / Students / Outcomes) */
-.nav-links li.has-dropdown { position: relative; }
+/* Mega-menus — labelled columns (Proof, Courses).
+   Anchored to .nav-inner rather than the trigger <li>: with descriptions the
+   panels are ~750-800px wide, so an <li>-relative panel opening part-way
+   along the bar ran off the right edge and forced the page to scroll
+   sideways on any viewport between the 941px desktop breakpoint and ~1200px.
+   Against the (max-width 1280px, centred) container it can never overflow. */
+.nav-inner { position: relative; height: 100%; }
+.nav-links li.has-dropdown { position: static; }
 .nav-links li.has-dropdown > a::after {
   content: "";
   display: inline-block;
@@ -138,6 +144,8 @@ nav {
   position: absolute;
   top: 100%;
   left: 0;
+  right: auto;
+  max-width: 100%;
   gap: 2.5rem;
   padding: 1.25rem 1rem;
   background: var(--bg);
@@ -1061,7 +1069,11 @@ footer a:hover { text-decoration: underline; }
   .nav-logo .logo-sub { font-size: 0.68rem; }
 }
 
-@media (max-width: 940px) {
+/* Raised from 940px: the bar needs ~1061px once the logo, six items and the
+   two right-hand actions are laid out, so between 941px and ~1060px the
+   Apply button ran past the viewport and the whole page scrolled sideways.
+   Switch to the stacked menu before that happens rather than after. */
+@media (max-width: 1080px) {
   .nav-links {
     display: none;
     position: absolute;
