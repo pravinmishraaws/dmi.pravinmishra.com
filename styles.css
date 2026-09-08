@@ -167,6 +167,35 @@ nav {
   border-radius: 6px;
 }
 
+/* Description variant of the mega-menu (the Courses menu). Each entry is a
+   bold label plus a one-line explanation, so someone scanning the menu can
+   tell the tracks apart without opening a page first. */
+.mega-menu-desc { gap: 2rem; padding: 1.25rem 0.75rem; }
+.mega-menu-desc .mega-col { min-width: 210px; }
+
+.mega-menu-desc .mega-col a {
+  padding: 0.5rem 0.75rem;
+  line-height: 1.35;
+}
+
+.mega-menu-desc .mega-col a span {
+  display: block;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.mega-menu-desc .mega-col a small {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.mega-menu-desc .mega-col a:hover { background: var(--accent-light); }
+.mega-menu-desc .mega-col a:hover span { color: var(--accent-hover); }
+
 /* Right-hand side is reserved for conversion. */
 .nav-actions {
   display: flex;
@@ -1072,6 +1101,9 @@ footer a:hover { text-decoration: underline; }
   }
   .mega-head { padding: 0.6rem 1rem 0; }
   .mega-col a { padding: 0.6rem 1rem; font-size: 0.95rem; }
+  .mega-menu-desc { gap: 0; padding: 0; }
+  .mega-menu-desc .mega-col { min-width: 0; }
+  .mega-menu-desc .mega-col a small { font-size: 0.82rem; }
 }
 
 @media (max-width: 768px) {
@@ -1762,3 +1794,243 @@ footer a:hover { text-decoration: underline; }
   .yt-band { flex-direction: column; text-align: center; padding: 1.5rem 1.25rem; }
   .yt-btn { width: 100%; text-align: center; }
 }
+
+/* Anchor targets sit under the 64px sticky nav without this. */
+#dmi, #udemy, #youtube, .roadmap-anchor { scroll-margin-top: 80px; }
+
+/* ROADMAP — decision tree + curriculum ladder (roadmap.html) */
+.tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.tree-root {
+  background: var(--text);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px 26px;
+  border-radius: 100px;
+}
+
+/* The stem and the three drops are drawn with borders rather than SVG so the
+   tree reflows on mobile instead of scaling into illegibility. */
+.tree-stem { width: 2px; height: 28px; background: var(--border); }
+
+.tree-branches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  position: relative;
+  padding-top: 28px;
+}
+
+.tree-branches::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 16.66%;
+  right: 16.66%;
+  height: 2px;
+  background: var(--border);
+}
+
+.tree-branch { position: relative; display: flex; flex-direction: column; }
+
+.tree-branch::before {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  width: 2px;
+  height: 28px;
+  background: var(--border);
+}
+
+.tree-node {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.25rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+
+.tree-node:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.tree-who {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+}
+
+.tree-node h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+
+.tree-node p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 0.9rem;
+}
+
+.tree-go { font-size: 0.85rem; font-weight: 700; color: var(--accent-hover); }
+
+/* Curriculum ladder */
+.phase-list { max-width: 780px; margin: 2rem auto 0; display: grid; gap: 1rem; }
+
+.phase {
+  display: flex;
+  gap: 1.1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.4rem;
+}
+
+.phase-num {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent-light);
+  color: var(--accent-hover);
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.phase-body { min-width: 0; flex: 1; }
+
+.phase-weeks {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.phase-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text); }
+.phase-body p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+.phase-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+
+.phase-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: var(--bg-card2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.phase-tag.course {
+  background: var(--accent-light);
+  color: var(--accent-hover);
+  border-color: var(--accent-border);
+  text-decoration: none;
+}
+
+.phase-tag.course:hover { background: var(--accent); color: #0d0d0d; }
+
+@media (max-width: 760px) {
+  .tree-branches { grid-template-columns: 1fr; gap: 1rem; padding-top: 0; }
+  .tree-branches::before { display: none; }
+  .tree-branch::before { display: none; }
+  .tree-stem { height: 18px; }
+  .phase { flex-direction: column; gap: 0.75rem; }
+}
+
+/* ENTERPRISE — problem framing, engagement process, audiences */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.problem-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid #d64545;
+  border-radius: var(--radius);
+  padding: 1.4rem 1.4rem 1.25rem;
+  text-align: left;
+}
+
+.problem-card h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+.problem-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+/* Numbered engagement steps. Horizontal on desktop, stacked on mobile. */
+.process {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.process-step {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.2rem;
+  position: relative;
+}
+
+.process-step .n {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #0d0d0d;
+  font-weight: 800;
+  font-size: 0.82rem;
+  margin-bottom: 0.7rem;
+}
+
+.process-step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); }
+.process-step p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+
+.audience-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.audience-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+}
+
+.audience-card h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
+.audience-card p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; }

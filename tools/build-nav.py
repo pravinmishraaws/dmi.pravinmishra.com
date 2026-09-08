@@ -35,6 +35,7 @@ ACTIVE = {
     "stories.html": ["proof", "stories"],
     "placement.html": ["proof", "placement"],
     "courses.html": ["courses"],
+    "roadmap.html": ["courses", "roadmap"],
     "enterprise.html": ["enterprise"],
     "campus.html": ["campus"],
 }
