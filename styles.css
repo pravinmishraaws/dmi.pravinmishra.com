@@ -127,6 +127,24 @@ nav {
    Against the (max-width 1280px, centred) container it can never overflow. */
 .nav-inner { position: relative; height: 100%; }
 .nav-links li.has-dropdown { position: static; }
+
+/* Anchoring the panel to .nav-inner (so it cannot overflow) moved its top edge
+   down to the full height of the bar, while the trigger <li> is only as tall
+   as its text and vertically centred. That left ~18px between the bottom of
+   the link and the top of the panel where the pointer was over neither, so
+   :hover dropped and the panel closed while the user was still moving toward
+   it. Stretching the trigger to the full height of the bar makes the two
+   boxes contiguous — there is nothing to fall through.
+   Desktop only: below the breakpoint the panel is a stacked accordion and the
+   <li> must stay a normal block so the submenu sits under its link. */
+@media (min-width: 1081px) {
+  .nav-links { align-self: stretch; }
+  .nav-links li.has-dropdown {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+}
 .nav-links li.has-dropdown > a::after {
   content: "";
   display: inline-block;
