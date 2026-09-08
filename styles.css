@@ -1542,3 +1542,223 @@ footer a:hover { text-decoration: underline; }
 @media (max-width: 640px) {
   .course-grid { grid-template-columns: 1fr; }
 }
+
+/* COURSES — DMI programs block above the Udemy grid (courses.html) */
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  align-items: stretch;
+}
+
+.track-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem 1.5rem;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+
+.track-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+/* The middle track is the one most people should pick, so it carries the
+   accent border and a ribbon rather than being visually identical. */
+.track-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(232,160,32,0.18);
+}
+
+.track-step {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.track-ribbon {
+  display: inline-block;
+  background: var(--accent);
+  color: #0d0d0d;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.track-card h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.track-card > p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 1.1rem;
+}
+
+.track-features {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  flex: 1;
+}
+
+.track-features li {
+  position: relative;
+  padding-left: 1.4rem;
+  font-size: 0.875rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.track-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.track-btn {
+  display: block;
+  text-align: center;
+  background: var(--accent);
+  color: #0d0d0d;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 11px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.track-btn:hover { background: var(--accent-hover); }
+
+.track-btn.secondary {
+  background: transparent;
+  color: var(--accent-hover);
+  border: 1.5px solid var(--accent-border);
+}
+
+.track-btn.secondary:hover {
+  background: var(--accent-light);
+}
+
+/* The divider Pravin asked for — a rule with a centred label, so the jump
+   from "programs I run" to "courses on someone else's platform" is explicit
+   rather than the reader having to infer it from the card styling. */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 4.5rem auto 0;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.section-divider span {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .track-grid { grid-template-columns: 1fr; }
+  .section-divider { margin-top: 3rem; }
+  .section-divider span { font-size: 0.68rem; letter-spacing: 1.2px; white-space: normal; text-align: center; }
+}
+
+/* COURSES — free YouTube band (courses.html) */
+.yt-band {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+
+.yt-icon {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #ff0000;
+  color: #fff;
+}
+
+.yt-icon svg { width: 30px; height: 30px; display: block; }
+
+.yt-text { flex: 1; min-width: 0; }
+
+.yt-text h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.yt-text p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.yt-stat {
+  margin-top: 0.4rem;
+  font-size: 0.82rem !important;
+  font-weight: 600;
+}
+
+.yt-btn {
+  flex: 0 0 auto;
+  background: var(--accent);
+  color: #0d0d0d;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 11px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.yt-btn:hover { background: var(--accent-hover); }
+
+@media (max-width: 640px) {
+  .yt-band { flex-direction: column; text-align: center; padding: 1.5rem 1.25rem; }
+  .yt-btn { width: 100%; text-align: center; }
+}
