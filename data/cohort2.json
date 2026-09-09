@@ -334,5 +334,21 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/chime-michael-tochukwu",
     "photo": "images/graduates/chime-michael.png"
+  },
+  {
+    "name": "Joy Ukpabi",
+    "country": "Nigeria",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/joyukpabi/",
+    "photo": "images/graduates/joy-ukpabi.jpeg"
+  },
+  {
+    "name": "Acha Patience Uke",
+    "country": "Nigeria",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/acha-patience-uke-911848336/",
+    "photo": "images/graduates/acha-patience-uke.png"
   }
 ]
