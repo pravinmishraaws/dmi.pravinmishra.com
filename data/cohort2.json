@@ -350,5 +350,21 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/acha-patience-uke-911848336/",
     "photo": "images/graduates/acha-patience-uke.png"
+  },
+  {
+    "name": "Vincent Onotu Bello",
+    "country": "Nigeria",
+    "group": "5",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/vinbello",
+    "photo": "images/graduates/vincent-onotu.png"
+  },
+  {
+    "name": "Olatunji Pelumi Samson",
+    "country": "Nigeria",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://linkedin.com/in/pelumi-olatunji",
+    "photo": "images/graduates/olatunji-pelumi.png"
   }
 ]
