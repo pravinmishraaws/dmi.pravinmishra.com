@@ -366,5 +366,21 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://linkedin.com/in/pelumi-olatunji",
     "photo": "images/graduates/olatunji-pelumi.png"
+  },
+  {
+    "name": "Paul Nwanochiri",
+    "country": "Nigeria",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://linkedin.com/in/paul-nwanochiri",
+    "photo": "images/graduates/paul-n.png"
+  },
+  {
+    "name": "Vishal Sanjay Gore",
+    "country": "India",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/vishalgoreg/",
+    "photo": "images/graduates/vishal-s-g.png"
   }
 ]
