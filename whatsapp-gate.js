@@ -142,6 +142,12 @@
     '.dmi-wg-submit:disabled{opacity:.65;cursor:default}',
     '.dmi-wg-submit svg{width:20px;height:20px;fill:currentColor}',
 
+    /* iOS Safari zooms the whole page in when a focused input's font-size is
+       under 16px, and does not zoom back out afterwards — so the visitor is
+       left on a page they have to pinch to escape, mid-form. 16px exactly is
+       the threshold. Phone widths only; the desktop card keeps .92rem. */
+    '@media (max-width:640px){.dmi-wg-field input,.dmi-wg-field select{font-size:16px}}',
+
     '.dmi-wg-privacy{font-size:.75rem;color:var(--text-muted,#666);text-align:center;margin:.8rem 0 0;line-height:1.5}',
     '.dmi-wg-msg{font-size:.85rem;text-align:center;margin-top:.8rem;display:none}',
     '.dmi-wg-msg.show{display:block}',
