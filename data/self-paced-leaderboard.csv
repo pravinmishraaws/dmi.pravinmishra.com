@@ -1,18 +1,19 @@
 Name,GithubUsername,SectionsCompleted,Total,College
 Subhamay Bhattacharyya,subhamay-bhattacharyya,6,860,Independent
-Cho Kar Hin,JokerHin,5,700,APU
+Cho Kar Hin,JokerHin,5,720,APU
 Javeson Francois Liu,javesonfrancoisliu,5,680,APU
 Chinyere Angela Chibuike,Crystal-Angie,5,520,Independent
+Kuntal Tarwatkar,tarwatkarkuntal315,4,370,Independent
 Tanisha Borana,Tanisha-b3,3,380,Independent
+Saayan Chowdhury,Saayan-Chowdhury-2004,3,340,DIATM
 Shivam Sharma,shivamsharma-builds,3,340,DIATM
-Kuntal Tarwatkar,tarwatkarkuntal315,3,290,Independent
 Egwu Vincent Oko,vincegwu,3,250,Independent
 Jennifer Ifesinachi Udeh,Ujitech734,3,200,Independent
-Saayan Chowdhury,Saayan-Chowdhury-2004,2,280,DIATM
 Sayan Koley,sayan-k,2,280,DIATM
-Gatadi Nagajyothi,nagajyothigatadi37-cmyk,2,200,TCET
+Gatadi Nagajyothi,nagajyothigatadi37-cmyk,2,240,TCET
+Madhuri Veerabathini,madhuriveerabathini11,2,160,TCET
 Siththi Waseema,siththiwaseema,2,150,Independent
-Madhuri Veerabathini,madhuriveerabathini11,2,140,TCET
+Sai snehitha,snigdhugoud,2,140,TCET
 Ahmad Taj,iAhmadTaj,2,120,UE Lahore
 Anuradha Iyer,AnuradhaVIyer,2,120,Independent
 Arjun Choudhary,Arjunchoudhary2027,2,120,DIATM
@@ -26,25 +27,26 @@ Dudati Spoorthi,Spoorthi091,2,120,TCET
 GURUPRANESH M,GURUPRANESH-M,2,120,Dr. NGP
 Karthikrajan S,KarthikS5873,2,120,Dr. NGP
 Kevin K R,kevinkr7,2,120,Dr. NGP
+Mohammed Aboud Hussein,Mhammad3boud,2,120,APU
 Pranathi kummari,Pranathi-aiml,2,120,TCET
 Ranbir Kaur,RanbirKaur11,2,120,Independent
 Sakeena Sajid,itsmuskan66,2,120,UE Lahore
 Samyukta A,Samyukta-23,2,120,Dr. NGP
 VIDHUL KUMAAR V,vidhulkumaar,2,120,Dr. NGP
+Vasist Verma,Vasist-03,2,120,DIATM
+Dasari lavan kumar,lavankumar1290-cyber,2,110,TCET
 Janga Nikhil,nikhil-janga,2,100,VJIT
 ZAKARIYA AHMED,mr-zack01,2,100,TCET
 korampally keerthana,keerthanakorampally-gif,2,100,TCET
 Manish Gantyala,ManishGantyala,2,90,Independent
 PREETHI PASWAN,preethikumari934-TCTK,2,90,TCET
-Dasari lavan kumar,lavankumar1290-cyber,2,80,TCET
 Nikhil Kumar Yadav,Nikhil2005-byte,2,80,DIATM
 Sudip Bhalla,sudipbhalla,2,80,DIATM
 Faiyad Mahabub Tasin,faiyaadmahabub-hash,2,70,APU
+JEGANRAJ P,Jeganraj2006,2,60,Dr. NGP
 Liew Shen Wei,jensliew,2,60,APU
 Mukesh V,Mukesh-5164,2,60,Dr. NGP
 Olalekan Fashola,lekan675,2,60,Independent
-Sai snehitha,snigdhugoud,2,60,TCET
-Vasist Verma,Vasist-03,2,50,DIATM
 Afoma Ebele Egbuonu,AfomaCloud21,2,40,Independent
 Gokulganesh D,DGokulg,2,40,Dr. NGP
 Jolisha Angelin P,Jolisha09,2,40,Dr. NGP
@@ -65,13 +67,11 @@ Vishwasri S K,VishwasriSK,2,40,Dr. NGP
 Yinusa Kolawole Gbenga,kaydollar,2,40,Independent
 kola sricharan,sricharankola34-cmd,2,40,TCET
 Jacinta Ezennajiofoeze Chinyere,Jayce198518,1,90,Independent
-Mohammed Aboud Hussein,Mhammad3boud,1,60,APU
+Nihelesh M U,Nihelesh,1,80,Dr. NGP
 Joseph Ozurumba,lettertojoe,1,50,Independent
 SHREYAS K N,imshreyaskn,1,40,Dr. NGP
 Nwosu Chioma Margaret,Treasurematrix,1,30,Independent
-JEGANRAJ P,Jeganraj2006,1,20,Dr. NGP
 Mohamed Galole Abdalla,mohamedgalole,1,20,Independent
-Nihelesh M U,Nihelesh,1,20,Dr. NGP
 Savitha S,Savitha20-06,1,20,Dr. NGP
 Ebelechukwu Lucy Okafor,Lucycloud2024,0,30,Independent
 Mazin Jifthikker,Mazinjifthikker,0,30,APU
@@ -87,6 +87,7 @@ Gift Chibugo Ukporo,giftukporo,0,0,Independent
 Hemlal Bhattarai,hemlalbht,0,0,Independent
 Isaac Appiah Donkor,IsaacAppiahDonkor,0,0,Independent
 Mapula Whitney Kataka,WhitneyKataka,0,0,Independent
+Muhammad Sohaib Saim,so5679,0,0,APU
 Neola Kellsie P,neola-dev,0,0,Dr. NGP
 Rita Gitamo,gitamoo,0,0,Independent
 Sangeetha V,Sangeetha-Vish,0,0,Dr. NGP
