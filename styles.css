@@ -2088,3 +2088,14 @@ footer a:hover { text-decoration: underline; }
 
 .audience-card h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
 .audience-card p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; }
+
+/* Next-cohort CTA (cohort-cta.js). Elements marked data-cohort-show ship
+   hidden and are revealed only while the campaign runs — keep [hidden]
+   winning over classes like .btn-primary that set their own display. */
+[data-cohort-show][hidden] { display: none !important; }
+.cohort-box {
+  margin-top: 2.5rem; padding: 1.5rem 1.75rem; text-align: center;
+  background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: 12px;
+}
+.cohort-box p { margin: 0 0 1rem; }
+.cohort-box .btn-primary { color: #fff; text-decoration: none; }
