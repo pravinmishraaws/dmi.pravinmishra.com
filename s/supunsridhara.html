@@ -122,6 +122,13 @@
       border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.88rem; }
     .review-updated { text-align: center; font-size: 0.85rem; color: #9ca3af; margin-top: 1.5rem; }
 
+    /* Next-cohort bar: label, link and expiry come from the site's
+       cohort-cta.js, so the date isn't hard-coded here. */
+    .cohort-bar { text-align: center; background: var(--accent-light); border-bottom: 1px solid var(--accent-border);
+      padding: 0.7rem 1rem; font-size: 0.95rem; }
+    .cohort-bar a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .cohort-bar a:hover { text-decoration: underline; }
+
     .cert-cta { text-align: center; padding: 3rem 2rem 4rem; }
     .btn-primary {
       display: inline-block; background: var(--accent); color: #fff; padding: 13px 30px;
@@ -236,6 +243,10 @@
   </div>
 </nav>
 
+<div class="cohort-bar" data-cohort-show hidden>
+  <a data-cohort-cta href="#">Join Cohort 4</a>
+</div>
+
 <section class="cert-hero">
   <div class="cert-avatar">SJ</div>
   <div class="section-label">DMI Cohort 3 · Live · Group 3</div>
@@ -326,18 +337,23 @@
   <details class="week-card in-progress" id="week-02" open>
     <summary>
       <span class="week-name">Week 02 — Agentic Ai</span>
-      <span class="week-score">100 / 230</span>
+      <span class="week-score">0 / 230</span>
       <span class="week-status in-progress">In progress</span>
     </summary>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 5/8 assignment files passing</span><span class="check-pts">100 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 0/8 assignment files passing</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>Attendance</strong> — not recorded for the Saturday session</span><span class="check-pts">0 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-06-hooks-permissions.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-07-memory.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-08-week-2-reflection.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-01-setup-agentic-loop.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-02-claude-md.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-03-skills.md</code> — template placeholder text still present (&#x27;Add your URL here&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-04-subagents.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-05-mcp.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-06-hooks-permissions.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-07-memory.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-08-week-2-reflection.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
     </ul></div>
@@ -345,6 +361,27 @@
   <details class="week-card in-progress" id="week-03">
     <summary>
       <span class="week-name">Week 03 — Linux And Bash For Devops</span>
+      <span class="week-score">50 / 190</span>
+      <span class="week-status in-progress">In progress</span>
+    </summary>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 1/6 assignment files passing</span><span class="check-pts">20 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
+    <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">30 pts</span></div>
+    <div class="week-todo"><strong>To turn this week green:</strong>
+    <ul>
+      <li><code>assignment-01-aws-free-tier-account-setup.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-03-production-maintenance-drill-ops-checklist.md</code> — template placeholder text still present (&#x27;Write your answer here&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-04-deploy-epicreads-portfolio-website-via-nginx.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-05-bash-script-automation-drill-ops-checklist.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-06-ai-assisted-linux-health-check.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
+      <li>Blog post — no blog URL in your README progress table — add your post link</li>
+    </ul></div>
+  </details>
+  <details class="week-card in-progress" id="week-04">
+    <summary>
+      <span class="week-name">Week 04 — Git And Github</span>
       <span class="week-score">70 / 190</span>
       <span class="week-status in-progress">In progress</span>
     </summary>
@@ -354,26 +391,9 @@
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">30 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-03-production-maintenance-drill-ops-checklist.md</code> — template placeholder text still present (&#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-04-deploy-epicreads-portfolio-website-via-nginx.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-05-bash-script-automation-drill-ops-checklist.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-06-ai-assisted-linux-health-check.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
-      <li>Blog post — no blog URL in your README progress table — add your post link</li>
-    </ul></div>
-  </details>
-  <details class="week-card in-progress" id="week-04">
-    <summary>
-      <span class="week-name">Week 04 — Git And Github</span>
-      <span class="week-score">130 / 190</span>
-      <span class="week-status in-progress">In progress</span>
-    </summary>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 5/6 assignment files passing</span><span class="check-pts">100 pts</span></div>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
-    <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">30 pts</span></div>
-    <div class="week-todo"><strong>To turn this week green:</strong>
-    <ul>
+      <li><code>assignment-01-codetrack-initial-git-setup.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-03-codetrack-branching-workflow-contact-page.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-04-github-account-and-professional-profile.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
       <li><code>assignment-06-ai-assisted-git-safety-net.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
@@ -382,18 +402,20 @@
   <details class="week-card in-progress" id="week-05">
     <summary>
       <span class="week-name">Week 05 — Devops Lifecycle</span>
-      <span class="week-score">70 / 170</span>
+      <span class="week-score">30 / 170</span>
       <span class="week-status in-progress">In progress</span>
     </summary>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 2/5 assignment files passing</span><span class="check-pts">40 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 0/5 assignment files passing</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">30 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
+      <li><code>assignment-01-create-your-jira-account-and-setup-profile.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-02-stand-up-scrum-in-jira-for-dmi-website.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
       <li><code>assignment-03-run-a-5-day-mini-sprint-in-jira-and-ship-an-increment.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-04-gotto-job-backlog-refinement-and-sprint-1-in-jira.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-05-ai-assisted-sprint-health-report-via-jira-mcp.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-04-gotto-job-backlog-refinement-and-sprint-1-in-jira.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-05-ai-assisted-sprint-health-report-via-jira-mcp.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
     </ul></div>
@@ -401,20 +423,19 @@
   <details class="week-card in-progress" id="week-06">
     <summary>
       <span class="week-name">Week 06 — Aws Cloud</span>
-      <span class="week-score">60 / 210</span>
+      <span class="week-score">80 / 210</span>
       <span class="week-status in-progress">In progress</span>
     </summary>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 2/7 assignment files passing</span><span class="check-pts">40 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 3/7 assignment files passing</span><span class="check-pts">60 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>LinkedIn post</strong> — no LinkedIn URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — no blog URL in your README progress table — add your post link</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">20 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-03-deploy-mini-finance-website-on-aws-virtual-machine.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-04-deploy-epicbook-on-ubuntu-vm-and-mysql-rds.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-05-deploy-a-highly-available-two-tier-application-on-aws.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-06-capstone-deploy-book-review-app-three-tier-architecture-on-aws.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-07-ai-assisted-aws-security-and-cost-audit.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-04-deploy-epicbook-on-ubuntu-vm-and-mysql-rds.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-05-deploy-a-highly-available-two-tier-application-on-aws.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-06-capstone-deploy-book-review-app-three-tier-architecture-on-aws.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-07-ai-assisted-aws-security-and-cost-audit.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
     </ul></div>
@@ -431,13 +452,13 @@
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">10 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-01-create-and-set-up-your-azure-free-account.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-02-deploy-a-react-app-on-an-azure-vm.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-03-design-a-three-tier-network-with-load-balancer-on-azure.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-04-host-a-static-website-on-azure-storage.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-05-deploy-epicbook-web-app-on-azure-vm-with-mysql.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-06-deploy-book-review-app-three-tier-architecture-on-azure.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-07-ai-assisted-azure-security-posture-audit.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-01-create-and-set-up-your-azure-free-account.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-02-deploy-a-react-app-on-an-azure-vm.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-03-design-a-three-tier-network-with-load-balancer-on-azure.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-04-host-a-static-website-on-azure-storage.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-05-deploy-epicbook-web-app-on-azure-vm-with-mysql.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-06-deploy-book-review-app-three-tier-architecture-on-azure.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-07-ai-assisted-azure-security-posture-audit.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>screenshots folder has no images — add this week&#x27;s screenshots</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
@@ -455,12 +476,12 @@
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">30 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-01-create-an-azure-virtual-machine-using-terraform.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-02-deploy-a-virtual-machine-on-aws-with-public-network-using-terraform.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-03-deploy-a-react-application-on-azure-virtual-machine-using-terraform.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-04-deploy-epicbook-application-on-aws-using-terraform.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-05-deploy-book-review-app-in-your-favorite-cloud-agentic-terraform-project.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-06-ai-assisted-terraform-drift-and-policy-review.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-01-create-an-azure-virtual-machine-using-terraform.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-02-deploy-a-virtual-machine-on-aws-with-public-network-using-terraform.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-03-deploy-a-react-application-on-azure-virtual-machine-using-terraform.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-04-deploy-epicbook-application-on-aws-using-terraform.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-05-deploy-book-review-app-in-your-favorite-cloud-agentic-terraform-project.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-06-ai-assisted-terraform-drift-and-policy-review.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>screenshots folder has no images — add this week&#x27;s screenshots</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
@@ -478,12 +499,12 @@
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">10 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-01-set-up-a-team-ready-ansible-development-workstation.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
-      <li><code>assignment-02-provision-linux-vms-and-run-ansible-ad-hoc-commands.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
-      <li><code>assignment-03-deploy-static-website-to-multiple-servers-using-multi-play-ansible-playbook.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
-      <li><code>assignment-04-deploy-mini-finance-project-using-terraform-and-ansible.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-05-production-grade-epicbook-terraform-and-ansible-roles.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Add your URL here&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-06-ai-assisted-ansible-change-risk-review.md</code> — template placeholder text still present (&#x27;Add your answer here&#x27;, &#x27;Add your screenshot here.&#x27;) — replace it with your own answer</li>
+      <li><code>assignment-01-set-up-a-team-ready-ansible-development-workstation.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-02-provision-linux-vms-and-run-ansible-ad-hoc-commands.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-03-deploy-static-website-to-multiple-servers-using-multi-play-ansible-playbook.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-04-deploy-mini-finance-project-using-terraform-and-ansible.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-05-production-grade-epicbook-terraform-and-ansible-roles.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-06-ai-assisted-ansible-change-risk-review.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>screenshots folder has no images — add this week&#x27;s screenshots</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
@@ -501,17 +522,17 @@
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">10 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-01-set-up-a-self-hosted-linux-agent-for-azure-devops.md</code> — template placeholder text still present (&#x27;Add your screenshot here.&#x27;, &#x27;Write your answer here&#x27;) — replace it with your own answer</li>
-      <li><code>assignment-02-deploy-a-static-website-to-aws-ec2-using-an-azure-devops-cicd-pipeline.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
-      <li><code>assignment-03-automate-react-app-deployment-using-azure-devops-cicd.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
-      <li><code>assignment-04-automate-epicbook-deployment-with-dual-pipelines.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
-      <li><code>assignment-05-ai-assisted-azure-devops-dual-pipeline-failure-triage.md</code> — file not found in your fork — sync with the template, then fill in your answers</li>
+      <li><code>assignment-01-set-up-a-self-hosted-linux-agent-for-azure-devops.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-02-deploy-a-static-website-to-aws-ec2-using-an-azure-devops-cicd-pipeline.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-03-automate-react-app-deployment-using-azure-devops-cicd.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-04-automate-epicbook-deployment-with-dual-pipelines.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
+      <li><code>assignment-05-ai-assisted-azure-devops-dual-pipeline-failure-triage.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>screenshots folder has no images — add this week&#x27;s screenshots</li>
       <li>LinkedIn post — no LinkedIn URL in your README progress table — add your post link</li>
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
     </ul></div>
   </details>
-  <p class="review-updated">Last checked: 2026-09-23 · updated after every review run</p>
+  <p class="review-updated">Last checked: 2026-09-24 · updated after every review run</p>
 </section>
 
 <div class="cert-cta">
@@ -546,6 +567,7 @@
 </footer>
 
 <script src="../app.js"></script>
+<script src="../cohort-cta.js"></script>
 <script src="../pixel-consent.js"></script>
 <script>
   document.querySelectorAll(".week-chip[data-week]").forEach(function (chip) {

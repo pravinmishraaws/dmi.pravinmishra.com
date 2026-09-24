@@ -122,6 +122,13 @@
       border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.88rem; }
     .review-updated { text-align: center; font-size: 0.85rem; color: #9ca3af; margin-top: 1.5rem; }
 
+    /* Next-cohort bar: label, link and expiry come from the site's
+       cohort-cta.js, so the date isn't hard-coded here. */
+    .cohort-bar { text-align: center; background: var(--accent-light); border-bottom: 1px solid var(--accent-border);
+      padding: 0.7rem 1rem; font-size: 0.95rem; }
+    .cohort-bar a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .cohort-bar a:hover { text-decoration: underline; }
+
     .cert-cta { text-align: center; padding: 3rem 2rem 4rem; }
     .btn-primary {
       display: inline-block; background: var(--accent); color: #fff; padding: 13px 30px;
@@ -235,6 +242,10 @@
     </div>
   </div>
 </nav>
+
+<div class="cohort-bar" data-cohort-show hidden>
+  <a data-cohort-cta href="#">Join Cohort 4</a>
+</div>
 
 <section class="cert-hero">
   <div class="cert-avatar">IS</div>
@@ -424,23 +435,22 @@
   <details class="week-card in-progress" id="week-10" open>
     <summary>
       <span class="week-name">Week 10 — Azure Devops</span>
-      <span class="week-score">50 / 170</span>
+      <span class="week-score">70 / 170</span>
       <span class="week-status in-progress">In progress</span>
     </summary>
-    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 1/5 assignment files passing</span><span class="check-pts">20 pts</span></div>
+    <div class="check-row"><span class="check-mark">❌</span><span><strong>Assignments</strong> — 2/5 assignment files passing</span><span class="check-pts">40 pts</span></div>
     <div class="check-row"><span class="check-mark">✅</span><span><strong>LinkedIn post</strong> — URL verified</span><span class="check-pts">10 pts</span></div>
     <div class="check-row"><span class="check-mark">❌</span><span><strong>Blog post</strong> — add a real link to your own badge page — https://dmi.pravinmishra.com/s/sundayinibehe75-afk.html — in the post (a link to another DMI page, or just a text mention, doesn&#x27;t count)</span><span class="check-pts">0 pts</span></div>
     <div class="check-row"><span class="check-mark">✅</span><span><strong>Attendance</strong> — recorded for the Saturday session</span><span class="check-pts">20 pts</span></div>
     <div class="week-todo"><strong>To turn this week green:</strong>
     <ul>
-      <li><code>assignment-02-deploy-a-static-website-to-aws-ec2-using-an-azure-devops-cicd-pipeline.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li><code>assignment-03-automate-react-app-deployment-using-azure-devops-cicd.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li><code>assignment-04-automate-epicbook-deployment-with-dual-pipelines.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li><code>assignment-05-ai-assisted-azure-devops-dual-pipeline-failure-triage.md</code> — still the untouched template file — replace the placeholders with your own answers</li>
       <li>Blog post — add a real link to your own badge page — https://dmi.pravinmishra.com/s/sundayinibehe75-afk.html — in the post (a link to another DMI page, or just a text mention, doesn&#x27;t count)</li>
     </ul></div>
   </details>
-  <p class="review-updated">Last checked: 2026-09-23 · updated after every review run</p>
+  <p class="review-updated">Last checked: 2026-09-24 · updated after every review run</p>
 </section>
 
 <div class="cert-cta">
@@ -475,6 +485,7 @@
 </footer>
 
 <script src="../app.js"></script>
+<script src="../cohort-cta.js"></script>
 <script src="../pixel-consent.js"></script>
 <script>
   document.querySelectorAll(".week-chip[data-week]").forEach(function (chip) {

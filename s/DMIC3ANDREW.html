@@ -122,6 +122,13 @@
       border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.88rem; }
     .review-updated { text-align: center; font-size: 0.85rem; color: #9ca3af; margin-top: 1.5rem; }
 
+    /* Next-cohort bar: label, link and expiry come from the site's
+       cohort-cta.js, so the date isn't hard-coded here. */
+    .cohort-bar { text-align: center; background: var(--accent-light); border-bottom: 1px solid var(--accent-border);
+      padding: 0.7rem 1rem; font-size: 0.95rem; }
+    .cohort-bar a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .cohort-bar a:hover { text-decoration: underline; }
+
     .cert-cta { text-align: center; padding: 3rem 2rem 4rem; }
     .btn-primary {
       display: inline-block; background: var(--accent); color: #fff; padding: 13px 30px;
@@ -235,6 +242,10 @@
     </div>
   </div>
 </nav>
+
+<div class="cohort-bar" data-cohort-show hidden>
+  <a data-cohort-cta href="#">Join Cohort 4</a>
+</div>
 
 <section class="cert-hero">
   <div class="cert-avatar">AO</div>
@@ -496,7 +507,7 @@
       <li>Blog post — no blog URL in your README progress table — add your post link</li>
     </ul></div>
   </details>
-  <p class="review-updated">Last checked: 2026-09-23 · updated after every review run</p>
+  <p class="review-updated">Last checked: 2026-09-24 · updated after every review run</p>
 </section>
 
 <div class="cert-cta">
@@ -531,6 +542,7 @@
 </footer>
 
 <script src="../app.js"></script>
+<script src="../cohort-cta.js"></script>
 <script src="../pixel-consent.js"></script>
 <script>
   document.querySelectorAll(".week-chip[data-week]").forEach(function (chip) {
