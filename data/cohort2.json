@@ -398,5 +398,21 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://linkedin.com/in/olfash",
     "photo": "images/graduates/olalekan-fasola.png"
+  },
+  {
+    "name": "Ahmed Abiodun Ibrahim",
+    "country": "Nigeria",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/abiodun-ibrahim-8110973a6",
+    "photo": "images/graduates/ahmed-a-i.png"
+  },
+  {
+    "name": "Bhargavi Mudragiri",
+    "country": "India",
+    "group": "4",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/bhargavi-mudragiri-470833251/",
+    "photo": "images/graduates/bhargavi-m.png"
   }
 ]
