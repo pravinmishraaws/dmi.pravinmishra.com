@@ -1,6 +1,6 @@
 {
   "cohort": "Cohort 3",
-  "current_week": 8,
+  "current_week": 9,
   "weeks": [
     {
       "week": 1,
@@ -64,6 +64,14 @@
         { "group": "Group 1", "name": "Timothy Olubiyi", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/timothy-olubiyi-05b9ba123/", "photo": "" },
         { "group": "Group 2", "name": "Saima Usman", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/saima-usman/", "photo": "" },
         { "group": "Group 3", "name": "Bharadwaja Kachiraju", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/bharadwaja-kachiraju-78a45598/", "photo": "" }
+      ]
+    },
+    {
+      "week": 9,
+      "champions": [
+        { "group": "Group 1", "name": "Ibinuolapo Sola", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/solaibinuolapo/", "photo": "" },
+        { "group": "Group 2", "name": "Boyi Kenneth Efe", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/kenneth-boyi-6b4a353a6/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3BLFYd4nmWQw6B6IrfWquGcg%3D%3D", "photo": "" },
+        { "group": "Group 3", "name": "Emmanuel Sunday", "score": "", "comment": "", "linkedin": "https://www.linkedin.com/in/emmanuel-sunday-210a08323/", "photo": "" }
       ]
     }
   ]
