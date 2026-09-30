@@ -414,5 +414,21 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/bhargavi-mudragiri-470833251/",
     "photo": "images/graduates/bhargavi-m.png"
+  },
+  {
+    "name": "Mapula Whitney Kataka",
+    "country": "Nigeria",
+    "group": "5",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/whitney-kataka-masters-candidate-ab644711a/",
+    "photo": "images/graduates/mapula-witney.png"
+  },
+  {
+    "name": "Faith Samson",
+    "country": "Nigeria",
+    "group": "4",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "http://www.linkedin.com/in/faith-samson-nigo",
+    "photo": "images/graduates/faith-samson.png"
   }
 ]
