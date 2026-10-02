@@ -430,5 +430,21 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "http://www.linkedin.com/in/faith-samson-nigo",
     "photo": "images/graduates/faith-samson.png"
+  },
+  {
+    "name": "Ajah Callista Ijeoma",
+    "country": "Nigeria",
+    "group": "4",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/ajah-ijeoma",
+    "photo": "images/graduates/ajah-ijeoma.png"
+  },
+  {
+    "name": "Adetomiwa Ashaye",
+    "country": "Nigeria",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/tomiwa-ashaye/",
+    "photo": "images/graduates/adetomiwa-ashaye.png"
   }
 ]
