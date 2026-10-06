@@ -446,5 +446,21 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/tomiwa-ashaye/",
     "photo": "images/graduates/adetomiwa-ashaye.png"
+  },
+  {
+    "name": "Yinusa Kolawole Gbenga",
+    "country": "Nigeria",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/kolawole-yinusa-8364a2133/",
+    "photo": "images/graduates/yinusha-k.png"
+  },
+  {
+    "name": "Ogonna Angela Umeh",
+    "country": "Nigeria",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/ogonna-angela-ebube-umeh",
+    "photo": "images/graduates/ogonna-a.png"
   }
 ]
