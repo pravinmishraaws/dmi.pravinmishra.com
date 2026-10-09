@@ -462,5 +462,37 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/ogonna-angela-ebube-umeh",
     "photo": "images/graduates/ogonna-a.png"
+  },
+  {
+    "name": "Nwogu Nice Ihuoma",
+    "country": "Nigeria",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/nice-nwogu-249607156",
+    "photo": "images/graduates/nwogu-nice.png"
+  },
+  {
+    "name": "Kuntal Tarwatkar",
+    "country": "India",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/kuntal-tarwatkar-413653102",
+    "photo": "images/graduates/kuntal-t.png"
+  },
+  {
+    "name": "Osman Ali Farah",
+    "country": "Kenya",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/osman-farah",
+    "photo": "images/graduates/osman-ali.png"
+  },
+  {
+    "name": "Manish Gantyala",
+    "country": "India",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/manish-gantyala",
+    "photo": "images/graduates/manish-g.png"
   }
 ]
