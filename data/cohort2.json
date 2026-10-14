@@ -494,5 +494,37 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/manish-gantyala",
     "photo": "images/graduates/manish-g.png"
+  },
+  {
+    "name": "Theodora Okonkwo",
+    "country": "Germany",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/theodora-okonkwo-32882b232",
+    "photo": "images/graduates/thedora-o.png"
+  },
+  {
+    "name": "Adaeze Lorreta Ibik",
+    "country": "Canada",
+    "group": "2",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/ada2",
+    "photo": "images/graduates/adaeze-ibik.png"
+  },
+  {
+    "name": "Ed Eguaikhide",
+    "country": "Canada",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/ed-eguaikhide/",
+    "photo": "images/graduates/ed-e.png"
+  },
+  {
+    "name": "Gift Chibugo Ukporo",
+    "country": "Nigeria",
+    "group": "3",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/giftukporo",
+    "photo": "images/graduates/gift-c.png"
   }
 ]
