@@ -526,5 +526,37 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/giftukporo",
     "photo": "images/graduates/gift-c.png"
+  },
+  {
+    "name": "Hemlal Bhattarai",
+    "country": "Nepal",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/hemlalbhattarai/",
+    "photo": "images/graduates/hemlal-b.png"
+  },
+  {
+    "name": "Rama Kant Tiwari",
+    "country": "India",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/rama-kant-tiwari-95021258/",
+    "photo": "images/graduates/ramakanth-t.png"
+  },
+  {
+    "name": "Suganya Rani Balasundaram",
+    "country": "USA",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/suganya-rani-balasundaram/",
+    "photo": "images/graduates/suganya-rani.png"
+  },
+  {
+    "name": "Bukola Bunmi Baiyewu",
+    "country": "Finland",
+    "group": "6",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/bukola-baiyewu/",
+    "photo": "images/graduates/bukola-bunmi.png"
   }
 ]
