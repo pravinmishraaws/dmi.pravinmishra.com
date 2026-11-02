@@ -558,5 +558,29 @@
     "role": "Cloud & DevOps Engineer",
     "linkedin": "https://www.linkedin.com/in/bukola-baiyewu/",
     "photo": "images/graduates/bukola-bunmi.png"
+  },
+  {
+    "name": "Foster Dziwornu Setor",
+    "country": "Ghana",
+    "group": "5",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/fostersetor/",
+    "photo": "images/graduates/fostor-setor.png"
+  },
+  {
+    "name": "Ikedimma Michael Rapuluchukwu",
+    "country": "Nigeria",
+    "group": "4",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/in/michael-i-ralichi/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BEoDUkHOaQYmAITptF5SJUw%3D%3D",
+    "photo": "images/graduates/ikedinma-m.png"
+  },
+  {
+    "name": "Angela C. Chibuike",
+    "country": "Nigeria",
+    "group": "1",
+    "role": "Cloud & DevOps Engineer",
+    "linkedin": "https://www.linkedin.com/feed/update/urn:li:ugcPost:7516443427543351297/",
+    "photo": "images/graduates/angela-c.png"
   }
 ]
