@@ -17,7 +17,7 @@
   'use strict';
 
   var CAMPAIGN = {
-    id: 'cohort-4-jan-2027',
+    id: 'cohort-4-jan-2027-v2',
     badge: 'Next live cohort',
     title: 'DMI Cohort 4 starts January 9, 2027',
     // Midnight IST on the start date (IST = UTC+5:30), used for the countdown
@@ -27,7 +27,7 @@
     noteLabel: 'Orientation recording out now',
     image: 'images/cohort4-orientation.jpg',
     imageAlt: 'DMI Orientation session',
-    videoUrl: 'https://youtu.be/XrLU54Orqsg',
+    videoUrl: 'https://youtu.be/hR5q-1mPMbo',
     videoLabel: 'Watch the orientation recording',
     ctaUrl: 'https://forms.gle/t8AnbtieRmGAiFHw5',
     ctaLabel: 'Join the Cohort 4 waiting list',
